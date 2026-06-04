@@ -2,6 +2,7 @@
     <wb-module deploy-name="OrderSystem2026Phase1">
         <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/test/java"/>
         <property name="context-root" value="OrderSystem2026Phase1"/>
         <property name="java-output-path" value="/OrderSystem2026Phase1/build/classes"/>
     </wb-module>
