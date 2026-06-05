@@ -1,0 +1,229 @@
+@charset "UTF-8";
+
+/* 基本レイアウト */
+    body {
+      margin: 0;
+      padding: 0; 
+      font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+      background-color: #FDF5E6;
+    }
+    .container {
+      width: 100%;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .content {
+      flex-grow: 1;
+      overflow-y: auto;
+      padding-bottom: 120px;
+    }
+  
+    /* テーブルスタイル */
+    .order-table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: rgba(255,255,255,0.5);
+    }
+    .order-table th {
+      background-color: #F5DEB3;
+      padding: 15px;
+      border-bottom: 1px solid #333;
+      border: 1px solid;
+    }
+    .order-table td {
+      padding: 15px;
+      border-bottom: 1px solid #ddd;
+      border: 1px solid;
+    }
+  
+    /* 合計エリア */
+    .total-area {
+      text-align: right;
+      padding: 30px;
+      border-top: 2px solid #333;
+    }
+    .total-price {
+      font-size: 2.5rem;
+      font-weight: bold;
+    }
+
+    /* フッター */
+    .footer {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      height: 100px;
+      background-color: white;
+      border-top: 1px solid #ccc;
+      display: flex;
+      z-index: 50;
+    }
+    .footer-btn {
+      flex: 1;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      color: inherit;
+    }
+    
+    /* メニューボタン */
+    .btn-menu {
+      background: #A0FFA0;
+    }
+    
+    /* お会計ボタン */
+    .btn-checkout {
+      background: #FF8C60;
+      width: 100%;
+      height: 100%;
+      font-size: 1rem;
+      border: none;
+      cursor: pointer;
+    }
+    
+    /* 履歴ボタン */
+    .btn-order-history {
+      background: #A0FFA0;
+    }
+    
+    /* 注文リストボタン */
+    .btn-order-list {
+      background: #FF8C60;
+    }
+    
+    /* 商品詳細追加ボタン */
+    .btn-add {
+      background: #FF8C60;
+    }
+    /* 商品詳細変更ボタン */
+    .btn-topping-change {
+      background: #FF8C60;
+    }
+    
+    /* 注文するボタン */
+    .btn-order {
+	  background: #FF8C60;
+	}
+	
+	/* 注文変更ボタン */
+	.btn-order-change {
+	  background: #008000;
+	}
+	
+	/* 商品個数プラスボタン */
+	.btn-product-plus {
+	  background:#3498db;
+	}
+	/* 商品個数マイナスボタン */
+	.btn-product-minus {
+	  background:#3498db;
+	}
+	/* 商品削除ボタン */
+	.btn-product-trash {
+	  background:#3498db;
+	}
+	
+	/* トッピング個数プラスボタン */
+	.btn-topping-plus {
+	  background:#4caf50;
+	}
+	/* トッピング個数マイナスボタン */
+	.btn-topping-minus {
+	  background:#4caf50;
+	}
+	
+	/* トッピング個数最大値ボタン */
+	.btn-topping-maxvalue {
+	  background:#d3d3d3;
+	}
+	/* トッピング個数最低値ボタン */
+	.btn-topping-minvalue {
+	  background:#d3d3d3;
+	}
+	
+	/* 卓番号 */
+    .table-num {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      font-weight: bold;
+      border-left: 1px solid #ccc;
+    }
+
+    /* --- ポップアップのCSS --- */
+    .modal-overlay {
+      display: none; /* 初期状態は非表示 */
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .modal-overlay.active {
+      display: flex;
+      opacity: 1;
+    }
+  
+    .modal-content {
+      background: white;
+      width: 85%;
+      max-width: 450px;
+      padding: 40px 20px;
+      border-radius: 15px;
+      text-align: center;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+      transform: translateY(-20px);
+      transition: transform 0.3s ease;
+    }
+    .modal-overlay.active .modal-content {
+      transform: translateY(0);
+    }
+
+    .modal-title {
+      font-size: 1.4rem;
+      font-weight: bold;
+      margin-bottom: 30px;
+      line-height: 1.5;
+    }
+    .btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      align-items: center;
+    }
+  
+    .btn-base {
+      width: 80%;
+      padding: 15px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      border: 2px solid #333;
+    }
+    .btn-close {
+      background: white;
+      color: #333;
+    }
+    .btn-yes {
+      background: #ff4757;
+      color: white;
+      border: none;
+    }
+    .btn-no {
+      background: #eee;
+      color: #333;
+    }
