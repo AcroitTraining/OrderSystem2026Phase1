@@ -74,7 +74,7 @@ public class OrderStartDAO {
         int sessionId = 0;
         String sql = "SELECT table_id "
                    + "FROM table_sessions "
-                   + "WHERE session_id = ? "
+                   + "WHERE table_id = ? "
                    + "AND session_status = 'active'";
         
         try (Connection conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS);

@@ -15,8 +15,10 @@ import model.TableInfo;
 @WebServlet("/OrderStartServlet")
 public class OrderStartServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
-
-    protected void doPost(HttpServletRequest request, 
+	private TableInfo tableInfo;
+	public TableInfo getTableInfo() { return tableInfo; }
+	
+    public void doPost(HttpServletRequest request, 
     		HttpServletResponse response) 
     				throws ServletException, IOException {
         
@@ -26,8 +28,8 @@ public class OrderStartServlet extends HttpServlet {
         String tableIdStr = request.getParameter("tableId");
         String guestCountStr = request.getParameter("guestCount");
         String action = request.getParameter("action"); // ボタンの識別用
-
         int tableId = Integer.parseInt(tableIdStr);
+        System.out.println(guestCountStr);
         int guestCount = (guestCountStr == null) ? 1 : Integer.parseInt(guestCountStr);
 
         OrderStartLogic logic = new OrderStartLogic();
@@ -36,10 +38,12 @@ public class OrderStartServlet extends HttpServlet {
         if ("start".equals(action)) {
             // DB更新処理
             dao.updateStatus(tableId, guestCount);
-            int sessionId = dao.findSessionId(tableId);
-
+            int sessionId = dao.findSessionId(tableId);	
             // 遷移先へ渡すデータ
-            TableInfo tableInfo = new TableInfo(tableId, sessionId, "active");
+            tableInfo = new TableInfo(tableId, sessionId, "active");
+            int stub = tableInfo.getSessionId(); 
+            System.out.println(sessionId + stub);
+            System.out.println(tableId);
             request.setAttribute("tableInfo", tableInfo);
 
             // 次の画面（メニュー画面）へ遷移
