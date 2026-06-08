@@ -20,7 +20,7 @@ if(items == null){
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>メニュー表示</title>
-<link rel="stylesheet" href="/odersys/css/showMenu.css">
+<link rel="stylesheet" href="./css/showMenu.css">
 </head>
 <body>
 <div class="category-area">
@@ -64,7 +64,7 @@ if(items == null){
 		<%
 		if(p.getProductStock() > 0){
 		%>
-			<form action="/odersys/ItemDetailsServlet" method="get">
+			<form action="ItemDetailsServlet" method="get">
 				<input type="hidden" name="productId" value="<%= p.getProductId() %>">
 				<input type="hidden" name="productName" value="<%= p.getProductName() %>">
 				<input type="hidden" name="productPrice" value="<%= p.getProductPrice() %>">
