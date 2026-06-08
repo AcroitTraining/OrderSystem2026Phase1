@@ -1,0 +1,16 @@
+@startuml
+
+participant Test1
+participant Test2
+participant Test3
+
+====
+Test1 -> Test2 : 同期処理
+activate Test1
+note over Test1
+注釈
+end note
+activate Test2
+
+
+@enduml
