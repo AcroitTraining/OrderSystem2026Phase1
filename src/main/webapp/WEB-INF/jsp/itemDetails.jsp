@@ -30,6 +30,8 @@ if (formAction == null) {
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="./css/orderList.css">
+<script src="./js/windowScaler.js"></script>
 <title>商品詳細</title>
 <link rel="stylesheet" href="./css/style.css">
 <script src="./js/windowScaler.js"></script>
@@ -119,37 +121,27 @@ for (int j = 0; j < toppingList.size(); j++) {
 </div>
 <% } %>
 <!-- 小計 -->
-<div align="right"
-     style="padding:20px;
-            border-top:1px solid #ccc;
-            margin-bottom:70px;">
+<div class="total-area">
 <strong style="font-size:1.3em;">
 小計：<%= subTotal %>円(税込)
 </strong>
 </div>
 <!-- 下固定 -->
-<div style="position:fixed;
-            bottom:0;
-            left:0;
-            width:100%;
-            background:#fff;
-            border-top:2px solid #333;
-            padding:10px 0;">
-<table width="100%" style="table-layout:fixed;">
-<tr>
+<div class="footer">
+           
+
 <!-- メニュー -->
-<td align="center">
 <form action="ShowMenuServlet" method="post">
 <input type="submit" value="メニュー"
        style="width:90%;height:50px;">
 </form>
-</td>
+
 <!-- 卓番号 -->
-<td align="center">
+
 <strong style="font-size:1.5em;"><%= tableNum %>卓</strong>
-</td>
+
 <!-- 追加 -->
-<td align="center">
+
 <form action="<%= formAction %>" method="post">
 <!-- 商品情報 -->
 <input type="hidden" name="productId" value="<%= productId %>">
@@ -176,9 +168,7 @@ if (toppingList != null) {
        value="追加"
        style="width:90%;height:50px;background:orange;color:white;border:none;font-weight:bold;">
 </form>
-</td>
-</tr>
-</table>
+
 </div>
 </body>
 </html>

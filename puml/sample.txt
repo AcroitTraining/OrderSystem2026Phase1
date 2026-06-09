@@ -1,5 +1,9 @@
 @startuml
 
+!include ./color_setting.pu
+
+title Step1:シーケンス図を書き始める
+
 participant Test1
 participant Test2
 participant Test3
@@ -11,6 +15,24 @@ note over Test1
 注釈
 end note
 activate Test2
+Test2 ->> Test3 : 非同期処理
+activate Test3
+Test1 <-- Test2 : 同期処理の応用
+deactivate Test2
+deactivate Test1
+====
+Test3 ->> Test1 :非同期処理からの応答
+deactivate Test3
 
+activate Test1
+
+break エラー発生
+
+Test1 ->> Test3 : 強制終了
+activate Test3
+Test3 -> Test3 : 強制終了処理
+destroy Test3
+
+end break
 
 @enduml

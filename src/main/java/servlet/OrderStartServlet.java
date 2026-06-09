@@ -41,9 +41,6 @@ public class OrderStartServlet extends HttpServlet {
             int sessionId = dao.findSessionId(tableId);	
             // 遷移先へ渡すデータ
             tableInfo = new TableInfo(tableId, sessionId, "active");
-            int stub = tableInfo.getSessionId(); 
-            System.out.println(sessionId + stub);
-            System.out.println(tableId);
             request.setAttribute("tableInfo", tableInfo);
 
             // 次の画面（メニュー画面）へ遷移

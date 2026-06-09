@@ -1,0 +1,29 @@
+@startuml
+
+participant sample
+participant sample1
+participant sample2
+
+!procedure sample1()
+
+sample->sample1 : sample1
+activate sample1
+sample<-- sample1
+deactivate sample1
+
+!endprocedure
+
+!procedure sample2()
+
+sample->sample2 : sample2
+activate sample2
+sample<-- sample2
+deactivate sample2
+
+!endprocedure
+
+activate sample
+sample2()
+sample1()
+deactivate sample
+@enduml

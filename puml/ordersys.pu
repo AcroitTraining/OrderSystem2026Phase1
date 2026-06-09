@@ -1,0 +1,78 @@
+@startuml
+
+!include ./color_setting.pu
+
+title Phase1　index.jsp、スタート画面
+
+actor 店員 #pink
+participant index.jsp
+participant OrderStartServlet
+participant orderStart.jsp
+participant OrderStartLogic
+participant TableInfo
+participant OrderStartDAO
+database "orderManagement" as DB
+participant ShowMenuServlet
+activate index.jsp
+
+店員->>index.jsp:
+index.jsp ->> index.jsp : 卓番選択(tableId)
+index.jsp ->> OrderStartServlet : 卓番(tableId)
+
+deactivate index.jsp
+
+activate OrderStartServlet
+activate orderStart.jsp
+
+OrderStartServlet->>orderStart.jsp:tableId,guestCount
+OrderStartServlet->>orderStart.jsp:画面遷移処理
+
+Alt plusButtonが押下された時
+
+orderStart.jsp->OrderStartServlet:plusBtton
+activate OrderStartLogic
+OrderStartServlet->OrderStartLogic:headCount+1
+OrderStartLogic-->OrderStartServlet:headCount
+OrderStartServlet-->orderStart.jsp:headCount
+deactivate OrderStartLogic
+
+else minusButtonが押下された時
+
+orderStart.jsp->OrderStartServlet:minusBtton
+activate OrderStartLogic
+OrderStartServlet->OrderStartLogic:headCount-1
+OrderStartLogic-->OrderStartServlet:headCount
+OrderStartServlet-->orderStart.jsp:headCount
+deactivate OrderStartLogic
+
+else startButtonが押下された時
+
+orderStart.jsp->>OrderStartServlet:startButton
+activate OrderStartDAO
+activate DB
+OrderStartServlet->OrderStartDAO:updateStatus(tableId,guestCount),findSessionId()
+OrderStartDAO->DB:DB更新・データ取得
+DB-->OrderStartDAO:値取得
+OrderStartDAO-->OrderStartServlet:結果を返す
+deactivate DB
+deactivate OrderStartDAO
+
+activate TableInfo
+
+OrderStartServlet->TableInfo:情報を格納
+TableInfo-->OrderStartServlet
+
+deactivate TableInfo
+
+activate ShowMenuServlet
+
+OrderStartServlet->>ShowMenuServlet:TableInfoを引き渡す
+OrderStartServlet->>ShowMenuServlet:メニュー画面に遷移
+
+deactivate orderStart.jsp
+deactivate OrderStartServlet
+
+end 
+
+
+@enduml

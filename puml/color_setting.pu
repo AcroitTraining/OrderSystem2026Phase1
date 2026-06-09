@@ -1,0 +1,30 @@
+/'カラー定義'/
+!define C_MODULE1
+!define C_MODULE2
+!define C_MODULE3
+
+/'スキン定義'/
+skinparam RoundCorner 8
+skinparam ArrowColor Black
+skinparam Shadowing false
+skinparam ArrowFontSize 15
+
+skinparam SequenceLifeLineBackgroundColor DodgerBlue
+skinparam SeqenceParticipant Black
+skinparam SequenceLifeLineBorderColor DarkGray
+skinparam SequenceLifeLineBorderThickness 2
+skinparam SequenceGroupFontSize 12
+skinparam SequenceGroupBorderThickness 1
+
+skinparam participant{
+BackgroundColor whitesmoke
+BorderColor Black
+FontColor Black
+FontSize 15
+}
+skinparam note{
+BackgroundColor whitesmoke
+BorderColor gray
+FontColor Black
+FontSize 12
+}
