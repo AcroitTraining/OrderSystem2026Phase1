@@ -1,1 +1,61 @@
-a
+@startuml
+skinparam backgroundColor #EEEBDC
+skinparam sequence {
+LifeLineBorderColor blue
+LifeLineBackgroundColor #A9DCDF
+ParticipantBorderColor DeepSkyBlue
+ParticipantBackgroundColor DodgerBlue
+ParticipantFontName Impact
+ParticipantFontSize 17
+ParticipantFontColor #A9DCDF
+ActorBackgroundColor aqua
+ActorFontColor DeepSkyBlue
+ActorFontSize 17
+ActorFontName Aapex
+}
+
+
+actor お客様 #pink
+
+participant "ShowMenuServlet" as Servlet #DodgerBlue
+participant "ShowMenuDAO" as DAO #DeepSkyBlue
+database "データベース" as DB #red
+participant "showMenu.jsp" as JSP 
+
+
+お客様 -[#008000]> Servlet : メニュー画面を要求(tablenumber)
+activate Servlet
+    Servlet -[#008000]> DB : tableNumberはデータベスのtableIDを引っ張る
+
+Servlet -[#008000]> DAO : 注文リストからバッジを取得する
+activate DAO
+DAO -[#008000]> DB : 注文数取得(order_flag=0,orderID)
+activate DB
+DB -[#008000]-> DAO : 件数
+deactivate DB
+DAO -[#008000]-> Servlet : バッジ=item
+deactivate DAO
+
+
+Servlet -[#008000]> DAO : findProductTable()
+activate DAO
+DAO -[#008000]> DB : カテゴリを取得
+activate DB
+DB --[#008000]> DAO : カテゴリの商品を取得
+deactivate DB
+DAO -[#008000]-> Servlet : List<ProductInfo>
+deactivate DAO
+Servlet -[#008000]> Servlet : SessionへproductList保存
+
+alt category == null
+    Servlet -[#008000]> Servlet : category = "お好み焼き"
+else category指定あり
+    Servlet -[#008000]> Servlet : 指定カテゴリを設定
+end
+
+Servlet -[#008000]> JSP : currentCategory設定\nforward()
+activate JSP
+JSP -[#008000]-> お客様 : メニュ画面のJSPを表示
+deactivate JSP
+deactivate Servlet
+@enduml

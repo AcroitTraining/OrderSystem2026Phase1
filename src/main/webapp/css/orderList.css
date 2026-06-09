@@ -43,7 +43,7 @@ body {
 /* 追加：＋ボタン固定 */
 .ol-table form button[value="+"] {
 	position: absolute;
-	right: 40px;
+	right: 60%;
 	top: 50%;
 	transform: translateY(-50%);
 }
@@ -51,7 +51,7 @@ body {
 /* 追加：－ボタン固定 */
 .ol-table form button[value="-"] {
 	position: absolute;
-	right: 40px;
+	right: 20%;
 	top: 50%;
 	transform: translateY(-50%);
 }
