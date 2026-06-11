@@ -19,12 +19,14 @@ String tableNum = (String) session.getAttribute("tableNumber");
 			<c:choose>
 				<c:when test="${empty olList}">
 					<h1>リストは空です。</h1>
-					
-					<div class="footer">
-						<div class="footer-btn btn-menu" onclick="location.href='ShowMenuServlet'">
-							<span style="font-size: 2rem;">↩</span> <strong>メニュー</strong>
+					<!-- 🆕 属性の記述ミス(div = footer1)を修正 -->
+					<div class="footer1">
+						<div class="center"><%=tableNum%>卓</div>
+						<div class="left">
+							<form action="ShowMenuServlet" method="get">
+								<button type="submit" name="Button" value="メニュー">メニュー</button>
+							</form>
 						</div>
-						<div class="table-num"><%=tableNum%>卓</div>
 					</div>
 				</c:when>
 				<c:otherwise>
@@ -35,7 +37,7 @@ String tableNum = (String) session.getAttribute("tableNumber");
 							<input type="hidden" name="oid" value="${item.orderId}">
 							<input type="hidden" name="subTotal" value="${item.subTotal}">
 							
-
+							<!-- 基準位置(relative)の直下にあるため、これでabsoluteが効きます -->
 							<div class="p_area">${item.productName}</div>
 							<div class="p_p_area">${item.productPrice}円</div>
 
@@ -54,11 +56,12 @@ String tableNum = (String) session.getAttribute("tableNumber");
 								</div>
 							</c:if>
 
-							
+							<!-- 🆕 数量とトッピングの操作エリアをスッキリ整理 -->
 							<div class="quantity_control_area">
-						
-								<c:choose>
 								
+								<!-- 【減算・削除ボタンエリア】 -->
+								<c:choose>
+									<%-- 数量が1の場合は削除ボタン --%>
 									<c:when test="${item.orderQuantity == 1}">
 										<div class="mButton">
 											<form action="OrderRemoveServlet" method="post">
@@ -81,7 +84,7 @@ String tableNum = (String) session.getAttribute("tableNumber");
 								<%-- 現在の数量表示 --%>
 								<span class="q_num">${item.orderQuantity}</span>
 
-								<!-- 加算・上限表示エリア -->
+								<!-- 【加算・上限表示エリア】 -->
 								<c:choose>
 									<%-- トッピングが上限の場合 --%>
 									<c:when test="${item.toppingQuantity != null and item.toppingStock <= item.toppingQuantity}">
@@ -111,6 +114,7 @@ String tableNum = (String) session.getAttribute("tableNumber");
 					</c:forEach>
 
 					<div class="total-area">
+						<!-- 🆕 CSSのクラス名(.total-price)と大文字小文字を合わせました -->
 						<span class="total-price">合計：${aop.allOrderPrice}円（税込み）</span>
 					</div>
 
