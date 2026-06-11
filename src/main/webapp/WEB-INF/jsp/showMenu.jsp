@@ -23,6 +23,9 @@ if(items == null){
 <link rel="stylesheet" href="./css/showMenu.css">
 </head>
 <body>
+<header>
+	<img src="https://www.dropbox.com/scl/fi/m3gdlxp2dz5i06gut8s33/biglogo.png?rlkey=qht4hils62779s07rpzwekpts&raw=1" alt="ロゴ" class="logo">
+</header>
 <div class="category-area">
 	<div class="scroll-text"></div>
 	<nav class="category-wrap">

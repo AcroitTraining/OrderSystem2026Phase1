@@ -5,6 +5,35 @@ body{
 	background:#FDF5E6;
 }
 
+header {
+  /* ★URL全体の「dl=0」を「raw=1」に書き換えてCSSに貼り付けます */
+  background-image: url('https://www.dropbox.com/scl/fi/m3gdlxp2dz5i06gut8s33/grain.jpg?rlkey=qht4hils62779s07rpzwekpts&raw=1');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed; /* 背景画像をスクロールに固定 */
+  height: 120px; /* 看板の高さ */
+  position: relative;
+  width: 100%;
+}
+
+/* ロゴの配置 */
+.logo {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 9999;
+  width: 150px;
+  height: auto;
+}
+
+/* スマホ用の縮小設定 */
+@media (max-width: 768px) {
+  .logo {
+    width: 100px;
+    top: 10px;
+    left: 10px;
+  }
+}
 /* =========================
    カテゴリ横スクロール
 ========================= */
