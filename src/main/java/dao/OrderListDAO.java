@@ -20,7 +20,6 @@ public class OrderListDAO {
 
 
 	public List<OrderListInfo> findorderDetails(int sessionId) throws SQLException {
-		System.out.println("ダオにきたお");
 
 		Map<Integer, OrderListInfo> map = new LinkedHashMap<>();
 		//JDBCドライバを読み込む
@@ -84,11 +83,10 @@ public class OrderListDAO {
                     info.setSubTotal(currentSubTotal + (tPrice * tQty * info.getOrderQuantity()));
                 }
                 int cname = info.getToppingStock();
-                System.out.println(cname);
             }
 
 			}catch(SQLException e){
-				System.out.println("全件取得失敗");
+				System.out.println("OrderList全件取得失敗");
 				e.printStackTrace();
 			}
 			return new ArrayList<>(map.values());
@@ -113,13 +111,11 @@ public class OrderListDAO {
 					PreparedStatement ps = conn.prepareStatement(sql);
 					ps.setInt(1, oid);
 					int rs = ps.executeUpdate();
-					System.out.println("オーダー増加dao");
 				}else {
 					String sql = "UPDATE order_details SET product_quantity = CASE WHEN product_quantity > 1 then product_quantity - 1 ELSE product_quantity = 1 END WHERE order_id = ?";
 					PreparedStatement ps = conn.prepareStatement(sql);
 					ps.setInt(1, oid);
 					int rs = ps.executeUpdate();
-					System.out.println("オーダー減少dao");
 				}
 
 
@@ -183,7 +179,7 @@ public class OrderListDAO {
 							+ "ON od.product_id = p.product_id "
 							+ "LEFT JOIN topping AS t "
 							+ "ON mt.topping_id = t.topping_id "
-							+ "SET p.product_stock = p.product_stock - mt.topping_quantity, t.topping_stock = t.topping_stock - 1 "
+							+ "SET p.product_stock = p.product_stock - 1 "
 							+ "WHERE od.order_id = ? AND order_flag = 0 ";
 					PreparedStatement ps = conn.prepareStatement(sql);
 					ps.setInt(1, oid);
@@ -197,7 +193,55 @@ public class OrderListDAO {
 							+ "ON od.product_id = p.product_id "
 							+ "LEFT JOIN topping AS t "
 							+ "ON mt.topping_id = t.topping_id "
-							+ "SET p.product_stock = p.product_stock + 1, t.topping_stock = t.topping_stock + 1 "
+							+ "SET p.product_stock = p.product_stock + 1"
+							+ "WHERE od.order_id = ? AND order_flag = 0 ";
+					PreparedStatement ps = conn.prepareStatement(sql);
+					ps.setInt(1, oid);
+					int rs = ps.executeUpdate();
+					System.out.println("stock減少dao");
+				}
+
+
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		public void updateToppingStock(int oid, int n) {
+			//JDBCドライバを読み込む
+			try {
+				Class.forName("com.mysql.cj.jdbc.Driver");
+			}catch(ClassNotFoundException e){
+				throw new IllegalStateException("JDBCドライバを読み込めませんでした");
+			}
+
+			//DB接続
+			try(Connection conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS)){
+
+				//order_details更新のsql
+				if(n > 0) {
+					String sql = "UPDATE order_details AS od "
+							+ "LEFT JOIN multiple_toppings AS mt "
+							+ "ON od.order_id = mt.order_id "
+							+ "LEFT JOIN product AS p "
+							+ "ON od.product_id = p.product_id "
+							+ "LEFT JOIN topping AS t "
+							+ "ON mt.topping_id = t.topping_id "
+							+ "SET p.product_stock = p.product_stock - 1 "
+							+ "WHERE od.order_id = ? AND order_flag = 0 ";
+					PreparedStatement ps = conn.prepareStatement(sql);
+					ps.setInt(1, oid);
+					int rs = ps.executeUpdate();
+					System.out.println("stock増加dao");
+				}else {
+					String sql = "UPDATE order_details AS od "
+							+ "LEFT JOIN multiple_toppings AS mt "
+							+ "ON od.order_id = mt.order_id "
+							+ "LEFT JOIN product AS p "
+							+ "ON od.product_id = p.product_id "
+							+ "LEFT JOIN topping AS t "
+							+ "ON mt.topping_id = t.topping_id "
+							+ "SET p.product_stock = p.product_stock + 1"
 							+ "WHERE od.order_id = ? AND order_flag = 0 ";
 					PreparedStatement ps = conn.prepareStatement(sql);
 					ps.setInt(1, oid);
