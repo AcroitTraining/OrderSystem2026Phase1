@@ -14,14 +14,12 @@ ActorFontSize 17
 ActorFontName Aapex
 }
 
-
 actor お客様 #pink
 
 participant "ShowMenuServlet" as Servlet #DodgerBlue
 participant "ShowMenuDAO" as DAO #DeepSkyBlue
 database "データベース" as DB #red
 participant "showMenu.jsp" as JSP 
-
 
 お客様 -[#008000]> Servlet : メニュー画面を要求(tablenumber)
 activate Servlet
