@@ -23,9 +23,12 @@ if(items == null){
 <link rel="stylesheet" href="./css/showMenu.css">
 </head>
 <body>
-
-<header>
-	<img src="./image/biglogo.png" alt="ロゴ" class="logo">
+<header class="header-container">
+  <!-- 背景画像 -->
+  <img src="./image/木目3.jpg" alt="背景" class="bg-img">
+  
+  <!-- ロゴ画像 -->
+  <img src="./image/biglogo.png" alt="ロゴ" class="logo-img">
 </header>
 
 <div class="category-area">
