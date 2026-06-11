@@ -44,7 +44,6 @@ public class OrderListServlet extends HttpServlet {
 		try {
 			List<OrderListInfo> olList = olDAO.findorderDetails(sessionId);
 			request.setAttribute("olList", olList);
-			System.out.println("リストのサイズ" + olList.size());
 			OrderListInfo allOrderPrice = olDAO.findAllOrderPrice(sessionId);
 			request.setAttribute("aop", allOrderPrice);
 
