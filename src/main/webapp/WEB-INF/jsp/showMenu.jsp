@@ -23,9 +23,11 @@ if(items == null){
 <link rel="stylesheet" href="./css/showMenu.css">
 </head>
 <body>
+
 <header>
-	<img src="https://www.dropbox.com/scl/fi/m3gdlxp2dz5i06gut8s33/biglogo.png?rlkey=qht4hils62779s07rpzwekpts&raw=1" alt="ロゴ" class="logo">
+	<img src="./image/biglogo.png" alt="ロゴ" class="logo">
 </header>
+
 <div class="category-area">
 	<div class="scroll-text"></div>
 	<nav class="category-wrap">
@@ -44,9 +46,9 @@ if(items == null){
 		</form>
 	</nav>
 </div>
-<div class="product-area">
-	<table class="product-table" cellpadding="10">
 
+<div class="product-area">
+	<table class="product-table">
 	<%
 	if(productList != null){
 		for(ProductInfo p : productList){
@@ -54,37 +56,30 @@ if(items == null){
 			if(p.getCategoryName().trim().equals(currentCategory)
 				&& p.getProductDisplayFlag() == 1){
 	%>
-	<tr>
-		<td>
-			<div class="product-name">
-				<%= p.getProductName() %>
-			</div>
-			<div class="product-price">
-				<%= p.getProductPrice() %>円
-			</div>
+	<tr class="product-item-row">
+		<td align="left" valign="middle" class="product-info-cell">
+			<div class="product-name"><%= p.getProductName() %></div>
+			<div class="product-price"><%= p.getProductPrice() %>円</div>
 		</td>
-		<td align="right">
+		<td align="right" valign="middle" class="product-action-cell">
 		<%
 		if(p.getProductStock() > 0){
 		%>
-			<form action="ItemDetailsServlet" method="get">
+			<form action="ItemDetailsServlet" method="get" style="margin:0;">
 				<input type="hidden" name="productId" value="<%= p.getProductId() %>">
 				<input type="hidden" name="productName" value="<%= p.getProductName() %>">
 				<input type="hidden" name="productPrice" value="<%= p.getProductPrice() %>">
 				<input type="hidden" name="productCategory" value="<%= p.getCategoryName() %>">
-				<input class="btn-add" type="submit" value="＋">
+				<input type="image" src="./image/plusButton.png" alt="追加" class="btn-img-add">
 			</form>
 		<%
 		}else{
 		%>
-			<span class="sold-out">売切</span>
+			<img src="./image/soldout.png" alt="売切" class="img-sold-out">
 		<%
 		}
 		%>
 		</td>
-	</tr>
-	<tr>
-		<td colspan="2" class="product-line"></td>
 	</tr>
 	<%
 			}
@@ -93,39 +88,28 @@ if(items == null){
 	%>
 	</table>
 </div>
+
 <footer>
-	<table class="footer-table" border="1">
+	<table class="footer-table">
 		<tr>
 			<td width="33%">
 				<form action="OrderHistoryServlet" method="get">
 					<input type="hidden" name="tableId" value="<%= tableNum %>">
-					<input type="submit"
-					       value="￥ 履歴・お会計"
-					       class="btn-order-history">
+					<button type="submit" class="btn-footer btn-history">
+						<img src="./image/menuhistory.png" alt="履歴アイコン"><br>
+						<span>履歴・お会計</span>
+					</button>
 				</form>
 			</td>
 			<td width="34%">
-				<div class="table-num">
-					<%= tableNum %>卓
-				</div>
+				<div class="table-num"><%= tableNum %>卓</div>
 			</td>
 			<td width="33%">
 				<form action="OrderListServlet" method="get">
-				<%
-				if(items > 0){
-				%>
-					<input type="submit"
-					       value="注文リスト🛒<%= items %>"
-					       class="btn-order-list">
-				<%
-				}else{
-				%>
-					<input type="submit"
-					       value="注文リスト🛒"
-					       class="btn-order-list">
-				<%
-				}
-				%>
+					<button type="submit" class="btn-footer btn-list">
+						<img src="./image/addCart.png" alt="カートアイコン"><br>
+						<span>注文リスト<% if(items > 0){ %> (<%= items %>)<% } %></span>
+					</button>
 				</form>
 			</td>
 		</tr>

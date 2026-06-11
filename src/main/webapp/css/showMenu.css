@@ -1,220 +1,198 @@
-body{
-	margin:0;
-	padding-bottom:90px;
-	font-family:sans-serif;
-	background:#FDF5E6;
+@charset "UTF-8";
+
+body {
+	margin: 0;
+	padding-bottom: 90px;
+	font-family: sans-serif;
+	background: #FDF5E6;
+	display: flex;
+	flex-direction: column;
+	align-items: center; /* 画面中央にコンテンツを寄せる */
 }
 
+/* =========================
+   ヘッダー（木目看板エリア）
+========================= */
 header {
-  /* ★URL全体の「dl=0」を「raw=1」に書き換えてCSSに貼り付けます */
+  /* ★URL末尾の「dl=0」を「raw=1」に変更することで、Dropboxの画像を背景に反映させます */
   background-image: url('https://www.dropbox.com/scl/fi/m3gdlxp2dz5i06gut8s33/grain.jpg?rlkey=qht4hils62779s07rpzwekpts&raw=1');
   background-size: cover;
   background-position: center;
-  background-attachment: fixed; /* 背景画像をスクロールに固定 */
-  height: 120px; /* 看板の高さ */
+  height: 120px; /* 見本画像と同じスッキリした看板の高さ */
   position: relative;
   width: 100%;
+  max-width: 450px; /* アプリ全体の最大幅を見本画像サイズに固定 */
+  box-sizing: border-box;
 }
 
-/* ロゴの配置 */
+/* ロゴのサイズと配置調整 */
 .logo {
   position: absolute;
-  top: 20px;
-  left: 20px;
-  z-index: 9999;
-  width: 150px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* 看板のちょうど真ん中にロゴを固定 */
+  width: 140px; /* 見本のイメージに合わせたロゴの大きさ */
   height: auto;
+  z-index: 10;
 }
 
-/* スマホ用の縮小設定 */
-@media (max-width: 768px) {
-  .logo {
-    width: 100px;
-    top: 10px;
-    left: 10px;
-  }
-}
 /* =========================
    カテゴリ横スクロール
 ========================= */
-
-.category-area{
-	background:#FDF5E6;
-	position:sticky;
-	top:0;
-	z-index:100;
+.category-area {
+	background: #FDF5E6;
+	position: sticky;
+	top: 0;
+	z-index: 100;
+	width: 100%;
+	max-width: 450px;
 }
 
-.scroll-text{
-	font-size:12px;
-	color:#666;
-	padding:8px 12px 0;
+.scroll-text {
+	font-size: 12px;
+	color: #666;
+	padding: 0;
 }
 
-.category-wrap{
-	overflow-x:auto;
-	overflow-y:hidden;
-	-webkit-overflow-scrolling:touch;
-	padding:10px 0;
-	border-top:1px solid #ddd;
-	border-bottom:1px solid #ddd;
-	background:#FDF5E6;
-	box-shadow:inset -20px 0 20px -20px rgba(0,0,0,0.25);
+.category-wrap {
+	overflow-x: auto;
+	overflow-y: hidden;
+	-webkit-overflow-scrolling: touch;
+	padding: 10px 0;
+	border-top: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
+	background: #FDF5E6;
 }
 
-/* スクロールバー */
-
-.category-wrap::-webkit-scrollbar{
-	height:6px;
+.category-table {
+	border-collapse: separate;
+	border-spacing: 10px 0;
+	white-space: nowrap;
+	padding: 0 10px;
 }
 
-.category-wrap::-webkit-scrollbar-track{
-	background:#eee;
-	border-radius:10px;
-}
-
-.category-wrap::-webkit-scrollbar-thumb{
-	background:#999;
-	border-radius:10px;
-}
-
-/* テーブル */
-
-.category-table{
-	border-collapse:separate;
-	border-spacing:10px 0;
-	white-space:nowrap;
-	min-width:max-content;
-	padding:0 10px;
-}
-
-/* カテゴリボタン */
-.category-table input{
-	min-width:140px;
-	height:50px;
-	border:1px solid #333;
-	border-radius:8px;
-	background:#FFFFFF;  
-	font-size:16px;
-	font-weight:bold;
-	cursor:pointer;
-	transition:0.2s;
-	box-shadow:none;
-}
-
-.category-table input:active{
-	transform:scale(0.96);
+.category-table input {
+	min-width: 110px;
+	height: 40px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	background: #FFFFFF;  
+	font-size: 14px;
+	font-weight: bold;
+	cursor: pointer;
 }
 
 /* =========================
-   商品一覧
+   商品一覧（右端の一致を強制）
 ========================= */
-
-.product-area{
-	padding:10px;
+.product-area {
+	width: 100%;
+	max-width: 450px; /* 見本画像と同じコンパクトな横幅 */
+	box-sizing: border-box;
+	padding: 10px 20px;
 }
 
-.product-table{
-	width:100%;
-	border-collapse:collapse;
+.product-table {
+	width: 100%;
+	border-collapse: collapse;
 }
 
-.product-name{
-	font-size:18px;
-	font-weight:bold;
+/* 各商品行の境界線 */
+.product-item-row {
+	border-bottom: 1px solid #d8c9a7;
 }
 
-.product-price{
-	margin-top:5px;
-	font-size:15px;
+.product-info-cell {
+	padding: 20px 0;
 }
 
-.product-line{
-	border-bottom:1px solid #d8c9a7;
+.product-action-cell {
+	padding: 20px 0;
+	width: 60px; /* プラスボタンのエリアを右端にしっかり固定 */
 }
 
-/* ＋ボタン*/
-
-.btn-add{
-	padding:10px 18px;
-	width:auto;
-	height:auto;
-	border-radius:8px;
-	border:1px solid #333;
-	background:#FF8C60;
-	color:white;
-	font-size:18px;
-	font-weight:bold;
-	cursor:pointer;
-	box-shadow:none;
+.product-name {
+	font-size: 16px;
+	font-weight: bold;
+	color: #333;
 }
 
-/* 売切 */
+.product-price {
+	margin-top: 12px;
+	font-size: 14px;
+	color: #333;
+}
 
-.sold-out{
-	font-size:18px;
-	font-weight:bold;
-	color:#777;
+/* ＋ボタン */
+.btn-add {
+	width: 40px;
+	height: 40px;
+	border-radius: 50%; /* 完全な丸ボタン形に変形 */
+	border: 2px solid #555;
+	background: #fff;
+	color: #555;
+	font-size: 22px;
+	font-weight: normal;
+	line-height: 36px;
+	cursor: pointer;
+	text-align: center;
+	padding: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.sold-out {
+	font-size: 16px;
+	font-weight: bold;
+	color: #777;
 }
 
 /* =========================
    フッター
 ========================= */
-
-footer{
-	position:fixed;
-	bottom:0;
-	left:0;
-	width:100%;
-	background:#FDF5E6;
-	border-top:1px solid #ccc;
+footer {
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	max-width: 450px;
+	background: #FDF5E6;
+	border-top: 1px solid #ccc;
+	z-index: 200;
 }
 
-.footer-table{
-	width:100%;
-	border-collapse:collapse;
-	text-align:center;
-	background:#FDF5E6;
+.footer-table {
+	width: 100%;
+	border-collapse: collapse;
+	text-align: center;
 }
 
-.footer-table td{
-	height:80px;
+.footer-table td {
+	height: 80px;
+	padding: 0;
 }
 
-/* 履歴・お会計 */
-
-.btn-order-history{
-	width:100%;
-	height:80px;
-	border:none;
-	background:#A0FFA0;
-	font-size:14px;
-	font-weight:normal;
-	cursor:pointer;
-	box-shadow:none;
+.btn-order-history {
+	width: 100%;
+	height: 80px;
+	border: none;
+	background: #A0FFA0;
+	font-size: 14px;
+	cursor: pointer;
 }
 
-/* 注文リスト */
-
-.btn-order-list{
-	width:100%;
-	height:80px;
-	border:none;
-	background:#FF8C60;
-	color:white;
-	font-size:14px;
-	font-weight:normal;
-	cursor:pointer;
-	box-shadow:none;
+.btn-order-list {
+	width: 100%;
+	height: 80px;
+	border: none;
+	background: #FF8C60;
+	color: white;
+	font-size: 14px;
+	cursor: pointer;
 }
 
-	/* 卓番号 */
-    .table-num {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 2rem;
-      font-weight: bold;
-      border-left: 1px solid #ccc;
-    }
+.table-num {
+	font-size: 1.8rem;
+	font-weight: bold;
+	color: #333;
+}
