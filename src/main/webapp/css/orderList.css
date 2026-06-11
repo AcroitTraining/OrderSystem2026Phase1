@@ -22,48 +22,87 @@ body {
 	padding-bottom: 120px;
 }
 
-.order_list{
-	position:relative;
-}
-.p_area{
-	position:absolute;
-	top:10px;
-	left:10px;
-	width: 60%;
-	text-align:left;
+/* --- 商品ごとの区切り外枠ボックス --- */
+.order-item-box {
+	width: 90%;
+	max-width: 600px; /* 広すぎるPC画面でも見本画像のようにコンパクトに保つ */
+	margin: 15px auto 0 auto;
+	border-bottom: 1px solid #ccc; /* 商品ごとの区切り線 */
+	box-sizing: border-box;
 }
 
-.p_p_area{
-	position:absolute;
-	top:10px;
-	right:10px;
-	text-align: right;
+/* 右側の「マイナス・数量・プラス」を横一列に並べるグループ */
+.quantity-control-group {
+	display: inline-flex;
+	align-items: center;
+	gap: 10px; /* ボタンと数字のすき間 */
 }
 
-.mButton{
-	position:relative;
-	right:100px;
+/* --- ボタン共通スタイル --- */
+.order-item-box button {
+	border: none;
+	border-radius: 5px;
+	padding: 8px 16px;
+	font-size: 1rem;
+	font-weight: bold;
+	cursor: pointer;
+	color: white;
+	box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+	transition: opacity 0.2s;
+	vertical-align: middle;
 }
-/* 合計エリア */
+.order-item-box button:active {
+	opacity: 0.8;
+}
+
+/* 各種ボタンの色設定 */
+.btn-order-change { background-color: #008000; } /* 変更：緑 */
+.btn-product-plus   { background-color: #3498db; } /* ＋：青 */
+.btn-product-minus  { background-color: #3498db; } /* －：青 */
+.btn-product-trash  { background-color: #3498db; } /* 削除：青 */
+
+/* 数量の数字テキスト */
+.order-quantity-text {
+	font-size: 1.2rem;
+	font-weight: bold;
+	display: inline-block;
+	min-width: 20px;
+	text-align: center;
+}
+
+/* 上限テキスト */
+.sold-out-text {
+	color: #ff4757;
+	font-weight: bold;
+	font-size: 1rem;
+	display: inline-block;
+}
+
+
+/* --- 合計金額エリア --- */
 .total-area {
 	text-align: right;
-	padding: 30px;
-	border-top: 2px solid #333;
+	width: 90%;
+	max-width: 600px;
+	margin: 20px auto;
+	padding: 10px 0;
 }
 
 .total-price {
-	font-size: 2.5rem;
+	font-size: 1.6rem;
 	font-weight: bold;
+	text-decoration: underline;
 }
 
-/* フッター */
+/* --- 固定フッター --- */
 .footer {
 	position: fixed;
 	bottom: 0;
+	left: 0;
 	width: 100%;
 	height: 100px;
 	background-color: white;
-	border-top: 1px solid #ccc;
+	border-top: 2px solid #333;
 	display: flex;
 	z-index: 50;
 }
@@ -76,46 +115,12 @@ body {
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	text-decoration: none;
-	color: inherit;
+	color: #333;
 }
 
-/* メニューボタン */
-.btn-menu {
-	background: #A0FFA0;
-}
+.btn-menu { background-color: #A0FFA0; }
+.btn-order { background-color: #FF8C60; color: white; }
 
-/* 注文リストボタン */
-.btn-order-list {
-	background: #FF8C60;
-}
-
-/* 注文するボタン */
-.btn-order {
-	background: #FF8C60;
-}
-
-/* 注文変更ボタン */
-.btn-order-change {
-	background: #008000;
-}
-
-/* 商品個数プラスボタン */
-.btn-product-plus {
-	background: #3498db;
-}
-
-/* 商品個数マイナスボタン */
-.btn-product-minus {
-	background: #3498db;
-}
-
-/* 商品削除ボタン */
-.btn-product-trash {
-	background: #3498db;
-}
-
-/* 卓番号 */
 .table-num {
 	flex: 1;
 	display: flex;
@@ -124,9 +129,11 @@ body {
 	font-size: 2rem;
 	font-weight: bold;
 	border-left: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+	background-color: #fff;
 }
 
-/* --- ポップアップのCSS --- */
+/* --- モーダルポップアップ（既存） --- */
 .modal-overlay {
 	display: none;
 	position: fixed;
@@ -141,12 +148,7 @@ body {
 	opacity: 0;
 	transition: opacity 0.3s ease;
 }
-
-.modal-overlay.active {
-	display: flex;
-	opacity: 1;
-}
-
+.modal-overlay.active { display: flex; opacity: 1; }
 .modal-content {
 	background: white;
 	width: 85%;
@@ -158,47 +160,10 @@ body {
 	transform: translateY(-20px);
 	transition: transform 0.3s ease;
 }
-
-.modal-overlay.active .modal-content {
-	transform: translateY(0);
-}
-
-.modal-title {
-	font-size: 1.4rem;
-	font-weight: bold;
-	margin-bottom: 30px;
-	line-height: 1.5;
-}
-
-.btn-group {
-	display: flex;
-	flex-direction: column;
-	gap: 15px;
-	align-items: center;
-}
-
-.btn-base {
-	width: 80%;
-	padding: 15px;
-	font-size: 1.1rem;
-	font-weight: bold;
-	border-radius: 8px;
-	cursor: pointer;
-	border: 2px solid #333;
-}
-
-.btn-close {
-	background: white;
-	color: #333;
-}
-
-.btn-yes {
-	background: #ff4757;
-	color: white;
-	border: none;
-}
-
-.btn-no {
-	background: #eee;
-	color: #333;
-}
+.modal-overlay.active .modal-content { transform: translateY(0); }
+.modal-title { font-size: 1.4rem; font-weight: bold; margin-bottom: 30px; line-height: 1.5; }
+.btn-group { display: flex; flex-direction: column; gap: 15px; align-items: center; }
+.btn-base { width: 80%; padding: 15px; font-size: 1.1rem; font-weight: bold; border-radius: 8px; cursor: pointer; border: 2px solid #333; }
+.btn-close { background: white; color: #333; }
+.btn-yes { background: #ff4757; color: white; border: none; }
+.btn-no { background: #eee; color: #333; }
