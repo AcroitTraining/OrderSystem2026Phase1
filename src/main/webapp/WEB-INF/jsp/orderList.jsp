@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
 String tableNum = (String) session.getAttribute("tableNumber");
@@ -24,7 +25,8 @@ if (tableNum == null) {
 				<c:when test="${empty olList}">
 					<h1>リストは空です。</h1>
 					<div class="footer1">
-						<div class="center"><%=tableNum%>卓</div>
+						<div class="center"><%=tableNum%>卓
+						</div>
 						<div class="left">
 							<form action="ShowMenuServlet" method="get">
 								<button type="submit" name="Button" value="メニュー">メニュー</button>
@@ -37,21 +39,20 @@ if (tableNum == null) {
 				<c:otherwise>
 					<c:forEach var="item" items="${olList}">
 						<div class="order-item-box">
-							
-							<table width="100%" style="padding:5px 10px 0 10px;">
+
+							<table width="100%" style="padding: 5px 10px 0 10px;">
 								<tr>
-									<td align="left">
-										<strong style="font-size:1.2em;">${item.productName}</strong>
+									<td align="left"><strong style="font-size: 1.2em;">${item.productName}</strong>
 									</td>
-									<td align="right" style="font-weight:bold; font-size:1.1em; white-space: nowrap;">
-										${item.productPrice}円
-									</td>
+									<td align="right"
+										style="font-weight: bold; font-size: 1.1em; white-space: nowrap;">
+										${item.productPrice}円</td>
 								</tr>
 							</table>
 
 							<c:if test="${!empty item.toppings}">
 								<c:forEach var="t" items="${item.toppings}">
-									<table width="100%" style="padding:0 10px; color:#555;">
+									<table width="100%" style="padding: 0 10px; color: #555;">
 										<tr>
 											<td align="left">・${t.name}✕${t.quantity}</td>
 											<td align="right"></td>
@@ -60,31 +61,36 @@ if (tableNum == null) {
 								</c:forEach>
 							</c:if>
 
-							<table width="100%" style="padding:10px;">
+							<table width="100%" style="padding: 10px;">
 								<tr>
-									<td align="left" valign="middle">
-										<c:if test="${item.categoryName == 'お好み焼き' or item.categoryName == 'もんじゃ焼き'}">
-											<form action="ItemDetailsChangeServlet" method="get" style="margin:0;">
+									<td align="left" valign="middle"><c:if
+											test="${item.categoryName == 'お好み焼き' or item.categoryName == 'もんじゃ焼き'}">
+											<form action="ItemDetailsChangeServlet" method="get"
+												style="margin: 0;">
 												<input type="hidden" name="oid" value="${item.orderId}">
-												<button type="submit" name="Button" value="変更" class="btn-order-change">変更</button>
+												<button type="submit" name="Button" value="変更"
+													class="btn-order-change">変更</button>
 											</form>
-										</c:if>
-									</td>
-									
+										</c:if></td>
+
 									<td align="right" valign="middle">
 										<div class="quantity-control-group">
 											<%-- 削除またはマイナスボタン --%>
 											<c:choose>
 												<c:when test="${item.orderQuantity == 1}">
-													<form action="OrderRemoveServlet" method="post" style="margin:0;">
+													<form action="OrderRemoveServlet" method="post"
+														style="margin: 0;">
 														<input type="hidden" name="oid" value="${item.orderId}">
-														<button type="submit" name="Button" value="削除" class="btn-product-trash">🗑 削除</button>
+														<button type="submit" name="Button" value="削除"
+															class="btn-product-trash">🗑 削除</button>
 													</form>
 												</c:when>
 												<c:otherwise>
-													<form action="OrderListServlet" method="post" style="margin:0;">
+													<form action="OrderListServlet" method="post"
+														style="margin: 0;">
 														<input type="hidden" name="oid" value="${item.orderId}">
-														<button type="submit" name="Button" value="-" class="btn-product-minus">-</button>
+														<button type="submit" name="Button" value="-"
+															class="btn-product-minus">-</button>
 													</form>
 												</c:otherwise>
 											</c:choose>
@@ -94,13 +100,16 @@ if (tableNum == null) {
 
 											<%-- プラスボタンまたは上限 --%>
 											<c:choose>
-												<c:when test="${item.orderQuantity >= 4 or item.productStock == 0 or (item.toppingStock <= item.toppingQuantity and item.toppingQuantity != null)}">
+												<c:when
+													test="${item.orderQuantity >= 4 or item.productStock == 0 or (item.toppingStock <= item.toppingQuantity and item.toppingQuantity != null)}">
 													<span class="sold-out-text">上限</span>
 												</c:when>
 												<c:otherwise>
-													<form action="OrderListServlet" method="post" style="margin:0;">
+													<form action="OrderListServlet" method="post"
+														style="margin: 0;">
 														<input type="hidden" name="oid" value="${item.orderId}">
-														<button type="submit" name="Button" value="+" class="btn-product-plus">+</button>
+														<button type="submit" name="Button" value="+"
+															class="btn-product-plus">+</button>
 													</form>
 												</c:otherwise>
 											</c:choose>
@@ -109,12 +118,11 @@ if (tableNum == null) {
 								</tr>
 							</table>
 
-							<table width="100%" style="padding:0 10px 10px 10px;">
+							<table width="100%" style="padding: 0 10px 10px 10px;">
 								<tr>
 									<td align="left"></td>
-									<td align="right" style="font-weight:bold; font-size:1.1em;">
-										小計：${item.subTotal}円
-									</td>
+									<td align="right" style="font-weight: bold; font-size: 1.1em;">
+										小計：${item.subTotal}円</td>
 								</tr>
 							</table>
 
@@ -129,14 +137,15 @@ if (tableNum == null) {
 		</div>
 
 		<div class="footer">
-			<div class="footer-btn btn-menu" onclick="location.href='ShowMenuServlet'">
-				<span style="font-size: 2rem;">↩</span>
-				<strong>メニュー</strong>
+			<div class="footer-btn btn-menu"
+				onclick="location.href='ShowMenuServlet'">
+				<span style="font-size: 2rem;">↩</span> <strong>メニュー</strong>
 			</div>
-			<div class="table-num"><%=tableNum%>卓</div>
-			<div class="footer-btn btn-order" onclick="location.href='OrderCompleteServlet'">
-				<span style="font-size: 2rem;">✓</span>
-				<strong>注文する</strong>
+			<div class="table-num"><%=tableNum%>卓
+			</div>
+			<div class="footer-btn btn-order"
+				onclick="location.href='OrderCompleteServlet'">
+				<span style="font-size: 2rem;">✓</span> <strong>注文する</strong>
 			</div>
 		</div>
 	</div>
