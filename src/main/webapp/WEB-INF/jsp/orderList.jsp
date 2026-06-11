@@ -14,7 +14,7 @@ if (tableNum == null) {
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>注文リスト画面</title>
 <link rel="stylesheet" href="./css/orderList.css">
-<script src="./js/windowScaler.js"></script>
+<script src="./js/orderList.js"></script>
 </head>
 <body>
 

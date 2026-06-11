@@ -22,11 +22,24 @@ public class OrderListServlet extends HttpServlet {
 
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		OrderListInfo ol = new OrderListInfo();
-		OrderListLogic logic = new OrderListLogic();
-		request.setCharacterEncoding("UTF-8");
+
+		//セッションが存在しなければnullを返す処理
+		HttpSession session = request.getSession(false);
+		response.setContentType("text/plain");
+		response.setCharacterEncoding("UTF-8");
+
+		//jsに値を返す処理
+		if (session == null || session.getAttribute("tableNumber") == null) {
+			// セッションが切れている場合
+			response.getWriter().write("invalid");
+			System.out.println("invalid");
+		} else {
+			// セッションが有効な場合
+			response.getWriter().write("valid");
+			System.out.println("valid");
+		}
+		
 		OrderListDAO olDAO = new OrderListDAO();
-		HttpSession session = request.getSession();
 
 
 		// セッションから卓番号を取得
@@ -82,14 +95,14 @@ public class OrderListServlet extends HttpServlet {
 
 		//イベント処理
 		if("追加".equals(Button)){
-			
+
 			//データ取得処理
 			try {
 				List<OrderListInfo> olList = olDAO.findorderDetails(sessionId);
 				request.setAttribute("olList", olList);
 				OrderListInfo allOrderPrice = olDAO.findAllOrderPrice(sessionId);
 				request.setAttribute("aop", allOrderPrice);
-				
+
 
 
 			} catch (SQLException e) {
@@ -135,11 +148,11 @@ public class OrderListServlet extends HttpServlet {
 			RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/orderList.jsp");
 			dispatcher.forward(request, response);
 		}else if("削除".equals(Button)) {
-			 // リダイレクト先のサーブレットパス（URL）を指定
-	        String targetUrl = "OrderRemoveServlet"; 
-	        
-	        // リダイレクトの実行
-	        response.sendRedirect(targetUrl);
+			// リダイレクト先のサーブレットパス（URL）を指定
+			String targetUrl = "OrderRemoveServlet"; 
+
+			// リダイレクトの実行
+			response.sendRedirect(targetUrl);
 		}
 
 	}

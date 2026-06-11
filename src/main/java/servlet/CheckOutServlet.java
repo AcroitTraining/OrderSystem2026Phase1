@@ -9,6 +9,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import model.CheckOutInfo;
 
 @WebServlet("/CheckOutServlet")
@@ -19,6 +20,10 @@ public class CheckOutServlet extends HttpServlet {
     		HttpServletResponse response) 
     				throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate(); // セッションを破棄
+        }
         
         // 入力データの取得
         String tableNumber = request.getParameter("tableNumber");
@@ -32,6 +37,9 @@ public class CheckOutServlet extends HttpServlet {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        
+        
+
 
         // jspへの出力データのセット
         CheckOutInfo info = new CheckOutInfo(tableNumber, totalOrderPrice);
