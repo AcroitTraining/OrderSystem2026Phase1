@@ -27,8 +27,6 @@ public class OrderListServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		OrderListDAO olDAO = new OrderListDAO();
 		HttpSession session = request.getSession();
-		String stoid = request.getParameter("oid");
-		int oid = Integer.parseInt(stoid);
 
 
 		// セッションから卓番号を取得
@@ -42,8 +40,6 @@ public class OrderListServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 
-		System.out.println("追加ボタン反応");
-		logic.calcOrderQuantity(1, oid);
 		//データ取得処理
 		try {
 			List<OrderListInfo> olList = olDAO.findorderDetails(sessionId);

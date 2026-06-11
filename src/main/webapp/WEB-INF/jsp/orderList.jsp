@@ -17,6 +17,12 @@ if (tableNum == null) {
 <script src="./js/windowScaler.js"></script>
 </head>
 <body>
+
+<header class="header-area">
+  <img src="./image/木目3.jpg" alt="背景" class="bg-img">
+  <img src="./image/biglogo.png" alt="ロゴ" class="logo-img">
+</header>
+
 	<div class="container">
 		<div class="content">
 			<c:choose>

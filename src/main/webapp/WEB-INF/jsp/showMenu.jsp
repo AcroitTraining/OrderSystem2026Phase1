@@ -23,7 +23,7 @@ if(items == null){
 <link rel="stylesheet" href="./css/showMenu.css">
 </head>
 <body>
-<header class="header-container">
+<header class="header-area">
   <!-- 背景画像 -->
   <img src="./image/木目3.jpg" alt="背景" class="bg-img">
   

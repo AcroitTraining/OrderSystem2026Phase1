@@ -13,14 +13,12 @@ body {
 /* =========================
    header設定
 ========================= */
-.header-container {
+.header-area {
   width: 100%;
   max-width: 500px;
   height: 100px; 
   position: fixed;
-  position: relative;
-  overflow: hidden;
-  position: fixed;   
+  overflow: hidden; 
   top: 0;            
   left: 50%;         
   transform: translateX(-50%); 
@@ -95,6 +93,7 @@ body {
    商品一覧（右端の一致を強制）
 ========================= */
 .product-area {
+	margin-top: 85px; 
 	width: 100%;
 	max-width: 450px; /* 見本画像と同じコンパクトな横幅 */
 	box-sizing: border-box;
