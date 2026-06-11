@@ -23,11 +23,13 @@ public class OrderListServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		OrderListInfo ol = new OrderListInfo();
-		System.out.println("サーブレットgetの1番うえ");
 		OrderListLogic logic = new OrderListLogic();
 		request.setCharacterEncoding("UTF-8");
 		OrderListDAO olDAO = new OrderListDAO();
 		HttpSession session = request.getSession();
+		String stoid = request.getParameter("oid");
+		int oid = Integer.parseInt(stoid);
+
 
 		// セッションから卓番号を取得
 		String tableNumber = (String) session.getAttribute("tableNumber");
@@ -40,6 +42,8 @@ public class OrderListServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 
+		System.out.println("追加ボタン反応");
+		logic.calcOrderQuantity(1, oid);
 		//データ取得処理
 		try {
 			List<OrderListInfo> olList = olDAO.findorderDetails(sessionId);
@@ -59,7 +63,6 @@ public class OrderListServlet extends HttpServlet {
 
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("サーブレットpostの1番うえ");
 		request.setCharacterEncoding("UTF-8");
 		String Button = request.getParameter("Button");
 		OrderListDAO olDAO = new OrderListDAO();
@@ -83,12 +86,14 @@ public class OrderListServlet extends HttpServlet {
 
 		//イベント処理
 		if("追加".equals(Button)){
+			
 			//データ取得処理
 			try {
 				List<OrderListInfo> olList = olDAO.findorderDetails(sessionId);
 				request.setAttribute("olList", olList);
 				OrderListInfo allOrderPrice = olDAO.findAllOrderPrice(sessionId);
 				request.setAttribute("aop", allOrderPrice);
+				
 
 
 			} catch (SQLException e) {

@@ -220,33 +220,15 @@ public class OrderListDAO {
 
 				//order_details更新のsql
 				if(n > 0) {
-					String sql = "UPDATE order_details AS od "
-							+ "LEFT JOIN multiple_toppings AS mt "
-							+ "ON od.order_id = mt.order_id "
-							+ "LEFT JOIN product AS p "
-							+ "ON od.product_id = p.product_id "
-							+ "LEFT JOIN topping AS t "
-							+ "ON mt.topping_id = t.topping_id "
-							+ "SET p.product_stock = p.product_stock - 1 "
-							+ "WHERE od.order_id = ? AND order_flag = 0 ";
+					String sql = "UPDATE topping t JOIN (SELECT topping_id, SUM(topping_quantity) AS total_quantity FROM multiple_toppings WHERE order_id = ? GROUP BY topping_id) a ON t.topping_id = a.topping_id SET t.topping_stock = t.topping_stock - a.total_quantity;";
 					PreparedStatement ps = conn.prepareStatement(sql);
 					ps.setInt(1, oid);
 					int rs = ps.executeUpdate();
-					System.out.println("stock増加dao");
 				}else {
-					String sql = "UPDATE order_details AS od "
-							+ "LEFT JOIN multiple_toppings AS mt "
-							+ "ON od.order_id = mt.order_id "
-							+ "LEFT JOIN product AS p "
-							+ "ON od.product_id = p.product_id "
-							+ "LEFT JOIN topping AS t "
-							+ "ON mt.topping_id = t.topping_id "
-							+ "SET p.product_stock = p.product_stock + 1"
-							+ "WHERE od.order_id = ? AND order_flag = 0 ";
+					String sql = "UPDATE topping t JOIN (SELECT topping_id, SUM(topping_quantity) AS total_quantity FROM multiple_toppings WHERE order_id = ? GROUP BY topping_id) a ON t.topping_id = a.topping_id SET t.topping_stock = t.topping_stock + a.total_quantity;";
 					PreparedStatement ps = conn.prepareStatement(sql);
 					ps.setInt(1, oid);
 					int rs = ps.executeUpdate();
-					System.out.println("stock減少dao");
 				}
 
 

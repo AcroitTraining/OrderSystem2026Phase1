@@ -46,6 +46,7 @@ public class OrderListLogic {
 			try {
 				olDAO.updateOrderDetails(n, oid);
 				olDAO.updateStock(oid, n);
+				olDAO.updateToppingStock(oid, n);
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
