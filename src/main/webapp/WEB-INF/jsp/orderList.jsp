@@ -78,7 +78,7 @@ if (tableNum == null) {
 												<c:when test="${item.orderQuantity == 1}">
 													<form action="OrderRemoveServlet" method="post" style="margin:0;">
 														<input type="hidden" name="oid" value="${item.orderId}">
-														<button type="submit" name="Button" value="削除" class="btn-product-trash">🗑 削除</button>
+														<button type="submit" name="Button" value="削除" class="btn-product-trash">🗑</button>
 													</form>
 												</c:when>
 												<c:otherwise>
