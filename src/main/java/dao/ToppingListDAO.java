@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.ItemDetailsInfo;
+
 public class ToppingListDAO {
 
     private final String JDBC_URL = "jdbc:mysql://localhost:3306/order_management";
@@ -45,7 +46,6 @@ public class ToppingListDAO {
         return list;
     }
 
-
     // product_details INSERT
     public boolean insertProductDetail(int productId) {
         String sql = "INSERT INTO product_details (product_id) VALUES (?)";
@@ -56,12 +56,11 @@ public class ToppingListDAO {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return false;
     }
-    // 最新order_id
-    public int getLastOrderId() {
 
+    // 最新order_id取得
+    public int getLastOrderId() {
         String sql = "SELECT MAX(order_id) FROM product_details";
         try (Connection conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS);
              PreparedStatement ps = conn.prepareStatement(sql);
@@ -75,8 +74,7 @@ public class ToppingListDAO {
         return 0;
     }
 
-
-    // order_details insert 
+    // order_details INSERT
     public boolean insertOrderDetail(
             int orderId,
             int productQuantity,
@@ -109,8 +107,42 @@ public class ToppingListDAO {
         return false;
     }
 
+    // 商品在庫を1減らす
+    public boolean updateProductStock(int productId) {
+        String sql =
+            "UPDATE product " +
+            "SET product_stock = product_stock - 1 " +
+            "WHERE product_id = ?";
 
-    // トッピング追加
+        try (Connection conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS);
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, productId);
+            return ps.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    // ★修正：トッピングの在庫を指定された quantity と topping_id で直接減算する
+    public boolean updateToppingStock(int toppingId, int quantity) {
+        String sql =
+            "UPDATE topping " +
+            "SET topping_stock = topping_stock - ? " +
+            "WHERE topping_id = ?";
+
+        try (Connection conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS);
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, quantity);
+            ps.setInt(2, toppingId);
+            return ps.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    // multiple_toppings INSERT
     public boolean insertMutipleToppings(int toppingId, int qty, int orderId) {
         String sql =
                 "INSERT INTO multiple_toppings (topping_id, topping_quantity, order_id) VALUES (?, ?, ?)";

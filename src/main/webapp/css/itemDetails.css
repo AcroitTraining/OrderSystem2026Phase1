@@ -1,0 +1,269 @@
+@charset "UTF-8";
+
+body {
+	margin: 0;
+	padding-bottom: 160px; /* 小計とフッターがコンテンツに被らないための余白 */
+	font-family: sans-serif;
+	background: #FDF5E6;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+/* =========================
+   header設定 (共通固定デザイン)
+========================= */
+.header-area {
+  width: 100%;
+  max-width: 500px;
+  height: 100px; 
+  position: fixed;
+  overflow: hidden; 
+  top: 0;            
+  left: 50%;         
+  transform: translateX(-50%); 
+  z-index: 1000;
+}
+
+.bg-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.logo-img {
+  position: absolute; 
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 55%; 
+  max-width: 500px;
+  height: auto;
+}
+
+/* =========================
+   メインコンテンツエリア
+========================= */
+.main-content {
+	margin-top: 100px;
+	width: 100%;
+	max-width: 450px;
+	box-sizing: border-box;
+	padding: 0;
+}
+
+/* 主商品名・価格表示ボックス */
+.product-header-box {
+	padding: 15px 20px;
+	border-bottom: 2px solid #555;
+	background: #FDF5E6;
+	text-align: left;
+}
+
+.product-main-name {
+	font-size: 16px;
+	font-weight: bold;
+	color: #000;
+	margin-bottom: 30px;
+}
+
+.product-main-price {
+	font-size: 14px;
+	text-align: right;
+	color: #000;
+}
+
+/* =========================
+   トッピングエリア
+========================= */
+.topping-area {
+	width: 100%;
+	padding: 15px 20px;
+	box-sizing: border-box;
+}
+
+.topping-title {
+	font-size: 14px;
+	color: #333;
+	margin-bottom: 15px;
+}
+
+.topping-table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.topping-info-cell {
+	padding: 10px 0;
+	font-size: 15px;
+	color: #000;
+}
+
+.topping-action-cell {
+	padding: 10px 0;
+	width: 130px;
+	text-align: right;
+}
+
+/* 数量コントロールの横並び設定 */
+.quantity-form {
+	display: inline-flex;
+	align-items: center;
+	justify-content: flex-end;
+	gap: 8px;
+}
+
+/* =========================
+   トッピングエリア
+========================= */
+
+/* (中略) */
+
+/* ★プラス・マイナス共通のテキストボタン（きれいな緑色に変更） */
+.btn-qty {
+	width: 32px;
+	height: 32px;
+	border: none;
+	border-radius: 4px;
+	background: #55a055; /* お好み焼き屋さんのアクセントに合わせた緑色 */
+	color: #ffffff;      /* 文字色を白にしてクッキリ見やすく */
+	font-size: 18px;
+	font-weight: bold;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0;
+}
+
+/* ボタンが押せない状態のとき（数量0のマイナス、数量20のプラス） */
+.btn-qty:disabled {
+	background: #e0e0e0; /* 自動的に薄いグレー背景になります */
+	color: #b0b0b0;      /* 文字も薄いグレーになります */
+	cursor: not-allowed;
+}
+
+/* 数量の数字テキスト */
+.qty-text {
+	font-size: 18px;
+	font-weight: bold;
+	min-width: 25px;
+	text-align: center;
+	color: #000;
+}
+
+.btn-qty:disabled {
+	background: #e0e0e0;
+	color: #b0b0b0;
+	cursor: not-allowed;
+}
+
+/* 数量の数字 */
+.qty-text {
+	font-size: 18px;
+	font-weight: bold;
+	min-width: 25px;
+	text-align: center;
+	color: #000;
+}
+
+/* トッピング売切時のテキスト表現 */
+.sold-out-text {
+	font-size: 15px;
+	font-weight: bold;
+	color: #777;
+	padding-right: 5px;
+}
+
+/* =========================
+   下部固定エリア（小計＋フッターボタン）
+========================= */
+.fixed-footer-container {
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	max-width: 450px;
+	background: #FDF5E6;
+	z-index: 900;
+}
+
+/* 小計ボックス（上下の線を端まで長く配置） */
+.subtotal-box {
+	width: 100%;
+	padding: 12px 20px;
+	box-sizing: border-box;
+	border-top: 2px solid #555;
+	border-bottom: 2px solid #555;
+	background: #FDF5E6;
+	text-align: right;
+}
+
+.subtotal-text {
+	font-size: 16px;
+	font-weight: bold;
+	color: #000;
+	text-decoration: underline;
+}
+
+/* =========================
+   フッターボタンエリア
+========================= */
+footer {
+	width: 100%;
+	background: #ffffff;
+}
+
+.footer-table {
+	width: 100%;
+	border-collapse: collapse;
+	text-align: center;
+}
+
+.footer-table td {
+	height: 80px;
+	padding: 0;
+	vertical-align: middle;
+}
+
+.btn-footer {
+	width: 100%;
+	height: 80px;
+	border: none;
+	cursor: pointer;
+	font-size: 12px;
+	font-weight: bold;
+	color: #333;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	background: transparent;
+}
+
+.btn-footer img {
+	width: 35px;
+	height: 35px;
+	margin-bottom: 2px;
+	object-fit: contain;
+}
+
+.btn-menu-back {
+	background: #8bf79c;
+}
+
+.btn-add-cart {
+	background: #ff8c60;
+	color: white;
+}
+
+.table-num {
+	background: #ffffff;
+	height: 80px;
+	line-height: 80px;
+	font-size: 2.2rem;
+	font-weight: bold;
+	color: #000;
+	border-left: 1px solid #ddd;
+	border-right: 1px solid #ddd;
+}

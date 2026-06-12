@@ -45,7 +45,6 @@ public class ItemDetailsChangeServlet extends HttpServlet {
         ).forward(request, response);
     }
 
-    //イベント
     protected void doPost(HttpServletRequest request,
                           HttpServletResponse response)
             throws ServletException, IOException {
@@ -93,7 +92,7 @@ public class ItemDetailsChangeServlet extends HttpServlet {
             return;
         }
 
-        // 変更ボタンでDBを変わる
+        // ★変更ボタンでDBを更新（同時にストックも連動変更）
         if ("update".equals(mode)) {
             List<ItemDetailsInfo> dbList =
                     dao.findToppingListByOrderId(orderId);
@@ -103,33 +102,33 @@ public class ItemDetailsChangeServlet extends HttpServlet {
                 int screenQty = screen.getToppingQuantity();
                 int dbQty = db.getToppingQuantity();
 
-                // 0 → 1以上（INSERT）
+                // 0 → 1以上（新規追加：INSERT）
                 if (dbQty == 0 && screenQty > 0) {
-                    dao.insertTopping(
-                            orderId,
-                            screen.getToppingId(),
-                            screenQty
-                    );
+                    dao.insertTopping(orderId, screen.getToppingId(), screenQty);
+                    
+                    // 新しく増えた分（screenQty分）だけ在庫をマイナス
+                    dao.updateToppingStock(screen.getToppingId(), screenQty);
                 }
 
-                // 1以上 → 0（DELETE）
+                // 1以上 → 0（完全削除：DELETE）
                 else if (dbQty > 0 && screenQty == 0) {
-                    dao.deleteTopping(
-                            orderId,
-                            screen.getToppingId()
-                    );
+                    dao.deleteTopping(orderId, screen.getToppingId());
+                    
+                    // なくなった分（dbQty分）だけ在庫をプラス（負の数を引くことで加算される）
+                    dao.updateToppingStock(screen.getToppingId(), -dbQty);
                 }
 
-                // 1以上 → 変更（UPDATE）
+                // 1以上 → 別の数量（数量変更：UPDATE）
                 else if (dbQty > 0 && screenQty > 0 && dbQty != screenQty) {
-                    dao.updateToppingQuantity(
-                            orderId,
-                            screen.getToppingId(),
-                            screenQty
-                    );
+                    dao.updateToppingQuantity(orderId, screen.getToppingId(), screenQty);
+                    
+                    // 差分を計算（例：旧2個→新5個なら 5-2 = 3個減算、旧5個→新2個なら 2-5 = -3個で3個加算戻し）
+                    int diff = screenQty - dbQty;
+                    dao.updateToppingStock(screen.getToppingId(), diff);
                 }
             }
 
+            // ※製品(product)のストックは何も変更しないので、このままリダイレクト
             response.sendRedirect("OrderListServlet");
             return;
         }

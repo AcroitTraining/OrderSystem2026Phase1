@@ -14,6 +14,7 @@ public class ToppingDAO {
     private final String JDBC_URL = "jdbc:mysql://localhost:3306/order_management";
     private final String DB_USER = "order";
     private final String DB_PASS = "1234";
+
     public OrderListInfo findOrderInfo(int orderId) {
         OrderListInfo ol = null;
         String sql =
@@ -51,7 +52,6 @@ public class ToppingDAO {
             ps.setInt(1, orderId);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-            	
                 ItemDetailsInfo t = new ItemDetailsInfo();
                 t.setToppingId(rs.getInt("topping_id"));
                 t.setToppingName(rs.getString("topping_name"));
@@ -66,21 +66,21 @@ public class ToppingDAO {
         return list;
     }
 
+    // トッピング delete
+    public void deleteTopping(int orderId, int toppingId) {
+        String sql =
+            "DELETE FROM multiple_toppings " +
+            "WHERE order_id = ? AND topping_id = ?";
+        try (Connection conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS);
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, orderId);
+            ps.setInt(2, toppingId);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
- // トッピング d e l e t e
- public void deleteTopping(int orderId, int toppingId) {
-     String sql =
-         "DELETE FROM multiple_toppings " +
-         "WHERE order_id = ? AND topping_id = ?";
-     try (Connection conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS);
-          PreparedStatement ps = conn.prepareStatement(sql)) {
-         ps.setInt(1, orderId);
-         ps.setInt(2, toppingId);
-         ps.executeUpdate();
-     } catch (Exception e) {
-         e.printStackTrace();
-     }
- }
     // inser and update
     public void updateToppingQuantity(int orderId, int toppingId, int qty) {
         String sql =
@@ -98,7 +98,6 @@ public class ToppingDAO {
         }
     }
 
-
     // 新しいinsert
     public void insertTopping(int orderId, int toppingId, int qty) {
         String sql =
@@ -109,6 +108,22 @@ public class ToppingDAO {
             ps.setInt(1, orderId);
             ps.setInt(2, toppingId);
             ps.setInt(3, qty);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // ★追加：トッピングの在庫数を直接更新するメソッド（正の値で減算、負の値で加算戻し）
+    public void updateToppingStock(int toppingId, int quantityDiff) {
+        String sql =
+            "UPDATE topping " +
+            "SET topping_stock = topping_stock - ? " +
+            "WHERE topping_id = ?";
+        try (Connection conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS);
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, quantityDiff);
+            ps.setInt(2, toppingId);
             ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();

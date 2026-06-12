@@ -15,6 +15,7 @@ import model.ItemDetailsLogic;
 
 @WebServlet("/ItemDetailsServlet")
 public class ItemDetailsServlet extends HttpServlet {
+    
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
@@ -25,6 +26,7 @@ public class ItemDetailsServlet extends HttpServlet {
         String priceStr = request.getParameter("productPrice");
         String tableStr = request.getParameter("tableNumber");
         HttpSession session = request.getSession();
+        
         if (tableStr != null && !tableStr.isEmpty()) {
             session.setAttribute("tableNumber", tableStr);
         }
@@ -32,8 +34,9 @@ public class ItemDetailsServlet extends HttpServlet {
         int price = (priceStr != null) ? Integer.parseInt(priceStr) : 0;
 
         ToppingListDAO dao = new ToppingListDAO();
-        List<ItemDetailsInfo> tList =
-                dao.findToppingListByOrderId(0);
+        // 初期表示時は orderId = 0 でマスターのトッピング一覧を取得
+        List<ItemDetailsInfo> tList = dao.findToppingListByOrderId(0);
+        
         request.setAttribute("productId", productId);
         request.setAttribute("selectedPName", productName);
         request.setAttribute("selectedPPrice", price);
@@ -44,10 +47,10 @@ public class ItemDetailsServlet extends HttpServlet {
                 .forward(request, response);
     }
 
-    //イベント
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
+        
         String button = request.getParameter("Button");
         String mode = request.getParameter("mode");
         String productIdStr = request.getParameter("productId");
@@ -64,6 +67,7 @@ public class ItemDetailsServlet extends HttpServlet {
         int productId = Integer.parseInt(productIdStr);
         int price = Integer.parseInt(priceStr);
         int subTotal = Integer.parseInt(subTotalStr);
+        
         HttpSession session = request.getSession();
         int sessionId = 0;
         Object tableObj = session.getAttribute("tableNumber");
@@ -71,12 +75,11 @@ public class ItemDetailsServlet extends HttpServlet {
             sessionId = Integer.parseInt(tableObj.toString());
         }
 
-
         ToppingListDAO dao = new ToppingListDAO();
-        List<ItemDetailsInfo> tList =
-                dao.findToppingListByOrderId(0);
+        // ベースとなるリストを一度取得
+        List<ItemDetailsInfo> tList = dao.findToppingListByOrderId(0);
 
-        // 数量復元
+        // ★数量復元（画面から送られてきた各トッピングの数量をtListに同期させる）
         for (int i = 0; i < tList.size(); i++) {
             String qty = request.getParameter("oldQty_" + i);
             if (qty != null) {
@@ -84,13 +87,15 @@ public class ItemDetailsServlet extends HttpServlet {
             }
         }
 
-        // ＋ / −
+        // ＋ / − ボタンが押された時の処理
         if (button != null && (button.startsWith("+") || button.startsWith("-"))) {
             ItemDetailsLogic logic = new ItemDetailsLogic();
             String action = button.startsWith("+") ? "plus" : "minus";
             int index = Integer.parseInt(button.substring(1));
+            
             logic.calcToppingQuantity(tList, index, action);
             subTotal = logic.calcSubTotal(price, tList);
+            
             request.setAttribute("productId", productId);
             request.setAttribute("selectedPName", productName);
             request.setAttribute("selectedPPrice", price);
@@ -102,36 +107,42 @@ public class ItemDetailsServlet extends HttpServlet {
             return;
         }
 
-        // 追加
+        // ★追加ボタン（確定）が押された時の処理
         if ("add".equals(mode)) {
             boolean ok = dao.insertProductDetail(productId);
+
             if (ok) {
                 int orderId = dao.getLastOrderId();
+
+                // 1. order_details 登録
                 dao.insertOrderDetail(
-                        orderId,
-                        1,
-                        subTotal,
-                        sessionId,
-                        0,
-                        0,
-                        0,
-                        productId,
-                        0
+                        orderId, 1, subTotal, sessionId,
+                        0, 0, 0, productId, 0
                 );
 
+                // 2. 商品在庫を 1 減らす (product_stock = product_stock - 1)
+                dao.updateProductStock(productId);
+
+                // 3. トッピング登録 ＋ 在庫減算
                 for (ItemDetailsInfo t : tList) {
-                    if (t.getToppingQuantity() > 0) {
-                        dao.insertMutipleToppings(
-                                t.getToppingId(),
-                                t.getToppingQuantity(),
-                                orderId
-                        );
+                    int qty = t.getToppingQuantity();
+                    int toppingId = t.getToppingId();
+
+                    // 数量が 1 つ以上選択されている場合のみDBを更新
+                    if (qty > 0) {
+                        // multiple_toppings に注文データを追加
+                        dao.insertMutipleToppings(toppingId, qty, orderId);
+
+                        // ★ご指定通り、選択された数量(qty)と対象のID(toppingId)でストックを直接減算
+                        dao.updateToppingStock(toppingId, qty);
                     }
                 }
+
                 response.sendRedirect("OrderListServlet");
                 return;
             }
         }
+        
         response.sendRedirect("ShowMenuServlet");
     }
 }
