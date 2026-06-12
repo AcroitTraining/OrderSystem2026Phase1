@@ -19,19 +19,14 @@ import model.OrderListLogic;
 public class OrderListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-
-
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		HttpSession session = request.getSession(false);
-		// セッションがない、または卓番号などの必須データが消えている場合
 		if (session == null || session.getAttribute("tableNumber") == null) {
-			// 即座にエラー画面へ転送する
 			response.sendRedirect("error.jsp");
 			return;
 		}
 
-		// セッションから卓番号を取得
 		String tableNumber = (String) session.getAttribute("tableNumber");
 		int sessionId = 0;
 		try {
@@ -44,36 +39,33 @@ public class OrderListServlet extends HttpServlet {
 		
 		OrderListDAO olDAO = new OrderListDAO();
 
-		//データ取得処理
 		try {
 			List<OrderListInfo> olList = olDAO.findorderDetails(sessionId);
 			request.setAttribute("olList", olList);
 			OrderListInfo allOrderPrice = olDAO.findAllOrderPrice(sessionId);
 			request.setAttribute("aop", allOrderPrice);
 
-
 		} catch (SQLException e) {
-			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
 		}		
-		//logic.calcSubTotal();
+
 		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/orderList.jsp");
 		dispatcher.forward(request, response);
-
 	}
-
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		String Button = request.getParameter("Button");
 		OrderListDAO olDAO = new OrderListDAO();
 		OrderListLogic logic = new OrderListLogic();
+		
 		String stoid = request.getParameter("oid");
-		int oid = Integer.parseInt(stoid);
+		int oid = 0;
+		if (stoid != null) {
+			oid = Integer.parseInt(stoid);
+		}
 
 		HttpSession session = request.getSession();
-
-		// セッションから卓番号を取得
 		String tableNumber = (String) session.getAttribute("tableNumber");
 		int sessionId = 0;
 		try {
@@ -84,69 +76,48 @@ public class OrderListServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 
-
-		//イベント処理
+		// イベント処理の分岐
 		if("追加".equals(Button)){
-
-			//データ取得処理
 			try {
 				List<OrderListInfo> olList = olDAO.findorderDetails(sessionId);
 				request.setAttribute("olList", olList);
 				OrderListInfo allOrderPrice = olDAO.findAllOrderPrice(sessionId);
 				request.setAttribute("aop", allOrderPrice);
-
-
-
 			} catch (SQLException e) {
-				// TODO 自動生成された catch ブロック
 				e.printStackTrace();
 			}		
 			logic.calcSubTotal();
-		}else if("+".equals(Button)) {
-			//プラス処理
+			
+		} else if("+".equals(Button)) {
 			logic.calcOrderQuantity(1, oid);
-			//データ取得処理
 			try {
 				List<OrderListInfo> olList = olDAO.findorderDetails(sessionId);
 				request.setAttribute("olList", olList);
 				OrderListInfo allOrderPrice = olDAO.findAllOrderPrice(sessionId);
 				request.setAttribute("aop", allOrderPrice);
-
-
 			} catch (SQLException e) {
-				// TODO 自動生成された catch ブロック
 				e.printStackTrace();
 			}		
 			logic.calcSubTotal();
 			RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/orderList.jsp");
 			dispatcher.forward(request, response);
 
-		}else if("-".equals(Button)) {
-			//マイナス処理
+		} else if("-".equals(Button)) {
 			logic.calcOrderQuantity(-1, oid);
-			//データ取得処理
 			try {
 				List<OrderListInfo> olList = olDAO.findorderDetails(sessionId);
 				request.setAttribute("olList", olList);
 				OrderListInfo allOrderPrice = olDAO.findAllOrderPrice(sessionId);
 				request.setAttribute("aop", allOrderPrice);
-
-
 			} catch (SQLException e) {
-				// TODO 自動生成された catch ブロック
 				e.printStackTrace();
 			}		
 			logic.calcSubTotal();
 			RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/orderList.jsp");
 			dispatcher.forward(request, response);
-		}else if("削除".equals(Button)) {
-			// リダイレクト先のサーブレットパス（URL）を指定
-			String targetUrl = "OrderRemoveServlet"; 
-
-			// リダイレクトの実行
-			response.sendRedirect(targetUrl);
-		}
-
+			
+		} 
+		// ★JavaScriptから直でOrderRemoveServletを叩くようになったため、
+		// ここにあった「削除」の分岐は通らなくなります。コードの記述自体消去しても安全です。
 	}
-
 }

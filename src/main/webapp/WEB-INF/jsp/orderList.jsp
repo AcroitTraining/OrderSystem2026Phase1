@@ -82,7 +82,7 @@ if (tableNum == null) {
 											<%-- 削除またはマイナスボタン --%>
 											<c:choose>
 												<c:when test="${item.orderQuantity == 1}">
-													<form action="OrderRemoveServlet" method="post" style="margin:0;">
+													<form action="OrderRemoveServlet" method="post" style="margin:0;" class="delete-form">
 														<input type="hidden" name="oid" value="${item.orderId}">
 														<button type="submit" name="Button" value="削除" class="btn-product-trash">🗑</button>
 													</form>
@@ -140,12 +140,33 @@ if (tableNum == null) {
 				<strong>メニュー</strong>
 			</div>
 			<div class="table-num"><%=tableNum%>卓</div>
-			<div class="footer-btn btn-order" onclick="location.href='OrderCompleteServlet'">
+			<div class="footer-btn btn-order" id="orderBtn">
 				<span style="font-size: 2rem;">✓</span>
 				<strong>注文する</strong>
 			</div>
 		</div>
 	</div>
+
+	<div id="deleteModal" class="modal-overlay">
+		<div class="modal-content">
+			<div class="modal-title">この商品を削除します<br>よろしいですか？</div>
+			<div class="btn-group">
+				<button type="button" id="cancelDelete" class="btn-base btn-no">いいえ</button>
+				<button type="button" id="confirmDelete" class="btn-base btn-yes">はい</button>
+			</div>
+		</div>
+	</div>
+
+	<div id="orderModal" class="modal-overlay">
+		<div class="modal-content">
+			<div class="modal-title">注文を確定します<br>よろしいですか？</div>
+			<div class="btn-group">
+				<button type="button" id="cancelOrder" class="btn-base btn-no">いいえ</button>
+				<button type="button" id="confirmOrder" class="btn-base btn-yes">はい</button>
+			</div>
+		</div>
+	</div>
+
 	<script src="./js/orderList.js"></script>
 </body>
 </html>
