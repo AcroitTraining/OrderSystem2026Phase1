@@ -2,14 +2,14 @@
 <%-- エラーページであることを宣言 --%>
 <%@ page isErrorPage="true" %>
 <%
-    // ステータスコードの取得 (デフォルトは500)
+    // ステータスコードの取得
     int statusCode = response.getStatus();
 %>
 <!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>エラーが発生しました危ない</title>
+    <title>エラーが発生しました</title>
     <style>
         body {
             font-family: sans-serif;
@@ -40,13 +40,13 @@
     
     <div class="message">
         <% if (statusCode == 404) { %>
-            <p>お探しのページは見つかりませんでした。危ないよ気を付けて。。。死..game over</p>
+            <p>お探しのページは見つかりませんでした。</p>
             <p>URLが正しいかご確認いただくか、トップページへお戻りください。</p>
         <% } else if (statusCode == 500) { %>
-            <p>サーバー内部でエラーが発生しました危ないよ気を付けて。。。死..game over。</p>
+            <p>サーバー内部でエラーが発生しました</p>
             <p>ご迷惑をおかけしますが、しばらく時間を置いてから再度お試しください。</p>
         <% } else { %>
-            <p>予期せぬエラーが発生しました。危ないよ気を付けて。。。死..game over</p>
+            <p>予想外のエラーが発生しました。</p>
         <% } %>
     </div>
 
