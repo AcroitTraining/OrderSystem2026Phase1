@@ -33,6 +33,7 @@ public class OrderCompleteServlet extends HttpServlet {
 			ocDAO.updateOrderDetails();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			response.sendRedirect("error.jsp"); 
 		}
 		
 		
