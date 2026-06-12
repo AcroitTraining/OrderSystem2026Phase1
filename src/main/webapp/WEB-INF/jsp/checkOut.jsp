@@ -22,13 +22,16 @@
 <!-- ウィンドウサイズの調整用javaScript -->
 </head>
 <body bgcolor="#FDF5E6">
+	<header class="header-area">
+		<img src="./image/木目3.jpg" alt="背景" class="bg-img"> <img
+			src="./image/biglogo.png" alt="ロゴ" class="logo-img">
+	</header>
 	<center>
 		<table width="400" border="0" cellpadding="0" cellspacing="0">
 			<tr>
 				<div
 					style="background-color: #FFD700; width: 450px; padding: 20px 0; border-radius: 15px;">
-					<font size="4">会計が確定されました</font><br>
-					<br> <font size="4">ご利用ありがとうございます</font><br>
+					<font size="4">会計が確定されました</font><br> <br> <font size="4">ご利用ありがとうございます</font><br>
 					<br> <font size="5"><b><%= tableNum %>卓</b></font><br>
 					<!-- 卓番号表示 -->
 					<font size="5"><u><b>合計：<%= totalPrice %>円(税込)
@@ -37,9 +40,8 @@
 				</div>
 			</tr>
 			<tr>
-				<td align="center"><br>
-				<br> <font size="4">レジにてお支払いください</font><br>
-				<br> <font size="4">またのご利用をお待ちしております</font></td>
+				<td align="center"><br> <br> <font size="4">レジにてお支払いください</font><br>
+					<br> <font size="4">またのご利用をお待ちしております</font></td>
 			</tr>
 		</table>
 	</center>

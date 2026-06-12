@@ -24,15 +24,12 @@ public class OrderListServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		HttpSession session = request.getSession(false);
-		OrderListDAO olDAO = new OrderListDAO();
-		
-
-	 // セッションがない、または卓番号などの必須データが消えている場合
-	    if (session == null || session.getAttribute("tableNumber") == null) {
-	        // 即座にエラー画面へ転送する
-	        response.sendRedirect("error.jsp");
-	        return;
-	    }
+		// セッションがない、または卓番号などの必須データが消えている場合
+		if (session == null || session.getAttribute("tableNumber") == null) {
+			// 即座にエラー画面へ転送する
+			response.sendRedirect("error.jsp");
+			return;
+		}
 
 		// セッションから卓番号を取得
 		String tableNumber = (String) session.getAttribute("tableNumber");
@@ -44,6 +41,8 @@ public class OrderListServlet extends HttpServlet {
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
 		}
+		
+		OrderListDAO olDAO = new OrderListDAO();
 
 		//データ取得処理
 		try {

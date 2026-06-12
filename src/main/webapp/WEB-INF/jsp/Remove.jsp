@@ -11,11 +11,17 @@
 <title>注文削除画面</title>
 </head>
 <body>
+
+	<header class="header-area">
+		<img src="./image/木目3.jpg" alt="背景" class="bg-img"> <img
+			src="./image/biglogo.png" alt="ロゴ" class="logo-img">
+	</header>
+
 	<form action="OrderListServlet" method="get">
 		<h1 align="center">削除しました</h1>
 		<div class="footer">
 			<button type="submit" name="Button" value="戻る" class="btn-menu">戻る</button>
-	<div class="table-num">${tableNumber}卓</div>
+			<div class="table-num">${tableNumber}卓</div>
 	</form>
 	</div>
 </body>

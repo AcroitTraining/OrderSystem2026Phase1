@@ -82,16 +82,19 @@ public class ToppingDAO {
     }
 
     // inser and update
-    public void updateToppingQuantity(int orderId, int toppingId, int qty) {
-        String sql =
-            "UPDATE multiple_toppings " +
-            "SET topping_quantity = ? " +
-            "WHERE order_id = ? AND topping_id = ?";
+    public void updateToppingQuantity(int orderId, int orderPrice, int toppingId, int qty) {
+    	String sql =
+    		    "UPDATE multiple_toppings mt " +
+    		    "JOIN order_details od ON mt.order_id = od.order_id " +
+    		    "SET mt.topping_quantity = ?, od.order_price = ? " +
+    		    "WHERE mt.order_id = ? AND mt.topping_id = ?";
+
         try (Connection conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS);
              PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, qty);
-            ps.setInt(2, orderId);
-            ps.setInt(3, toppingId);
+        	ps.setInt(1, qty); // mt.topping_quantity
+		    ps.setInt(2, orderPrice);      // od.order_price
+		    ps.setLong(3, orderId);           // WHERE mt.order_id
+		    ps.setInt(4, toppingId); 
             ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();

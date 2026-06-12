@@ -15,37 +15,47 @@ import model.ProductInfo;
 
 @WebServlet("/ShowMenuServlet")
 public class ShowMenuServlet extends HttpServlet {
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        String tableId = request.getParameter("tableId");
-        if (tableId != null && !tableId.isEmpty()) {
-            session.setAttribute("tableNumber", tableId);
-        }
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 
-        String sessionId = (String) session.getAttribute("tableNumber");
-        ShowMenuDAO dao = new ShowMenuDAO();
-        // order_flag=0 の件数
-        int items = 0;
-        if (sessionId != null) {
-            items = dao.getOrderItemCount(sessionId);
-        }
-        session.setAttribute("items", items);
-        // 商品
-        List<ProductInfo> productList = dao.findProductTable();
-        session.setAttribute("productList", productList);
-        // カテゴリ
-        String category = request.getParameter("category");
-        if (category == null) {
-            category = "お好み焼き";
-        }
-        request.setAttribute("currentCategory", category);
-        RequestDispatcher rd =
-            request.getRequestDispatcher("WEB-INF/jsp/showMenu.jsp");
-        rd.forward(request, response);
-    }
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        doGet(request, response);
-    }
+		HttpSession session = request.getSession(false);
+
+
+		String tableId = request.getParameter("tableId");
+		if (tableId != null && !tableId.isEmpty()) {
+			session.setAttribute("tableNumber", tableId);
+		}
+
+		String sessionId = (String) session.getAttribute("tableNumber");
+		ShowMenuDAO dao = new ShowMenuDAO();
+		// order_flag=0 の件数
+		int items = 0;
+		if (sessionId != null) {
+			items = dao.getOrderItemCount(sessionId);
+		}
+		session.setAttribute("items", items);
+		// 商品
+		List<ProductInfo> productList = dao.findProductTable();
+		session.setAttribute("productList", productList);
+		// カテゴリ
+		String category = request.getParameter("category");
+		if (category == null) {
+			category = "お好み焼き";
+		}
+
+		// セッションがない、または卓番号などの必須データが消えている場合
+		if (session == null || session.getAttribute("tableNumber") == null) {
+			// 即座にエラー画面へ転送する
+			response.sendRedirect("error.jsp");
+			return;
+		}
+		request.setAttribute("currentCategory", category);
+		RequestDispatcher rd =
+				request.getRequestDispatcher("WEB-INF/jsp/showMenu.jsp");
+		rd.forward(request, response);
+	}
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		doGet(request, response);
+	}
 }

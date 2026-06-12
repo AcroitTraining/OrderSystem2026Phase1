@@ -18,6 +18,14 @@ public class ItemDetailsServlet extends HttpServlet {
     
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+    	HttpSession session = request.getSession(false);
+		// セッションがない、または卓番号などの必須データが消えている場合
+		if (session == null || session.getAttribute("tableNumber") == null) {
+			// 即座にエラー画面へ転送する
+			response.sendRedirect("error.jsp");
+			return;
+		}
+    	
         request.setCharacterEncoding("UTF-8");
 
         String productIdStr = request.getParameter("productId");
@@ -25,7 +33,6 @@ public class ItemDetailsServlet extends HttpServlet {
         String category = request.getParameter("productCategory");
         String priceStr = request.getParameter("productPrice");
         String tableStr = request.getParameter("tableNumber");
-        HttpSession session = request.getSession();
         
         if (tableStr != null && !tableStr.isEmpty()) {
             session.setAttribute("tableNumber", tableStr);
@@ -107,7 +114,7 @@ public class ItemDetailsServlet extends HttpServlet {
             return;
         }
 
-        // ★追加ボタン（確定）が押された時の処理
+        // 追加ボタン（確定）が押された時の処理
         if ("add".equals(mode)) {
             boolean ok = dao.insertProductDetail(productId);
 
@@ -133,7 +140,7 @@ public class ItemDetailsServlet extends HttpServlet {
                         // multiple_toppings に注文データを追加
                         dao.insertMutipleToppings(toppingId, qty, orderId);
 
-                        // ★ご指定通り、選択された数量(qty)と対象のID(toppingId)でストックを直接減算
+                        // ご指定通り、選択された数量(qty)と対象のID(toppingId)でストックを直接減算
                         dao.updateToppingStock(toppingId, qty);
                     }
                 }
