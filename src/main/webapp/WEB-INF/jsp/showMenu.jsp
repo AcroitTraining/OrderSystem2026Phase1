@@ -12,6 +12,11 @@ Integer items = (Integer)session.getAttribute("items");
 if(items == null){
 	items = 0;
 }
+
+// カレントカテゴリーがnullの場合の安全対策
+if(currentCategory == null) {
+	currentCategory = "";
+}
 %>
 
 <!DOCTYPE html>
@@ -23,11 +28,10 @@ if(items == null){
 <link rel="stylesheet" href="./css/showMenu.css">
 </head>
 <body>
+
 <header class="header-area">
-  <!-- 背景画像 -->
   <img src="./image/木目3.jpg" alt="背景" class="bg-img">
   
-  <!-- ロゴ画像 -->
   <img src="./image/biglogo.png" alt="ロゴ" class="logo-img">
 </header>
 
@@ -37,13 +41,14 @@ if(items == null){
 		<form action="ShowMenuServlet" method="post">
 			<table class="category-table">
 				<tr>
-					<td><input type="submit" name="category" value="お好み焼き"></td>
-					<td><input type="submit" name="category" value="もんじゃ焼き"></td>
-					<td><input type="submit" name="category" value="鉄板焼き"></td>
-					<td><input type="submit" name="category" value="サイドメニュー"></td>
-					<td><input type="submit" name="category" value="ソフトドリンク"></td>
-					<td><input type="submit" name="category" value="お酒"></td>
-					<td><input type="submit" name="category" value="ボトル"></td>
+					<%-- サーブレットから受け取ったcurrentCategoryと一致するボタンに「class="active"」を自動付与します --%>
+					<td><input type="submit" name="category" value="お好み焼き" class="<%= "お好み焼き".equals(currentCategory.trim()) ? "active" : "" %>"></td>
+					<td><input type="submit" name="category" value="もんじゃ焼き" class="<%= "もんじゃ焼き".equals(currentCategory.trim()) ? "active" : "" %>"></td>
+					<td><input type="submit" name="category" value="鉄板焼き" class="<%= "鉄板焼き".equals(currentCategory.trim()) ? "active" : "" %>"></td>
+					<td><input type="submit" name="category" value="サイドメニュー" class="<%= "サイドメニュー".equals(currentCategory.trim()) ? "active" : "" %>"></td>
+					<td><input type="submit" name="category" value="ソフトドリンク" class="<%= "ソフトドリンク".equals(currentCategory.trim()) ? "active" : "" %>"></td>
+					<td><input type="submit" name="category" value="お酒" class="<%= "お酒".equals(currentCategory.trim()) ? "active" : "" %>"></td>
+					<td><input type="submit" name="category" value="ボトル" class="<%= "ボトル".equals(currentCategory.trim()) ? "active" : "" %>"></td>
 				</tr>
 			</table>
 		</form>
@@ -53,11 +58,11 @@ if(items == null){
 <div class="product-area">
 	<table class="product-table">
 	<%
+	int productCount = 0; // 表示した商品を数えるカウンター
 	if(productList != null){
 		for(ProductInfo p : productList){
-
-			if(p.getCategoryName().trim().equals(currentCategory)
-				&& p.getProductDisplayFlag() == 1){
+			if(p.getCategoryName().trim().equals(currentCategory.trim()) && p.getProductDisplayFlag() == 1){
+				productCount++; // 対象商品があればカウントアップ
 	%>
 	<tr class="product-item-row">
 		<td align="left" valign="middle" class="product-info-cell">
@@ -90,6 +95,11 @@ if(items == null){
 	}
 	%>
 	</table>
+
+	<%-- ★商品が1件も無かった場合の表示処理（見本通り中央に表示） --%>
+	<% if(productCount == 0) { %>
+		<div class="no-data-message">商品はありません。</div>
+	<% } %>
 </div>
 
 <footer>
