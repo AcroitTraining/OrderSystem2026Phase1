@@ -32,7 +32,7 @@ if(currentCategory == null) {
 <header class="header-area">
   <img src="./image/木目3.jpg" alt="背景" class="bg-img">
   
-  <img src="./image/biglogo.png" alt="ロゴ" class="logo-img">
+  <img src="./image/biglogo.png" alt="ロゴ" class="logo-img">あ
 </header>
 
 <div class="category-area">
