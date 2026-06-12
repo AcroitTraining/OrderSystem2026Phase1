@@ -21,9 +21,6 @@ public class CheckOutServlet extends HttpServlet {
     				throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         HttpSession session = request.getSession(false);
-        if (session != null) {
-            session.invalidate(); // セッションを破棄
-        }
         
         // 入力データの取得
         String tableNumber = request.getParameter("tableNumber");
@@ -38,15 +35,16 @@ public class CheckOutServlet extends HttpServlet {
             e.printStackTrace();
         }
         
-        
-
-
         // jspへの出力データのセット
         CheckOutInfo info = new CheckOutInfo(tableNumber, totalOrderPrice);
         request.setAttribute("checkOutInfo", info);
         
         // jspへフォワード
         request.getRequestDispatcher("/WEB-INF/jsp/checkOut.jsp").forward(request, response);
+        
+        if (session != null) {
+            session.invalidate(); // セッションを破棄
+        }
     }
 
     protected void doGet(HttpServletRequest request, 

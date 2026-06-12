@@ -23,24 +23,16 @@ public class OrderListServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		//セッションが存在しなければnullを返す処理
 		HttpSession session = request.getSession(false);
-		response.setContentType("text/plain");
-		response.setCharacterEncoding("UTF-8");
-
-		//jsに値を返す処理
-		if (session == null || session.getAttribute("tableNumber") == null) {
-			// セッションが切れている場合
-			response.getWriter().write("invalid");
-			System.out.println("invalid");
-		} else {
-			// セッションが有効な場合
-			response.getWriter().write("valid");
-			System.out.println("valid");
-		}
-		
 		OrderListDAO olDAO = new OrderListDAO();
+		
 
+	 // セッションがない、または卓番号などの必須データが消えている場合
+	    if (session == null || session.getAttribute("tableNumber") == null) {
+	        // 即座にエラー画面へ転送する
+	        response.sendRedirect("error.jsp");
+	        return;
+	    }
 
 		// セッションから卓番号を取得
 		String tableNumber = (String) session.getAttribute("tableNumber");
@@ -68,6 +60,7 @@ public class OrderListServlet extends HttpServlet {
 		//logic.calcSubTotal();
 		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/orderList.jsp");
 		dispatcher.forward(request, response);
+
 	}
 
 
