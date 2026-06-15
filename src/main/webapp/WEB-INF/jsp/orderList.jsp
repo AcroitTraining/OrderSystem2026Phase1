@@ -100,7 +100,7 @@ if (tableNum == null) {
 
 											<%-- プラスボタンまたは上限 --%>
 											<c:choose>
-												<c:when test="${item.orderQuantity >= 4 or item.productStock == 0 or (item.toppingStock <= item.toppingQuantity and item.toppingQuantity != null)}">
+												<c:when test="${item.orderQuantity >= 4 or item.productStock == 0 or (item.toppingStock <= item.toppingQuantity and item.toppingQuantity > 0)}">
 													<span class="sold-out-text">上限</span>
 												</c:when>
 												<c:otherwise>

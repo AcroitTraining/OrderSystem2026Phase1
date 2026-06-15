@@ -86,7 +86,6 @@ public class OrderListDAO {
             }
 
 			}catch(SQLException e){
-				System.out.println("OrderList全件取得失敗");
 				e.printStackTrace();
 			}
 			return new ArrayList<>(map.values());
@@ -147,14 +146,8 @@ public class OrderListDAO {
 					int goukei = ol2.getAllOrderPrice();
 
 				}
-
-
-
-
-
 			}catch(SQLException e) {
 				e.printStackTrace();
-				System.out.println("合計DAO失敗");
 			}
 			return ol2;
 		}
@@ -184,7 +177,6 @@ public class OrderListDAO {
 					PreparedStatement ps = conn.prepareStatement(sql);
 					ps.setInt(1, oid);
 					int rs = ps.executeUpdate();
-					System.out.println("stock増加dao");
 				}else {
 					String sql = "UPDATE order_details AS od "
 							+ "LEFT JOIN multiple_toppings AS mt "
@@ -198,10 +190,7 @@ public class OrderListDAO {
 					PreparedStatement ps = conn.prepareStatement(sql);
 					ps.setInt(1, oid);
 					int rs = ps.executeUpdate();
-					System.out.println("stock減少dao");
 				}
-
-
 			}catch(SQLException e) {
 				e.printStackTrace();
 			}
