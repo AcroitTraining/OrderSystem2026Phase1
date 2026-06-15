@@ -1,1 +1,148 @@
-@charset "UTF-8";
+@charset "UTF-8";@charset "UTF-8";
+
+/* =========================================================
+   メインレイアウト・コンテンツ設定
+========================================================= */
+.container {
+	width: 100%;
+	max-width: 450px;
+	box-sizing: border-box;
+	padding-top: 110px;
+	padding-bottom: 185px; /* 合計エリア(100px)＋フッター(85px)分の下部余白 */
+}
+
+.no-history-box {
+	background: #FFD700;
+	padding: 40px 20px;
+	border-radius: 15px;
+	font-size: 1rem;
+	font-weight: bold;
+	text-align: center;
+	margin: 40px 20px;
+}
+
+/* テーブルスタイル */
+.order-table {
+	width: 100%;
+	border-collapse: collapse;
+	background-color: rgba(255,255,255,0.7);
+}
+
+.order-table th {
+	background-color: #F5DEB3;
+	padding: 12px;
+	border: 1px solid #333;
+	font-size: 0.9rem;
+}
+
+.order-table td {
+	padding: 12px;
+	border: 1px solid #ccc;
+	font-size: 0.95rem;
+	vertical-align: middle;
+	background: #fff;
+}
+
+/* =========================================================
+   合計エリア（フッターの真上に完全固定）
+========================================================= */
+.total-area {
+	position: fixed;
+	bottom: 85px; /* フッターの高さの分、上に浮かせる */
+	left: 50%;
+	transform: translateX(-50%);
+	width: 100%;
+	max-width: 450px;
+	height: 100px;
+	text-align: right;
+	padding: 15px 20px;
+	box-sizing: border-box;
+	border-top: 2px solid #333333;
+	background: #FDF5E6; /* 背景色をbodyと同一化 */
+	z-index: 150;
+	line-height: 1.4;
+}
+
+.total-qty-text {
+	font-size: 1.1rem;
+	font-weight: bold;
+	text-decoration: underline;
+}
+
+.total-price {
+	font-size: 1.8rem;
+	font-weight: bold;
+	color: #000000;
+}
+
+/* =========================================================
+   ポップアップ（モーダル）設定
+========================================================= */
+.modal-overlay {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0,0,0,0.7);
+	z-index: 2000;
+	justify-content: center;
+	align-items: center;
+	opacity: 0;
+	transition: opacity 0.3s ease;
+}
+
+.modal-overlay.active {
+	display: flex;
+	opacity: 1;
+}
+
+.modal-content {
+	background: white;
+	width: 85%;
+	max-width: 400px;
+	padding: 30px 20px;
+	border-radius: 15px;
+	text-align: center;
+}
+
+.modal-title {
+	font-size: 1.2rem;
+	font-weight: bold;
+	margin-bottom: 25px;
+	line-height: 1.5;
+}
+
+.btn-group {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+	align-items: center;
+}
+
+.btn-base {
+	width: 85%;
+	padding: 12px;
+	font-size: 1rem;
+	font-weight: bold;
+	border-radius: 8px;
+	cursor: pointer;
+	border: 2px solid #333;
+}
+
+.btn-close {
+	background: white;
+	color: #333;
+}
+
+.btn-yes {
+	background: #ff4757;
+	color: white;
+	border: none;
+}
+
+.btn-no {
+	background: #eee;
+	color: #333;
+}

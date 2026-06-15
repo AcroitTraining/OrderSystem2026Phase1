@@ -120,18 +120,21 @@ footer {
 	padding: 0;
 	vertical-align: middle;
 }
-
-    .footer-btn {
-      flex: 1;
-      border: none;
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-decoration: none;
-      color: inherit;
-    }
+/* フッターボタンのベース共通設定 */
+.btn-footer {
+	width: 100%;
+	height: 85px; 
+	border: none;
+	cursor: pointer;
+	font-size: 12px;
+	font-weight: bold;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 4px 0; /* 画像拡大に伴い内側の余白を少し縮小 */
+	box-sizing: border-box;
+}
     
     /* メニューボタン */
     .btn-menu {
