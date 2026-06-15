@@ -130,18 +130,25 @@ body {
 }
 
 
-/* --- 合計金額エリア --- */
 .total-area {
+	position: fixed;
+	bottom: 85px; /* フッターの真上 */
+	left: 50%;
+	transform: translateX(-50%); /* 中央寄せを厳密化 */
+	width: 100%;
+	max-width: 450px;
+	padding: 10px 20px;
+	box-sizing: border-box;
+	border-top: 2px solid #555555; /* 上の線だけに限定（下の線はフッターの影があるため廃止） */
+	background: #FDF5E6;
 	text-align: right;
-	width: 90%;
-	max-width: 600px;
-	margin: 20px auto;
-	padding: 10px 0;
+	z-index: 150;
 }
 
-.total-price {
-	font-size: 1.6rem;
+.total-text {
+	font-size: 20px;
 	font-weight: bold;
+	color: #000;
 	text-decoration: underline;
 }
 

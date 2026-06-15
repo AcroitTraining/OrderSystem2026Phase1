@@ -16,6 +16,7 @@ if (tableNum == null) {
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>注文リスト画面</title>
 <link rel="stylesheet" href="./css/orderList.css">
+<link rel="stylesheet" href="./css/common.css">
 </head>
 <body>
 
@@ -149,8 +150,8 @@ if (tableNum == null) {
 						</div>
 					</c:forEach>
 
-					<div class="total-box">
-						<div class="price-text">合計：${aop.allOrderPrice}円（税込）</div>
+					<div class="total-area">
+						<div class="total-text">合計：${aop.allOrderPrice}円（税込）</div>
 					</div>
 
 					<footer>

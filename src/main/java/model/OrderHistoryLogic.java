@@ -22,18 +22,26 @@ public class OrderHistoryLogic {
     }
     
     public int showPopUp(List<OrderHistoryInfo> list, String action) {
-        // お会計ボタン押下時のみ判定
-        if (list == null || list.isEmpty() || !"checkOut".equals(action)) {
+    	System.out.println("orderhistory"+list.size());
+    	// リストが空ならポップアップは出さない
+        if (list == null || list.isEmpty()) {
             return 0;
         }
         
-        // 1つでも提供フラグが0（未提供）なら未提供ポップアップ
+        // 【最優先チェック】1つでも提供フラグが0（未提供）なら、
+        // アクションに関係なく（checkOutでもyesでも）絶対に未提供ポップアップを表示する
         for (OrderHistoryInfo item : list) {
             if (item.getOrderFlag() == 0) {
                 return 1;
             }
         }
-        // 全て提供済みならお会計確認ポップアップ
-        return 2;
+        
+        // 全て提供済みで、かつお会計ボタン（最初のボタン）が押されたなら確認ポップアップ
+        if ("checkOut".equals(action)) {
+            return 2;
+        }
+        
+        // それ以外（通常表示や、全て提供済みで「はい」が進むときなど）
+        return 0;
     }
 }
