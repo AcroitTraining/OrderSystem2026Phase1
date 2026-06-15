@@ -169,7 +169,7 @@ if (tableNum == null) {
 								</td>
 								<td width="33%">
 									<form action="OrderCompleteServlet" method="get">
-										<button type="submit" class="btn-footer btn-order">
+										<button type="submit" class="btn-footer btn-order" id="orderBtn">
 											<img src="./image/Vector.png" alt="カートアイコン"><br> <span>注文する</span>
 										</button>
 									</form>
