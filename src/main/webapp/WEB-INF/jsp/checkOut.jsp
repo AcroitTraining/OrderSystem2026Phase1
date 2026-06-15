@@ -14,7 +14,7 @@
 <!-- 見ている画面の範囲 -->
 <meta charset="UTF-8">
 <title>会計完了</title>
-<link rel="stylesheet" href="./css/style.css">
+<link rel="stylesheet" href="./css/common.css">
 </head>
 <body>
 	<header class="header-area">
