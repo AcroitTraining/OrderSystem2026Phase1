@@ -90,6 +90,7 @@ body {
 	padding: 0;
 }
 
+/* ★ここが機能します：4個到達時や売切時のボタン色・クリック不可制御 */
 .btn-qty:disabled {
 	background: #e0e0e0; 
 	color: #b0b0b0;      
@@ -123,7 +124,7 @@ body {
 	max-width: 450px;
 	padding: 12px 20px;
 	box-sizing: border-box;
-	border-top: 2px solid #555555; /* 上の線だけに限定（下の線はフッターの影があるため廃止） */
+	border-top: 2px solid #555555; /* 上の線だけに限定 */
 	background: #FDF5E6;
 	text-align: right;
 	z-index: 150;

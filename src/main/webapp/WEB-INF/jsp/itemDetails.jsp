@@ -48,7 +48,13 @@ if (formAction == null) {
 		<div class="product-main-price"><%= pPrice %>円(税込)</div>
 	</div>
 
-	<% if (showTopping && toppingList != null && !toppingList.isEmpty()) { %>
+	<% if (showTopping && toppingList != null && !toppingList.isEmpty()) { 
+		// 現在のトッピング全体の合計選択数を算出する
+		int totalToppingQty = 0;
+		for (ItemDetailsInfo t : toppingList) {
+			totalToppingQty += t.getToppingQuantity();
+		}
+	%>
 	<div class="topping-area">
 		<div class="topping-title">トッピング</div>
 		<table class="topping-table">
@@ -77,10 +83,15 @@ if (formAction == null) {
 
 					<button type="submit" name="Button" value="-<%= i %>" class="btn-qty" <%= (t.getToppingQuantity() <= 0) ? "disabled" : "" %>>－</button>
 					<span class="qty-text"><%= t.getToppingQuantity() %></span>
-					<button type="submit" name="Button" value="+<%= i %>" class="btn-qty" <%= (t.getToppingQuantity() >= 20) ? "disabled" : "" %>>＋</button>
+					
+					<%-- 全体が4個に達した、または個別在庫の上限に達したら disabled --%>
+					<button type="submit" name="Button" value="+<%= i %>" class="btn-qty" <%= (totalToppingQty >= 4 || t.getToppingQuantity() >= t.getToppingStock()) ? "disabled" : "" %>>＋</button>
 				</form>
 			<% } else { %>
-				<span class="sold-out-text">売切</span>
+				<%-- 売り切れ時はボタンを非表示にし、売切テキストのみ表示 --%>
+				<div class="quantity-form">
+					<span class="sold-out-text">売切</span>
+				</div>
 			<% } %>
 			</td>
 		</tr>
