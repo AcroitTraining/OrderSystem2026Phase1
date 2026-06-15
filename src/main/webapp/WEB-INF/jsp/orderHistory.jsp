@@ -7,8 +7,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>注文履歴</title>
-<link rel="stylesheet" href="./css/common.css">
-<link rel="stylesheet" href="./css/orderHistory.css">
+<link rel="stylesheet" href="./css/common.css?v=3">
+<link rel="stylesheet" href="./css/orderHistory.css?v=3">
 <script src="./js/popupClose.js"></script>
 </head>
 <body>
@@ -67,32 +67,23 @@
 	<footer>
 		<table class="footer-table">
 			<tr>
-				<td width="33%">
-					<button type="button" class="btn-footer btn-green-style" onclick="location.href='ShowMenuServlet'">
-						<img src="./image/menu.png" alt="メニュー"><br>
-						<span>メニュー</span>
-					</button>
+				<td>
+					<button type="button" class="btn-footer btn-green-style" onclick="location.href='ShowMenuServlet'"><img src="./image/menu.png" alt="メニュー"><span>メニュー</span></button>
 				</td>
-				<td width="34%">
+				<td>
 					<div class="table-num">${tableNumber}卓</div>
 				</td>
-				<td width="33%">
+				<td>
 					<c:choose>
 						<c:when test="${not empty orderHistoryList}">
 							<form action="OrderHistoryServlet" method="post" style="margin: 0;">
 								<input type="hidden" name="tableNumber" value="${tableNumber}">
 								<input type="hidden" name="totalOrderPrice" value="${totalOrderPrice}">
-								<button type="submit" name="action" value="checkOut" class="btn-footer btn-orange-style">
-									<img src="./image/menuhistory.png" alt="お会計"><br>
-									<span>お会計</span>
-								</button>
+								<button type="submit" name="action" value="checkOut" class="btn-footer btn-orange-style"><img src="./image/menuhistory.png" alt="お会計"><span>お会計</span></button>
 							</form>
 						</c:when>
 						<c:otherwise>
-							<button type="button" class="btn-footer btn-orange-style" style="opacity: 0.5; cursor: not-allowed;" disabled>
-								<img src="./image/menuhistory.png" alt="お会計"><br>
-								<span>お会計</span>
-							</button>
+							<button type="button" class="btn-footer btn-orange-style" style="opacity: 0.5; cursor: not-allowed;" disabled><img src="./image/menuhistory.png" alt="お会計"><span>お会計</span></button>
 						</c:otherwise>
 					</c:choose>
 				</td>
