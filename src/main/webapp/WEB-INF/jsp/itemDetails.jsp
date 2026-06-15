@@ -31,8 +31,8 @@ if (formAction == null) {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>商品詳細</title>
-<link rel="stylesheet" href="./css/common.css">
-<link rel="stylesheet" href="./css/itemDetails.css">
+<link rel="stylesheet" href="./css/common.css?v=3">
+<link rel="stylesheet" href="./css/itemDetails.css?v=3">
 <script src="./js/windowScaler.js"></script>
 </head>
 <body>
@@ -99,18 +99,15 @@ if (formAction == null) {
 <footer>
 	<table class="footer-table">
 		<tr>
-			<td width="33%">
+			<td>
 				<form action="ShowMenuServlet" method="post">
-					<button type="submit" class="btn-footer btn-green-style">
-						<img src="./image/menu.png" alt="メニューアイコン"><br>
-						<span>メニュー</span>
-					</button>
+					<button type="submit" class="btn-footer btn-green-style"><img src="./image/menu.png" alt="メニューアイコン"><span>メニュー</span></button>
 				</form>
 			</td>
-			<td width="34%">
+			<td>
 				<div class="table-num"><%= tableNum %>卓</div>
 			</td>
-			<td width="33%">
+			<td>
 				<form action="<%= formAction %>" method="post">
 					<input type="hidden" name="productId" value="<%= productId %>">
 					<input type="hidden" name="productName" value="<%= pName %>">
@@ -128,10 +125,7 @@ if (formAction == null) {
 					    }
 					}
 					%>
-					<button type="submit" name="Button" value="追加" class="btn-footer btn-orange-style">
-						<img src="./image/addCart.png" alt="追加アイコン"><br>
-						<span>追加</span>
-					</button>
+					<button type="submit" name="Button" value="追加" class="btn-footer btn-orange-style"><img src="./image/addCart.png" alt="追加アイコン"><span>追加</span></button>
 				</form>
 			</td>
 		</tr>

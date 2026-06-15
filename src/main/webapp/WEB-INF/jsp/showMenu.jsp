@@ -99,7 +99,7 @@ if(currentCategory == null) {
 				<form action="OrderHistoryServlet" method="get">
 					<input type="hidden" name="tableId" value="<%= tableNum %>">
 					<button type="submit" class="btn-footer btn-green-style">
-						<img src="./image/menuhistory.png" alt="履歴アイコン"><br>
+						<img src="./image/menuhistory.png" alt="履歴アイコン">
 						<span>履歴・お会計</span>
 					</button>
 				</form>
@@ -110,8 +110,13 @@ if(currentCategory == null) {
 			<td width="33%">
 				<form action="OrderListServlet" method="get">
 					<button type="submit" class="btn-footer btn-orange-style">
-						<img src="./image/addCart.png" alt="カートアイコン"><br>
-						<span>注文リスト<% if(items > 0){ %> (<%= items %>)<% } %></span>
+						<div class="cart-container">
+							<img src="./image/cart.png" alt="カートアイコン">
+							<% if(items > 0){ %>
+								<span class="badge"><%= items %></span>
+							<% } %>
+						</div>
+						<span>注文リスト</span>
 					</button>
 				</form>
 			</td>

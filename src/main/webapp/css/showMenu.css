@@ -1,6 +1,6 @@
 @charset "UTF-8";
 
-body {
+body {	
 	padding-bottom: 100px; 
 }
 
@@ -126,4 +126,47 @@ body {
 	font-size: 16px;
 	font-weight: bold;
 	color: #555555;
+}
+
+/* ==========================================================================
+   カートバッジ（白丸・赤フチ・赤文字）スタイル設定
+   ========================================================================== */
+
+/* カートアイコンとバッジを包む基準コンテナ */
+.cart-container {
+	position: relative;
+	display: inline-block;
+}
+
+/* 丸通知バッジ（背景：白、数字：赤、フチ：赤） */
+.badge {
+	position: absolute;
+	top: -2px;             /* 52pxアイコンの右上にジャストフィットする位置 */
+	right: -6px;           /* 52pxアイコンの右上にジャストフィットする位置 */
+	
+	background-color: #ffffff; /* バッジ背景：白 */
+	color: #ff3b30;           /* 数字の色：赤 */
+	
+	/* 綺麗な正円を作る設定 */
+	width: 22px;
+	height: 22px;
+	border-radius: 50%;
+	
+	/* 数字を中央にぴったり配置する */
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	
+	/* 文字の設定 */
+	font-size: 12px;
+	font-weight: bold;
+	line-height: 1;
+	
+	/* オレンジ背景の上でも白丸がボヤけないよう、赤いフチを付ける */
+	border: 1.5px solid #ff3b30; 
+	
+	/* 重なり順を最前面に設定 */
+	z-index: 10;
+	user-select: none;
+	box-shadow: 0 1px 3px rgba(0,0,0,0.15); /* 少し立体感を出す薄い影 */
 }

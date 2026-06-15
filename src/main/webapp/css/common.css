@@ -47,11 +47,13 @@ body {
 }
 
 /* =========================
-   下部固定フッター
+   下部固定フッター（隙間ゼロ・3等分完成版）
 ========================= */
 footer {
 	position: fixed;
 	bottom: 0;
+	left: 50%;
+	transform: translateX(-50%);
 	width: 100%;
 	max-width: 450px;
 	background: #ffffff;
@@ -62,53 +64,65 @@ footer {
 .footer-table {
 	width: 100%;
 	border-collapse: collapse;
+	table-layout: fixed;
 	text-align: center;
 }
 
 .footer-table td {
-	height: 85px; 
+	width: 33.333% !important;
+	height: 90px;
 	padding: 0;
 	vertical-align: middle;
 }
 
-/* フッターボタンのベース共通設定 */
-.btn-footer {
+.btn-footer, .table-num {
 	width: 100%;
-	height: 85px; 
-	border: none;
-	cursor: pointer;
-	font-size: 12px;
-	font-weight: bold;
+	height: 90px; 
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	padding: 4px 0; /* 画像拡大に伴い内側の余白を少し縮小 */
+	padding: 0;
 	box-sizing: border-box;
 }
 
-/* フッター内のアイコン画像を45pxに拡大 */
+.btn-footer {
+	border: none;
+	cursor: pointer;
+	font-size: 13px;
+	font-weight: bold;
+	gap: 0px !important;    /* ★画像と文字の間隔を「0」に強制固定 */
+	overflow: visible !important;
+	position: relative;
+}
+
+/* フッター内のアイコン画像設定 */
 .btn-footer img {
-	width: 45px !important; 
-	height: 45px !important;
-	margin-bottom: 2px;
+	width: 60px !important; 
+	height: 60px !important;
+	margin: 0 !important;
+	display: block !important; /* ★画像の下側にブラウザが勝手に作る隙間を消す */
 	object-fit: contain;
 }
 
-/* 中央の卓番号 */
+.btn-footer span {
+	margin: 0 !important;
+	padding: 0 !important;
+	line-height: 1.0 !important; /* ★文字の行高を極限まで詰める */
+}
+
 .table-num {
 	background: #ffffff;
-	height: 85px;
-	line-height: 85px;
 	font-size: 2.2rem;
 	font-weight: bold;
 	color: #000000;
 	border-left: 1px solid #dddddd;
 	border-right: 1px solid #dddddd;
+	line-height: 1;
 }
 
 /* =========================
-   フッターのカラー
+   フッターのカラー設定
 ========================= */
 .btn-green-style {
 	background: #8bf79c !important;

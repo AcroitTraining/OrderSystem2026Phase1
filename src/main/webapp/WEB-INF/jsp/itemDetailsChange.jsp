@@ -33,8 +33,8 @@ if (subTotal == null) {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>商品変更画面</title>
-<link rel="stylesheet" href="./css/common.css">
-<link rel="stylesheet" href="./css/itemDetails.css">
+<link rel="stylesheet" href="./css/common.css?v=3">
+<link rel="stylesheet" href="./css/itemDetails.css?v=3">
 <script src="./js/windowScaler.js"></script>
 </head>
 <body>
@@ -95,18 +95,15 @@ if (subTotal == null) {
 <footer>
 	<table class="footer-table">
 		<tr>
-			<td width="33%">
+			<td>
 				<form action="OrderListServlet" method="get">
-					<button type="submit" class="btn-footer btn-green-style">
-						<img src="./image/addCart.png" alt="注文リストアイコン"><br>
-						<span>注文リスト</span>
-					</button>
+					<button type="submit" class="btn-footer btn-green-style"><img src="./image/addCart.png" alt="注文リストアイコン"><span>注文リスト</span></button>
 				</form>
 			</td>
-			<td width="34%">
+			<td>
 				<div class="table-num"><%= tableNum %>卓</div>
 			</td>
-			<td width="33%">
+			<td>
 				<form action="ItemDetailsChangeServlet" method="post">
 					<input type="hidden" name="mode" value="update">
 					<input type="hidden" name="orderId" value="<%= orderId %>">
@@ -115,10 +112,7 @@ if (subTotal == null) {
 					<input type="hidden" name="oldQty_<%= j %>" value="<%= toppingList.get(j).getToppingQuantity() %>">
 					<%  }
 					} %>
-					<button type="submit" class="btn-footer btn-orange-style">
-						<img src="./image/addCart.png" alt="更新アイコン"><br>
-						<span>更新</span>
-					</button>
+					<button type="submit" class="btn-footer btn-orange-style"><img src="./image/addCart.png" alt="更新アイコン"><span>更新</span></button>
 				</form>
 			</td>
 		</tr>
