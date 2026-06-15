@@ -26,7 +26,7 @@
 		</div>
 
 		<div class="message-area">
-			<strong>いらっしゃいませ！</strong><br>
+			<strong>いらっしゃいませ</strong><br>
 			<span style="color: #555; font-size: 1rem;">人数を設定してください</span>
 		</div>
 
