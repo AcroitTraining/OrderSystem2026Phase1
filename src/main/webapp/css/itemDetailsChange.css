@@ -1,52 +1,14 @@
 @charset "UTF-8";
 
 body {
-	margin: 0;
-	padding-bottom: 180px; /* 下部固定エリアが被らないための余白 */
-	font-family: sans-serif;
-	background: #FDF5E6;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-}
-
-/* =========================
-   header設定 (他画面と完全一致)
-========================= */
-.header-area {
-  width: 100%;
-  max-width: 500px;
-  height: 100px; 
-  position: fixed; 
-  overflow: hidden; 
-  top: 0;            
-  left: 50%;         
-  transform: translateX(-50%); 
-  z-index: 1000;
-}
-
-.bg-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-}
-
-.logo-img {
-  position: absolute; 
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 55%; 
-  max-width: 500px;
-  height: auto;
+	padding-bottom: 160px; 
 }
 
 /* =========================
    メインコンテンツエリア
 ========================= */
 .main-content {
-	margin-top: 100px; 
+	margin-top: 100px;
 	width: 100%;
 	max-width: 450px;
 	box-sizing: border-box;
@@ -94,16 +56,15 @@ body {
 }
 
 .topping-info-cell {
-	padding: 12px 0;
+	padding: 10px 0;
 	font-size: 15px;
 	color: #000;
 }
 
 .topping-action-cell {
-	padding: 12px 0;
-	width: 140px;
+	padding: 10px 0;
+	width: 130px;
 	text-align: right;
-	vertical-align: middle;
 }
 
 .quantity-form {
@@ -113,37 +74,34 @@ body {
 	gap: 8px;
 }
 
-/* 緑色数量ボタン */
 .btn-qty {
-	width: 38px;
-	height: 38px;
+	width: 32px;
+	height: 32px;
 	border: none;
 	border-radius: 4px;
-	background: #55a055;
-	color: #ffffff;
-	font-size: 22px; 
+	background: #55a055; 
+	color: #ffffff;      
+	font-size: 18px;
 	font-weight: bold;
 	cursor: pointer;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	padding: 0;
-	line-height: 1;
 }
 
 .btn-qty:disabled {
-	background: #e0e0e0;
-	color: #b0b0b0;
+	background: #e0e0e0; 
+	color: #b0b0b0;      
 	cursor: not-allowed;
 }
 
 .qty-text {
-	font-size: 20px;
+	font-size: 18px;
 	font-weight: bold;
-	min-width: 30px;
+	min-width: 25px;
 	text-align: center;
 	color: #000;
-	display: inline-block;
 }
 
 .sold-out-text {
@@ -154,25 +112,21 @@ body {
 }
 
 /* =========================
-   下部固定エリア
+   下部固定エリア（小計ボックスを確実にフッター上に固定）
 ========================= */
-.fixed-footer-container {
+.subtotal-box {
 	position: fixed;
-	bottom: 0;
+	bottom: 85px; /* フッターの真上 */
+	left: 50%;
+	transform: translateX(-50%); /* 中央寄せを厳密化 */
 	width: 100%;
 	max-width: 450px;
-	background: #FDF5E6;
-	z-index: 900;
-}
-
-.subtotal-box {
-	width: 100%;
 	padding: 12px 20px;
 	box-sizing: border-box;
-	border-top: 2px solid #555;
-	border-bottom: 2px solid #555;
+	border-top: 2px solid #555555; /* 上の線だけに限定（下の線はフッターの影があるため廃止） */
 	background: #FDF5E6;
 	text-align: right;
+	z-index: 150;
 }
 
 .subtotal-text {
@@ -180,76 +134,4 @@ body {
 	font-weight: bold;
 	color: #000;
 	text-decoration: underline;
-}
-
-/* =========================
-   フッターボタンエリア
-========================= */
-footer {
-	width: 100%;
-	background: #ffffff;
-}
-
-.footer-table {
-	width: 100%;
-	border-collapse: collapse;
-	text-align: center;
-}
-
-.footer-table td {
-	height: 95px; /* ★ボタンの全体のサイズ（高さ）は変えずに固定 */
-	padding: 0;
-	vertical-align: middle;
-}
-
-.btn-footer {
-	width: 100%;
-	height: 100%; 
-	border: none;
-	cursor: pointer;
-	color: #333;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	background: transparent;
-	padding: 2px 0; /* ★内側の上下余白をギリギリまで削って画像を広げるスペースを確保 */
-	box-sizing: border-box;
-}
-
-/* ★ボタンのサイズは変えずに中の画像だけをドカンと大きく変更 */
-.btn-footer img {
-	width: 55px;  /* 42px から 55px に超拡大！ */
-	height: 55px; /* 42px から 55px に超拡大！ */
-	margin-bottom: 1px;
-	object-fit: contain;
-}
-
-.btn-footer span {
-	font-size: 12px; /* 文字サイズはそのままキープ */
-	font-weight: bold;
-	line-height: 1.1;
-}
-
-/* 注文リストに戻るボタン（薄緑） */
-.btn-menu-back {
-	background: #8bf79c;
-}
-
-/* 更新ボタン（オレンジ） */
-.btn-update-trigger {
-	background: #ff8c60;
-	color: white;
-}
-
-/* 中央の卓番号ボックス (ズレなし) */
-.table-num {
-	background: #ffffff;
-	height: 95px; 
-	line-height: 95px;
-	font-size: 2.2rem;
-	font-weight: bold;
-	color: #000;
-	border-left: 1px solid #ddd;
-	border-right: 1px solid #ddd;
 }

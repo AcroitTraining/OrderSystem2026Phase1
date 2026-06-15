@@ -33,7 +33,8 @@ if (subTotal == null) {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>商品変更画面</title>
-<link rel="stylesheet" href="./css/itemDetailsChange.css">
+<link rel="stylesheet" href="./css/common.css">
+<link rel="stylesheet" href="./css/itemDetails.css">
 <script src="./js/windowScaler.js"></script>
 </head>
 <body>
@@ -71,9 +72,7 @@ if (subTotal == null) {
 					<% } %>
 
 					<button type="submit" name="Button" value="-<%= i %>" class="btn-qty" <%= (t.getToppingQuantity() <= 0) ? "disabled" : "" %>>－</button>
-					
 					<span class="qty-text"><%= t.getToppingQuantity() %></span>
-					
 					<button type="submit" name="Button" value="+<%= i %>" class="btn-qty" <%= (t.getToppingQuantity() >= 20) ? "disabled" : "" %>>＋</button>
 				</form>
 			<% } else { %>
@@ -89,45 +88,42 @@ if (subTotal == null) {
 	<% } %>
 </div>
 
-<div class="fixed-footer-container">
-	
-	<div class="subtotal-box">
-		<div class="subtotal-text">小計:<%= subTotal %>円(税込)</div>
-	</div>
-
-	<footer>
-		<table class="footer-table">
-			<tr>
-				<td width="33%">
-					<form action="OrderListServlet" method="get">
-						<button type="submit" class="btn-footer btn-menu-back">
-							<img src="./image/addCart.png" alt="注文リストアイコン"><br>
-							<span>注文リスト</span>
-						</button>
-					</form>
-				</td>
-				<td width="34%">
-					<div class="table-num"><%= tableNum %>卓</div>
-				</td>
-				<td width="33%">
-					<form action="ItemDetailsChangeServlet" method="post">
-						<input type="hidden" name="mode" value="update">
-						<input type="hidden" name="orderId" value="<%= orderId %>">
-						<% if (toppingList != null) {
-						    for (int j = 0; j < toppingList.size(); j++) { %>
-						<input type="hidden" name="oldQty_<%= j %>" value="<%= toppingList.get(j).getToppingQuantity() %>">
-						<%  }
-						} %>
-						<button type="submit" class="btn-footer btn-update-trigger">
-							<img src="./image/addCart.png" alt="更新アイコン"><br>
-							<span>更新</span>
-						</button>
-					</form>
-				</td>
-			</tr>
-		</table>
-	</footer>
+<div class="subtotal-box">
+	<div class="subtotal-text">小計:<%= subTotal %>円(税込)</div>
 </div>
+
+<footer>
+	<table class="footer-table">
+		<tr>
+			<td width="33%">
+				<form action="OrderListServlet" method="get">
+					<button type="submit" class="btn-footer btn-green-style">
+						<img src="./image/addCart.png" alt="注文リストアイコン"><br>
+						<span>注文リスト</span>
+					</button>
+				</form>
+			</td>
+			<td width="34%">
+				<div class="table-num"><%= tableNum %>卓</div>
+			</td>
+			<td width="33%">
+				<form action="ItemDetailsChangeServlet" method="post">
+					<input type="hidden" name="mode" value="update">
+					<input type="hidden" name="orderId" value="<%= orderId %>">
+					<% if (toppingList != null) {
+					    for (int j = 0; j < toppingList.size(); j++) { %>
+					<input type="hidden" name="oldQty_<%= j %>" value="<%= toppingList.get(j).getToppingQuantity() %>">
+					<%  }
+					} %>
+					<button type="submit" class="btn-footer btn-orange-style">
+						<img src="./image/addCart.png" alt="更新アイコン"><br>
+						<span>更新</span>
+					</button>
+				</form>
+			</td>
+		</tr>
+	</table>
+</footer>
 
 </body>
 </html>

@@ -1,14 +1,13 @@
 @charset "UTF-8";
 
 /* 基本レイアウト */
-    body {
+body {
 	margin: 0;
-	padding-bottom: 100px; /* フッターと重ならないための余白 */
 	font-family: sans-serif;
 	background: #FDF5E6;
 	display: flex;
 	flex-direction: column;
-	align-items: center; /* 画面中央にコンテンツを寄せる */
+	align-items: center; 
 }
     .container {
       width: 100%;
@@ -34,36 +33,40 @@
 
     
 /* =========================
-   header設定
+   header設定 (固定看板エリア)
 ========================= */
 .header-area {
-  width: 100%;
-  max-width: 500px;
-  height: 100px; 
-  position: fixed;
-  overflow: hidden;
-  position: fixed;   
-  top: 0;            
-  left: 50%;         
-  transform: translateX(-50%); 
-  z-index: 1000;
+	width: 100%;
+	max-width: 450px; 
+	height: 100px; 
+	position: fixed;
+	top: 0;            
+	left: 50%;         
+	transform: translateX(-50%); 
+	z-index: 1000;
+	overflow: hidden; 
 }
 
 .bg-img {
- width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	object-position: center;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 1; 
 }
 
 .logo-img {
-  position: absolute; 
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 55%; 
-  max-width: 500px;
-  height: auto;
+	position: absolute; 
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%); 
+	width: 55% !important; 
+	height: auto;
+	object-fit: contain;
+	z-index: 2; 
 }
   
     /* テーブルスタイル */
@@ -96,16 +99,28 @@
     }
 
     /* フッター */
-    .footer {
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-      height: 100px;
-      background-color: white;
-      border-top: 1px solid #ccc;
-      display: flex;
-      z-index: 50;
-    }
+footer {
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	max-width: 450px;
+	background: #ffffff;
+	box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+	z-index: 200;
+}
+
+.footer-table {
+	width: 100%;
+	border-collapse: collapse;
+	text-align: center;
+}
+
+.footer-table td {
+	height: 85px; 
+	padding: 0;
+	vertical-align: middle;
+}
+
     .footer-btn {
       flex: 1;
       border: none;

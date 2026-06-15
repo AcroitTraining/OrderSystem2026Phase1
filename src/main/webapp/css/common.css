@@ -1,0 +1,121 @@
+@charset "UTF-8";
+
+body {
+	margin: 0;
+	font-family: sans-serif;
+	background: #FDF5E6;
+	display: flex;
+	flex-direction: column;
+	align-items: center; 
+}
+
+/* =========================
+   header設定 (固定看板エリア)
+========================= */
+.header-area {
+	width: 100%;
+	max-width: 450px; 
+	height: 100px; 
+	position: fixed;
+	top: 0;            
+	left: 50%;         
+	transform: translateX(-50%); 
+	z-index: 1000;
+	overflow: hidden; 
+}
+
+.bg-img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	object-position: center;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 1; 
+}
+
+.logo-img {
+	position: absolute; 
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%); 
+	width: 55% !important; 
+	height: auto;
+	object-fit: contain;
+	z-index: 2; 
+}
+
+/* =========================
+   下部固定フッター
+========================= */
+footer {
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	max-width: 450px;
+	background: #ffffff;
+	box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+	z-index: 200;
+}
+
+.footer-table {
+	width: 100%;
+	border-collapse: collapse;
+	text-align: center;
+}
+
+.footer-table td {
+	height: 85px; 
+	padding: 0;
+	vertical-align: middle;
+}
+
+/* フッターボタンのベース共通設定 */
+.btn-footer {
+	width: 100%;
+	height: 85px; 
+	border: none;
+	cursor: pointer;
+	font-size: 12px;
+	font-weight: bold;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 4px 0; /* 画像拡大に伴い内側の余白を少し縮小 */
+	box-sizing: border-box;
+}
+
+/* フッター内のアイコン画像を45pxに拡大 */
+.btn-footer img {
+	width: 45px !important; 
+	height: 45px !important;
+	margin-bottom: 2px;
+	object-fit: contain;
+}
+
+/* 中央の卓番号 */
+.table-num {
+	background: #ffffff;
+	height: 85px;
+	line-height: 85px;
+	font-size: 2.2rem;
+	font-weight: bold;
+	color: #000000;
+	border-left: 1px solid #dddddd;
+	border-right: 1px solid #dddddd;
+}
+
+/* =========================
+   フッターのカラー
+========================= */
+.btn-green-style {
+	background: #8bf79c !important;
+	color: #333333 !important;
+}
+
+.btn-orange-style {
+	background: #ff8c60 !important;
+	color: #ffffff !important;
+}

@@ -31,6 +31,7 @@ if (formAction == null) {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>商品詳細</title>
+<link rel="stylesheet" href="./css/common.css">
 <link rel="stylesheet" href="./css/itemDetails.css">
 <script src="./js/windowScaler.js"></script>
 </head>
@@ -74,15 +75,9 @@ if (formAction == null) {
 					<input type="hidden" name="oldQty_<%= j %>" value="<%= toppingList.get(j).getToppingQuantity() %>">
 					<% } %>
 
-					<button type="submit" name="Button" value="-<%= i %>" class="btn-qty" <%= (t.getToppingQuantity() <= 0) ? "disabled" : "" %>>
-						－
-					</button>
-					
+					<button type="submit" name="Button" value="-<%= i %>" class="btn-qty" <%= (t.getToppingQuantity() <= 0) ? "disabled" : "" %>>－</button>
 					<span class="qty-text"><%= t.getToppingQuantity() %></span>
-					
-					<button type="submit" name="Button" value="+<%= i %>" class="btn-qty" <%= (t.getToppingQuantity() >= 20) ? "disabled" : "" %>>
-						＋
-					</button>
+					<button type="submit" name="Button" value="+<%= i %>" class="btn-qty" <%= (t.getToppingQuantity() >= 20) ? "disabled" : "" %>>＋</button>
 				</form>
 			<% } else { %>
 				<span class="sold-out-text">売切</span>
@@ -97,54 +92,51 @@ if (formAction == null) {
 	<% } %>
 </div>
 
-<div class="fixed-footer-container">
-	
-	<div class="subtotal-box">
-		<div class="subtotal-text">小計:<%= subTotal %>円(税込)</div>
-	</div>
-
-	<footer>
-		<table class="footer-table">
-			<tr>
-				<td width="33%">
-					<form action="ShowMenuServlet" method="post">
-						<button type="submit" class="btn-footer btn-menu-back">
-							<img src="./image/menu.png" alt="メニューアイコン"><br>
-							<span>メニュー</span>
-						</button>
-					</form>
-				</td>
-				<td width="34%">
-					<div class="table-num"><%= tableNum %>卓</div>
-				</td>
-				<td width="33%">
-					<form action="<%= formAction %>" method="post">
-						<input type="hidden" name="productId" value="<%= productId %>">
-						<input type="hidden" name="productName" value="<%= pName %>">
-						<input type="hidden" name="productPrice" value="<%= pPrice %>">
-						<input type="hidden" name="productCategory" value="<%= category %>">
-						<input type="hidden" name="subTotal" value="<%= subTotal %>">
-						<input type="hidden" name="orderId" value="<%= request.getAttribute("orderId") %>">
-						<input type="hidden" name="mode" value="add">
-						<%
-						if (toppingList != null) {
-						    for (int j = 0; j < toppingList.size(); j++) {
-						%>
-						<input type="hidden" name="oldQty_<%= j %>" value="<%= toppingList.get(j).getToppingQuantity() %>">
-						<%
-						    }
-						}
-						%>
-						<button type="submit" name="Button" value="追加" class="btn-footer btn-add-cart">
-							<img src="./image/addCart.png" alt="追加アイコン"><br>
-							<span>追加</span>
-						</button>
-					</form>
-				</td>
-			</tr>
-		</table>
-	</footer>
+<div class="subtotal-box">
+	<div class="subtotal-text">小計:<%= subTotal %>円(税込)</div>
 </div>
+
+<footer>
+	<table class="footer-table">
+		<tr>
+			<td width="33%">
+				<form action="ShowMenuServlet" method="post">
+					<button type="submit" class="btn-footer btn-green-style">
+						<img src="./image/menu.png" alt="メニューアイコン"><br>
+						<span>メニュー</span>
+					</button>
+				</form>
+			</td>
+			<td width="34%">
+				<div class="table-num"><%= tableNum %>卓</div>
+			</td>
+			<td width="33%">
+				<form action="<%= formAction %>" method="post">
+					<input type="hidden" name="productId" value="<%= productId %>">
+					<input type="hidden" name="productName" value="<%= pName %>">
+					<input type="hidden" name="productPrice" value="<%= pPrice %>">
+					<input type="hidden" name="productCategory" value="<%= category %>">
+					<input type="hidden" name="subTotal" value="<%= subTotal %>">
+					<input type="hidden" name="orderId" value="<%= request.getAttribute("orderId") %>">
+					<input type="hidden" name="mode" value="add">
+					<%
+					if (toppingList != null) {
+					    for (int j = 0; j < toppingList.size(); j++) {
+					%>
+					<input type="hidden" name="oldQty_<%= j %>" value="<%= toppingList.get(j).getToppingQuantity() %>">
+					<%
+					    }
+					}
+					%>
+					<button type="submit" name="Button" value="追加" class="btn-footer btn-orange-style">
+						<img src="./image/addCart.png" alt="追加アイコン"><br>
+						<span>追加</span>
+					</button>
+				</form>
+			</td>
+		</tr>
+	</table>
+</footer>
 
 </body>
 </html>

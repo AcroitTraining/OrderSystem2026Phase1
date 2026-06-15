@@ -1,59 +1,13 @@
 @charset "UTF-8";
 
 body {
-	margin: 0;
-	padding-bottom: 100px; /* フッターと重ならないための余白 */
-	font-family: sans-serif;
-	background: #FDF5E6;
-	display: flex;
-	flex-direction: column;
-	align-items: center; /* 画面中央にコンテンツを寄せる */
+	padding-bottom: 100px; 
 }
 
-/* =========================
-   header設定 (固定看板エリア)
-========================= */
-.header-area {
-	width: 100%;
-	max-width: 450px; /* 下部コンテンツと幅を統一 */
-	height: 100px; 
-	position: fixed;
-	top: 0;            
-	left: 50%;         
-	transform: translateX(-50%); 
-	z-index: 1000;
-	overflow: hidden; /* 木目画像がはみ出さないようにガード */
-}
-
-.bg-img {
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-	object-position: center;
-	position: absolute;
-	top: 0;
-	left: 0;
-	z-index: 1; /* 背景を一番下に */
-}
-
-.logo-img {
-	position: absolute; 
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%); /* 木目看板のちょうど真ん中に配置 */
-	width: 55%; 
-	height: auto;
-	object-fit: contain;
-	z-index: 2; /* 背景画像の上に重ねる */
-}
-
-/* =========================
-   カテゴリ横スクロール
-========================= */
 .category-area {
 	background: #FDF5E6;
-	position: fixed; /* stickyからfixedに変更して位置を完全に固定 */
-	top: 100px; /* ヘッダーのすぐ下に固定 */
+	position: fixed; 
+	top: 100px; 
 	z-index: 100;
 	width: 100%;
 	max-width: 450px;
@@ -64,11 +18,10 @@ body {
 	overflow-y: hidden;
 	-webkit-overflow-scrolling: touch;
 	padding: 10px 0;
-	border-bottom: 2px solid #55a055; /* お店らしい深緑のアンダーライン */
+	border-bottom: 2px solid #55a055; 
 	background: #FDF5E6;
 }
 
-/* スクロールバーを非表示にする */
 .category-wrap::-webkit-scrollbar {
 	display: none;
 }
@@ -85,23 +38,21 @@ body {
 	background: transparent;  
 	font-size: 16px;
 	font-weight: bold;
-	color: #666666; /* 普段の文字色 */
+	color: #666666; 
 	cursor: pointer;
 	padding: 4px 0;
 	outline: none;
 }
 
-/* 現在タップして選択されているカテゴリのスタイル */
 .category-table input.active {
-	color: #55a055;              /* 文字を緑色にする */
-	border-bottom: 3px solid #55a055; /* 足元に太めの緑色の線を引く */
+	color: #55a055;              
+	border-bottom: 3px solid #55a055; 
 }
 
 /* =========================
    商品一覧
 ========================= */
 .product-area {
-	/* ヘッダー(100px) + カテゴリ(約50px)の固定エリアに被らないよう、上部の余白を調整 */
 	margin-top: 160px; 
 	width: 100%;
 	max-width: 450px;
@@ -114,7 +65,6 @@ body {
 	border-collapse: collapse;
 }
 
-/* 各商品行のスタイル（★背景色の変化を削除しました） */
 .product-item-row {
 	border-bottom: 1px solid #e1d3b7;
 	background-color: transparent; 
@@ -124,7 +74,6 @@ body {
 	padding: 22px 0;
 }
 
-/* プラスボタンの右端ラインを一直線に固定 */
 .product-action-cell {
 	padding: 22px 0;
 	width: 55px; 
@@ -143,37 +92,33 @@ body {
 	color: #333333;
 }
 
-/* ＋の画像ボタン（plusButton.png） */
+/* ＋の画像ボタン */
 .btn-img-add {
 	width: 40px;
 	height: 40px;
 	cursor: pointer;
 	vertical-align: middle;
 	object-fit: contain;
-	border-radius: 50%; /* 背景色を丸型に綺麗にくり抜く設定 */
+	border-radius: 50%; 
 	transition: all 0.15s ease-in-out;
 }
 
-/* ★プラスボタン：PCでマウスを乗せたとき */
 .btn-img-add:hover {
-	background-color:  #8bf79c; /* 視認性の高い、温かみのある鮮やかな朱色（オレンジ） */
-	transform: scale(1.1);      /* ボタンを少し大きくして乗ったことをわかりやすく */
+	background-color:  #8bf79c; 
+	transform: scale(1.1);      
 }
 
-/* ★プラスボタン：クリック・スマホでタップした瞬間 */
 .btn-img-add:active {
-	background-color:  #8bf79c; /* タップした瞬間はグッと深い濃いオレンジに */
-	transform: scale(0.92);     /* 押し込まれたような心地よいクリック感 */
+	background-color:  #8bf79c; 
+	transform: scale(0.92);     
 }
 
-/* 売切の画像（soldout.png） */
 .img-sold-out {
 	width: 52px;
 	height: auto;
 	vertical-align: middle;
 }
 
-/* データがない時のメッセージ */
 .no-data-message {
 	width: 100%;
 	text-align: center;
@@ -181,76 +126,4 @@ body {
 	font-size: 16px;
 	font-weight: bold;
 	color: #555555;
-}
-
-/* =========================
-   下部固定フッター
-========================= */
-footer {
-	position: fixed;
-	bottom: 0;
-	width: 100%;
-	max-width: 450px;
-	background: #ffffff;
-	box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
-	z-index: 200;
-}
-
-.footer-table {
-	width: 100%;
-	border-collapse: collapse;
-	text-align: center;
-}
-
-.footer-table td {
-	height: 85px;
-	padding: 0;
-	vertical-align: middle;
-}
-
-/* フッターボタンのベース共通設定 */
-.btn-footer {
-	width: 100%;
-	height: 85px;
-	border: none;
-	cursor: pointer;
-	font-size: 12px;
-	font-weight: bold;
-	color: #333333;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	background: transparent;
-	padding: 8px 0;
-}
-
-.btn-footer img {
-	width: 32px;
-	height: 32px;
-	margin-bottom: 4px;
-	object-fit: contain;
-}
-
-/* 履歴・お会計 */
-.btn-history {
-	background: #8bf79c;
-}
-
-/* 注文リスト */
-.btn-list {
-	background: #ff8c60;
-	color: #ffffff;
-}
-
-/* 中央の卓番号 */
-.table-num {
-	background: #ffffff;
-	height: 85px;
-	line-height: 85px;
-	font-size: 2.2rem;
-	font-weight: bold;
-	color: #000000;
-	border-left: 1px solid #dddddd;
-	border-right: 1px solid #dddddd;
 }
