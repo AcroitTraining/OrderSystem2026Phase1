@@ -13,7 +13,6 @@ import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-// 「/*」で、すべてのサーブレットやJSPへのアクセスをこのフィルターで監視します
 @WebFilter("/*")
 public class DbCheckFilter implements Filter {
     
@@ -30,8 +29,13 @@ public class DbCheckFilter implements Filter {
         
         String requestURI = httpRequest.getRequestURI();
         
-        // 無限ループを防ぐため、エラー画面（error.jsp）へのアクセス時はチェックをスキップする
-        if (requestURI.endsWith("error.jsp")) {
+        // エラー画面、インデックス画面、注文開始画面へのアクセス時はチェックをスキップする
+        if (requestURI.endsWith("error.jsp") || 
+        	requestURI.endsWith("index.jsp") || 
+        	requestURI.endsWith("orderStart.jsp") || 
+        	requestURI.endsWith("OrderStartServlet.jsp") ||
+        	requestURI.endsWith("/")) { // 初期の実行でのチェック防止
+            
             chain.doFilter(request, response);
             return;
         }
@@ -40,7 +44,6 @@ public class DbCheckFilter implements Filter {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             try (Connection conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS)) {
-                //本来の遷移先
                 chain.doFilter(request, response);
             }
         } catch (Exception e) {
