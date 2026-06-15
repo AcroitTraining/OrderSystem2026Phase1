@@ -149,8 +149,8 @@ if (tableNum == null) {
 						</div>
 					</c:forEach>
 
-					<div class="total-area">
-						<span class="total-price">合計：${aop.allOrderPrice}円（税込）</span>
+					<div class="total-box">
+						<div class="price-text">合計：${aop.allOrderPrice}円（税込）</div>
 					</div>
 
 					<footer>
@@ -164,8 +164,7 @@ if (tableNum == null) {
 									</form>
 								</td>
 								<td width="34%">
-									<div class="table-num"><%=tableNum%>卓
-									</div>
+									<div class="table-num"><%=tableNum%>卓</div>
 								</td>
 								<td width="33%">
 									<form action="OrderCompleteServlet" method="get">

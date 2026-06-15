@@ -7,9 +7,7 @@
 <meta charset="UTF-8">
 <title>注文完了画面</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="./css/style.css">
-<script src="./js/popupClose.js"></script>
-<script src="./js/windowScaler.js"></script>
+<link rel="stylesheet" href="./css/common.css">
 </head>
 <body>
 	<header class="header-area">
@@ -17,17 +15,35 @@
 			src="./image/biglogo.png" alt="ロゴ" class="logo-img">
 	</header>
 
-	<h1 align="center">
-		ご注文いただき<br>ありがとうございます。
-	</h1>
-	<h2 align="center">
-		お料理を準備いたしますので<br>しばらくお待ちください
-	</h2>
-</body>
-<div class="footer">
-	<form action="ShowMenuServlet" method="get">
-		<button type="submit" name="Button" value="メニュー" class="btn-menu">メニュー</button>
-		<div class="table-num">${tableNumber}卓</div>
-	</form>
+	<div class="container">
+		<div class="content">
+			<div class="yellow-area">
+
+
+				<font size="4">ご注文いただきありがとうございます。</font> <br>
+				<font size="4"> お料理を準備いたしますので </font><br>
+				<font size="4">しばらくお待ちください</font>
+			</div>
+		</div>
+	</div>
+
+	<footer>
+		<table class="footer-table">
+			<tr>
+				<td width="33%">
+					<button type="button" class="btn-footer btn-green-style"
+						onclick="location.href='ShowMenuServlet'">
+						<img src="./image/menu.png" alt="メニュー"><br> <span>メニュー</span>
+					</button>
+				</td>
+				<td width="34%">
+					<div class="table-num">${tableNumber}卓</div>
+				</td>
+				<td width="34%"></td>
+			</tr>
+		</table>
 	</footer>
+
+</body>
+
 </html>

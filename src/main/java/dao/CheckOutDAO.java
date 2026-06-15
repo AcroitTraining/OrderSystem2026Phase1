@@ -72,7 +72,6 @@ public class CheckOutDAO {
 	}
 
 	private void updateOrderDetails(Connection conn, int sessionId) throws SQLException {
-		System.out.println("session_id: " + sessionId + " の会計フラグを立てます");
 		String sql = 
 				"UPDATE order_details "
 						+ "SET accounting_flag = 1 "
@@ -86,22 +85,18 @@ public class CheckOutDAO {
 	}
 
 	private void closeCurrentSession(Connection conn, int sessionId) throws SQLException {
-		System.out.println("session_id: " + sessionId + " を終了します");
 		String sql = 
 				"UPDATE table_sessions "
 						+ "SET session_status = 'closed', end_time = NOW() "
 						+ "WHERE session_id = ?";
 
 		try (PreparedStatement pStmt = conn.prepareStatement(sql)) {
-			System.out.println("◯");
 			pStmt.setInt(1, sessionId);
 			pStmt.executeUpdate();
-			System.out.println("△");
 		}
 	}
 
 	private void createNewSession(Connection conn, String tableNumber) throws SQLException {
-		System.out.println("テーブル " + tableNumber + " に新しいセッションURLを作成します");
 		String sql = "INSERT INTO table_sessions (table_id, session_status, url_token, guest_count) "
 				+ "VALUES (?, 'inactive', CONCAT(UUID(), '-', SUBSTRING(MD5(RAND()), 1, 8)), 0);";
 
