@@ -1,5 +1,8 @@
 @charset "UTF-8";
 
+/* ==========================================================================
+   全体・ボディ設定
+   ========================================================================== */
 body {
 	margin: 0;
 	font-family: sans-serif;
@@ -9,9 +12,9 @@ body {
 	align-items: center; 
 }
 
-/* =========================
-   header設定 (固定看板エリア)
-========================= */
+/* ==========================================================================
+   header設定 (上部固定看板エリア)
+   ========================================================================== */
 .header-area {
 	width: 100%;
 	max-width: 450px; 
@@ -46,14 +49,14 @@ body {
 	z-index: 2; 
 }
 
-/* =========================
-   下部固定フッター（隙間ゼロ・3等分完成版）
-========================= */
+/* ==========================================================================
+   下部固定フッター（3等分・文字だけ全部黒バージョン）
+   ========================================================================== */
 footer {
 	position: fixed;
 	bottom: 0;
-	left: 50%;
-	transform: translateX(-50%);
+	left: 50%;                  /* 画面中央寄せの基準 */
+	transform: translateX(-50%); /* 画面中央寄せの基準 */
 	width: 100%;
 	max-width: 450px;
 	background: #ffffff;
@@ -64,17 +67,18 @@ footer {
 .footer-table {
 	width: 100%;
 	border-collapse: collapse;
-	table-layout: fixed;
+	table-layout: fixed;        /* 列の幅を一糸乱れぬ完全な3等分にする */
 	text-align: center;
 }
 
 .footer-table td {
-	width: 33.333% !important;
-	height: 90px;
+	width: 33.333% !important;  /* 3つのエリア（セルの幅）を完全に均等固定 */
+	height: 90px;               /* ボタン全体の縦幅をしっかり確保 */
 	padding: 0;
 	vertical-align: middle;
 }
 
+/* フッターボタン・卓番号のベース共通設定（すべて同じ配置システムで中央に揃える） */
 .btn-footer, .table-num {
 	width: 100%;
 	height: 90px; 
@@ -86,31 +90,37 @@ footer {
 	box-sizing: border-box;
 }
 
+/* ボタン専用の設定（文字色を黒に固定し、画像との間隔を限界まで詰める） */
 .btn-footer {
 	border: none;
 	cursor: pointer;
-	font-size: 13px;
+	font-size: 13px;       /* 文字を少しだけクッキリ大きく調整 */
 	font-weight: bold;
-	gap: 0px !important;    /* ★画像と文字の間隔を「0」に強制固定 */
-	overflow: visible !important;
+	color: #000000 !important; /* ★文字色を「黒」に強制統一 */
+	gap: 0px !important;       /* ★画像と文字の間の隙間を強制的にゼロにする */
+	overflow: visible !important; /* カートの通知白丸バッジが削られないようにする */
 	position: relative;
 }
 
-/* フッター内のアイコン画像設定 */
+/* フッター内のアイコン画像設定（元の画像の色に戻しました） */
 .btn-footer img {
-	width: 60px !important; 
-	height: 60px !important;
-	margin: 0 !important;
-	display: block !important; /* ★画像の下側にブラウザが勝手に作る隙間を消す */
+	width: 52px !important;  /* 画像の横幅 */
+	height: 52px !important; /* 画像の縦幅 */
+	margin: 0 !important;    /* ブラウザが勝手に作る余白を完全リセット */
+	display: block !important; /* 画像の下側に生まれる微小な隙間を完全に消す */
 	object-fit: contain;
+	/* filterを削除したため、元画像のカラフルな色で表示されます */
 }
 
+/* ボタン内テキスト（span）の余白・文字色設定 */
 .btn-footer span {
+	color: #000000 !important; /* ★文字色を確実に真っ黒にします */
 	margin: 0 !important;
 	padding: 0 !important;
-	line-height: 1.0 !important; /* ★文字の行高を極限まで詰める */
+	line-height: 1.0 !important; /* 文字の行高を極限まで詰めて画像に近づける */
 }
 
+/* 中央の卓番号（左右のボタンと全く同じ高さ・中央寄せでバランスを完全に統一） */
 .table-num {
 	background: #ffffff;
 	font-size: 2.2rem;
@@ -118,18 +128,16 @@ footer {
 	color: #000000;
 	border-left: 1px solid #dddddd;
 	border-right: 1px solid #dddddd;
-	line-height: 1;
+	line-height: 1;        /* flex配置で上下中央に揃えるため、標準の行高にリセット */
 }
 
-/* =========================
-   フッターのカラー設定
-========================= */
+/* ==========================================================================
+   フッターのボタン背景カラー設定（背景色は元の色を維持）
+   ========================================================================== */
 .btn-green-style {
-	background: #8bf79c !important;
-	color: #333333 !important;
+	background: #8bf79c !important; /* 背景：黄緑 */
 }
 
 .btn-orange-style {
-	background: #ff8c60 !important;
-	color: #ffffff !important;
+	background: #ff8c60 !important; /* 背景：オレンジ */
 }

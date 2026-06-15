@@ -79,11 +79,11 @@
 							<form action="OrderHistoryServlet" method="post" style="margin: 0;">
 								<input type="hidden" name="tableNumber" value="${tableNumber}">
 								<input type="hidden" name="totalOrderPrice" value="${totalOrderPrice}">
-								<button type="submit" name="action" value="checkOut" class="btn-footer btn-orange-style"><img src="./image/menuhistory.png" alt="お会計"><span>お会計</span></button>
+								<button type="submit" name="action" value="checkOut" class="btn-footer btn-orange-style"><img src="./image/history.png" alt="お会計"><span>お会計</span></button>
 							</form>
 						</c:when>
 						<c:otherwise>
-							<button type="button" class="btn-footer btn-orange-style" style="opacity: 0.5; cursor: not-allowed;" disabled><img src="./image/menuhistory.png" alt="お会計"><span>お会計</span></button>
+							<button type="button" class="btn-footer btn-orange-style" style="opacity: 0.5; cursor: not-allowed;" disabled><img src="./image/history.png" alt="お会計"><span>お会計</span></button>
 						</c:otherwise>
 					</c:choose>
 				</td>
