@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
 String tableNum = (String) session.getAttribute("tableNumber");
@@ -18,46 +19,60 @@ if (tableNum == null) {
 </head>
 <body>
 
-<header class="header-area">
-  <img src="./image/木目3.jpg" alt="背景" class="bg-img">
-  <img src="./image/biglogo.png" alt="ロゴ" class="logo-img">
-</header>
+	<header class="header-area">
+		<img src="./image/木目3.jpg" alt="背景" class="bg-img"> <img
+			src="./image/biglogo.png" alt="ロゴ" class="logo-img">
+	</header>
 
 	<div class="container">
 		<div class="content">
 			<c:choose>
 				<%-- リストが空の場合 --%>
 				<c:when test="${empty olList}">
-					<h1>リストは空です。</h1>
-					<div class="footer1">
-						<div class="center"><%=tableNum%>卓</div>
-						<div class="left">
-							<form action="ShowMenuServlet" method="get">
-								<button type="submit" name="Button" value="メニュー">メニュー</button>
-							</form>
-						</div>
-					</div>
+				<div class="yellow-area">
+				<font size="4">リストはからです。</font>
+				</div>
+					
+					<footer>
+						<table class="footer-table">
+							<tr>
+								<td width="33%">
+									<form action="ShowMenuServlet" method="get">
+										<button type="submit" class="btn-footer btn-menu">
+											<img src="./image/menu.png" alt="メニューアイコン"><br> <span>メニュー</span>
+										</button>
+									</form>
+								</td>
+								<td width="34%">
+									<div class="table-num"><%=tableNum%>卓
+									</div>
+								</td>
+								<td width="33%">
+									
+								</td>
+							</tr>
+						</table>
+					</footer>
 				</c:when>
 
 				<%-- リストに商品がある場合 --%>
 				<c:otherwise>
 					<c:forEach var="item" items="${olList}">
 						<div class="order-item-box">
-							
-							<table width="100%" style="padding:5px 10px 0 10px;">
+
+							<table width="100%" style="padding: 5px 10px 0 10px;">
 								<tr>
-									<td align="left">
-										<strong style="font-size:1.2em;">${item.productName}</strong>
+									<td align="left"><strong style="font-size: 1.2em;">${item.productName}</strong>
 									</td>
-									<td align="right" style="font-weight:bold; font-size:1.1em; white-space: nowrap;">
-										${item.productPrice}円
-									</td>
+									<td align="right"
+										style="font-weight: bold; font-size: 1.1em; white-space: nowrap;">
+										${item.productPrice}円</td>
 								</tr>
 							</table>
 
 							<c:if test="${!empty item.toppings}">
 								<c:forEach var="t" items="${item.toppings}">
-									<table width="100%" style="padding:0 10px; color:#555;">
+									<table width="100%" style="padding: 0 10px; color: #555;">
 										<tr>
 											<td align="left">・${t.name}✕${t.quantity}</td>
 											<td align="right"></td>
@@ -66,31 +81,36 @@ if (tableNum == null) {
 								</c:forEach>
 							</c:if>
 
-							<table width="100%" style="padding:10px;">
+							<table width="100%" style="padding: 10px;">
 								<tr>
-									<td align="left" valign="middle">
-										<c:if test="${item.categoryName == 'お好み焼き' or item.categoryName == 'もんじゃ焼き'}">
-											<form action="ItemDetailsChangeServlet" method="get" style="margin:0;">
+									<td align="left" valign="middle"><c:if
+											test="${item.categoryName == 'お好み焼き' or item.categoryName == 'もんじゃ焼き'}">
+											<form action="ItemDetailsChangeServlet" method="get"
+												style="margin: 0;">
 												<input type="hidden" name="oid" value="${item.orderId}">
-												<button type="submit" name="Button" value="変更" class="btn-order-change">変更</button>
+												<button type="submit" name="Button" value="変更"
+													class="btn-order-change">変更</button>
 											</form>
-										</c:if>
-									</td>
-									
+										</c:if></td>
+
 									<td align="right" valign="middle">
 										<div class="quantity-control-group">
 											<%-- 削除またはマイナスボタン --%>
 											<c:choose>
 												<c:when test="${item.orderQuantity == 1}">
-													<form action="OrderRemoveServlet" method="post" style="margin:0;" class="delete-form">
+													<form action="OrderRemoveServlet" method="post"
+														style="margin: 0;" class="delete-form">
 														<input type="hidden" name="oid" value="${item.orderId}">
-														<button type="submit" name="Button" value="削除" class="btn-product-trash">🗑</button>
+														<button type="submit" name="Button" value="削除"
+															class="btn-product-trash">🗑</button>
 													</form>
 												</c:when>
 												<c:otherwise>
-													<form action="OrderListServlet" method="post" style="margin:0;">
+													<form action="OrderListServlet" method="post"
+														style="margin: 0;">
 														<input type="hidden" name="oid" value="${item.orderId}">
-														<button type="submit" name="Button" value="-" class="btn-product-minus">-</button>
+														<button type="submit" name="Button" value="-"
+															class="btn-product-minus">-</button>
 													</form>
 												</c:otherwise>
 											</c:choose>
@@ -100,13 +120,16 @@ if (tableNum == null) {
 
 											<%-- プラスボタンまたは上限 --%>
 											<c:choose>
-												<c:when test="${item.orderQuantity >= 4 or item.productStock == 0 or (item.toppingStock <= item.toppingQuantity and item.toppingQuantity > 0)}">
+												<c:when
+													test="${item.orderQuantity >= 4 or item.productStock == 0 or (item.toppingStock <= item.toppingQuantity and item.toppingQuantity > 0)}">
 													<span class="sold-out-text">上限</span>
 												</c:when>
 												<c:otherwise>
-													<form action="OrderListServlet" method="post" style="margin:0;">
+													<form action="OrderListServlet" method="post"
+														style="margin: 0;">
 														<input type="hidden" name="oid" value="${item.orderId}">
-														<button type="submit" name="Button" value="+" class="btn-product-plus">+</button>
+														<button type="submit" name="Button" value="+"
+															class="btn-product-plus">+</button>
 													</form>
 												</c:otherwise>
 											</c:choose>
@@ -115,12 +138,11 @@ if (tableNum == null) {
 								</tr>
 							</table>
 
-							<table width="100%" style="padding:0 10px 10px 10px;">
+							<table width="100%" style="padding: 0 10px 10px 10px;">
 								<tr>
 									<td align="left"></td>
-									<td align="right" style="font-weight:bold; font-size:1.1em;">
-										小計：${item.subTotal}円
-									</td>
+									<td align="right" style="font-weight: bold; font-size: 1.1em;">
+										小計：${item.subTotal}円</td>
 								</tr>
 							</table>
 
@@ -130,26 +152,44 @@ if (tableNum == null) {
 					<div class="total-area">
 						<span class="total-price">合計：${aop.allOrderPrice}円（税込）</span>
 					</div>
+
+					<footer>
+						<table class="footer-table">
+							<tr>
+								<td width="33%">
+									<form action="ShowMenuServlet" method="get">
+										<button type="submit" class="btn-footer btn-menu">
+											<img src="./image/menu.png" alt="メニューアイコン"><br> <span>メニュー</span>
+										</button>
+									</form>
+								</td>
+								<td width="34%">
+									<div class="table-num"><%=tableNum%>卓
+									</div>
+								</td>
+								<td width="33%">
+									<form action="OrderCompleteServlet" method="get">
+										<button type="submit" class="btn-footer btn-order">
+											<img src="./image/Vector.png" alt="カートアイコン"><br> <span>注文する</span>
+										</button>
+									</form>
+								</td>
+							</tr>
+						</table>
+					</footer>
 				</c:otherwise>
 			</c:choose>
 		</div>
+	</div>
 
-		<div class="footer">
-			<div class="footer-btn btn-menu" onclick="location.href='ShowMenuServlet'">
-				<span style="font-size: 2rem;">↩</span>
-				<strong>メニュー</strong>
-			</div>
-			<div class="table-num"><%=tableNum%>卓</div>
-			<div class="footer-btn btn-order" id="orderBtn">
-				<span style="font-size: 2rem;">✓</span>
-				<strong>注文する</strong>
-			</div>
-		</div>
+
 	</div>
 
 	<div id="deleteModal" class="modal-overlay">
 		<div class="modal-content">
-			<div class="modal-title">この商品を削除します<br>よろしいですか？</div>
+			<div class="modal-title">
+				この商品を削除します<br>よろしいですか？
+			</div>
 			<div class="btn-group">
 				<button type="button" id="cancelDelete" class="btn-base btn-no">いいえ</button>
 				<button type="button" id="confirmDelete" class="btn-base btn-yes">はい</button>
@@ -159,7 +199,9 @@ if (tableNum == null) {
 
 	<div id="orderModal" class="modal-overlay">
 		<div class="modal-content">
-			<div class="modal-title">注文を確定します<br>よろしいですか？</div>
+			<div class="modal-title">
+				注文を確定します<br>よろしいですか？
+			</div>
 			<div class="btn-group">
 				<button type="button" id="cancelOrder" class="btn-base btn-no">いいえ</button>
 				<button type="button" id="confirmOrder" class="btn-base btn-yes">はい</button>

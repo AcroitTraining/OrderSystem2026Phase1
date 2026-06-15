@@ -3,10 +3,12 @@
 /* 基本レイアウト */
 body {
 	margin: 0;
-	padding: 0;
-	font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN",
-		"Hiragino Sans", Meiryo, sans-serif;
-	background-color: #FDF5E6;
+	padding-bottom: 100px; /* フッターと重ならないための余白 */
+	font-family: sans-serif;
+	background: #FDF5E6;
+	display: flex;
+	flex-direction: column;
+	align-items: center; /* 画面中央にコンテンツを寄せる */
 }
 
 .container {
@@ -23,42 +25,58 @@ body {
 	padding-bottom: 120px;
 }
 
+.yellow-area{
+	background-color: #FFD700;
+	margin-top: 110px;
+	text-align: center;
+	width: 80%;
+	max-width: 450px;
+	padding: 20px 20px 20px 20px;
+	border-radius: 15px;
+}
+
+
 /* =========================
    header設定
 ========================= */
 .header-area {
-  width: 100%;
-  max-width: 500px;
-  height: 100px; 
-  position: fixed;
-  overflow: hidden;  
-  top: 0;            
-  left: 50%;         
-  transform: translateX(-50%); 
-  z-index: 1000;
+	width: 100%;
+	max-width: 450px; /* 下部コンテンツと幅を統一 */
+	height: 100px; 
+	position: fixed;
+	top: 0;            
+	left: 50%;         
+	transform: translateX(-50%); 
+	z-index: 1000;
+	overflow: hidden; /* 木目画像がはみ出さないようにガード */
 }
 
 .bg-img {
- width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	object-position: center;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 1; /* 背景を一番下に */
 }
 
 .logo-img {
-  position: absolute; 
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 55%; 
-  max-width: 500px;
-  height: auto;
+	position: absolute; 
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%); /* 木目看板のちょうど真ん中に配置 */
+	width: 55%; 
+	height: auto;
+	object-fit: contain;
+	z-index: 2; /* 背景画像の上に重ねる */
 }
 
 /* --- 商品ごとの区切り外枠ボックス --- */
 .order-item-box {
 	width: 90%;
-	max-width: 600px; /* 広すぎるPC画面でも見本画像のようにコンパクトに保つ */
+	max-width: 450px; /* 広すぎるPC画面でも見本画像のようにコンパクトに保つ */
 	margin: 15px auto 0 auto;
 	border-bottom: 1px solid #ccc; /* 商品ごとの区切り線 */
 	box-sizing: border-box;
@@ -127,19 +145,64 @@ body {
 	text-decoration: underline;
 }
 
-/* --- 固定フッター --- */
-.footer {
+/* フッターボタンのベース共通設定 */
+footer {
 	position: fixed;
 	bottom: 0;
-	left: 0;
 	width: 100%;
-	height: 100px;
-	background-color: white;
-	border-top: 2px solid #333;
-	display: flex;
-	z-index: 50;
+	max-width: 450px;
+	background: #ffffff;
+	box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+	z-index: 200;
 }
 
+.footer-table {
+	width: 100%;
+	border-collapse: collapse;
+	text-align: center;
+}
+
+.footer-table td {
+	height: 85px;
+	padding: 0;
+	vertical-align: middle;
+}
+
+
+.btn-footer {
+	width: 100%;
+	height: 85px;
+	border: none;
+	cursor: pointer;
+	font-size: 12px;
+	font-weight: bold;
+	color: #333333;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	background: transparent;
+	padding: 8px 0;
+}
+
+.btn-footer img {
+	width: 32px;
+	height: 32px;
+	margin-bottom: 4px;
+	object-fit: contain;
+}
+
+/* 中央の卓番号 */
+.table-num {
+	background: #ffffff;
+	height: 85px;
+	line-height: 85px;
+	font-size: 2.2rem;
+	font-weight: bold;
+	color: #000000;
+	border-left: 1px solid #dddddd;
+	border-right: 1px solid #dddddd;
+}
 .footer-btn {
 	flex: 1;
 	border: none;
@@ -154,17 +217,7 @@ body {
 .btn-menu { background-color: #A0FFA0; }
 .btn-order { background-color: #FF8C60; color: white; }
 
-.table-num {
-	flex: 1;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	font-size: 2rem;
-	font-weight: bold;
-	border-left: 1px solid #ccc;
-	border-right: 1px solid #ccc;
-	background-color: #fff;
-}
+
 
 /* ================================================================= */
 /* ★ モーダルポップアップ（JavaScript制御用スタイル） */
@@ -176,7 +229,7 @@ body {
 	left: 0;
 	width: 100%;
 	height: 100%;
-	background: rgba(0, 0, 0, 0.6); /* 薄暗い背景 */
+	background: rgba(0, 0, 0, 0.6);
 	z-index: 1000;
 	justify-content: center;
 	align-items: center;
@@ -194,7 +247,7 @@ body {
 .modal-content {
 	background: white;
 	width: 80%;
-	max-width: 300px; /* 見本画像に合わせたコンパクトサイズ */
+	max-width: 300px; 
 	padding: 35px 25px;
 	border-radius: 6px;
 	text-align: center;
@@ -226,7 +279,7 @@ body {
 
 /* ポップアップ内ボタンの基本共通設定 */
 .btn-base {
-	width: 110px;       /* 枠線のサイズ感 */
+	width: 110px;
 	padding: 10px 0;
 	font-size: 1.05rem;
 	font-weight: bold;
@@ -236,14 +289,14 @@ body {
 	box-sizing: border-box;
 }
 
-/* いいえボタン（上側：白背景に太い黒枠線） */
+/* いいえボタン */
 .btn-no {
 	background-color: #ffffff;
 	color: #000000;
 	border: 3px solid #000000;
 }
 
-/* はいボタン（下側：鮮やかな赤背景に白文字、黒の細枠） */
+/* はいボタン */
 .btn-yes {
 	background-color: #ff0000;
 	color: #ffffff;

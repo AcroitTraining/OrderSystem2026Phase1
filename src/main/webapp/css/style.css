@@ -2,11 +2,14 @@
 
 /* 基本レイアウト */
     body {
-      margin: 0;
-      padding: 0; 
-      font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
-      background-color: #FDF5E6;
-    }
+	margin: 0;
+	padding-bottom: 100px; /* フッターと重ならないための余白 */
+	font-family: sans-serif;
+	background: #FDF5E6;
+	display: flex;
+	flex-direction: column;
+	align-items: center; /* 画面中央にコンテンツを寄せる */
+}
     .container {
       width: 100%;
       min-height: 100vh;
@@ -18,6 +21,17 @@
       overflow-y: auto;
       padding-bottom: 120px;
     }
+    
+    .yellow-area{
+	background-color: #FFD700;
+	margin-top: 110px;
+	text-align: center;
+	width: 80%;
+	max-width: 450px;
+	padding: 20px 20px 20px 20px;
+	border-radius: 15px;
+}
+
     
 /* =========================
    header設定
