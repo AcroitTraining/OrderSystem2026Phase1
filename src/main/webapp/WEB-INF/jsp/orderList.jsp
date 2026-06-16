@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%
 String tableNum = (String) session.getAttribute("tableNumber");
 if (tableNum == null) {
@@ -143,7 +144,8 @@ if (tableNum == null) {
 								<tr>
 									<td align="left"></td>
 									<td align="right" style="font-weight: bold; font-size: 1.1em;">
-										小計：${item.subTotal}円</td>
+									小計：<fmt:formatNumber value="${item.subTotal}" pattern="#,###"/>円
+
 								</tr>
 							</table>
 
@@ -151,7 +153,7 @@ if (tableNum == null) {
 					</c:forEach>
 
 					<div class="total-area">
-						<div class="total-text">合計：${aop.allOrderPrice}円（税込）</div>
+						<div class="total-text">合計：<fmt:formatNumber value="${aop.allOrderPrice}" pattern="#,###"/>円（税込）</div>
 					</div>
 
 					<footer>
