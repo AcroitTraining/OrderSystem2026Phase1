@@ -47,7 +47,8 @@ if (subTotal == null) {
 <div class="main-content">
 	<div class="product-header-box">
 		<div class="product-main-name"><%= productName %></div>
-		<div class="product-main-price"><%= productPrice %>円(税込)</div>
+		<%-- ★3桁カンマ区切りに変更 --%>
+		<div class="product-main-price"><%= String.format("%,d", productPrice) %>円(税込)</div>
 	</div>
 
 	<% if (toppingList != null && !toppingList.isEmpty()) { 
@@ -67,7 +68,8 @@ if (subTotal == null) {
 		<tr class="topping-item-row">
 			<td align="left" valign="middle" class="topping-info-cell">
 				<span class="topping-name"><%= t.getToppingName() %> ： </span>
-				<span class="topping-price"><%= t.getToppingPrice() %>円</span>
+				<%-- ★3桁カンマ区切りに変更 --%>
+				<span class="topping-price"><%= String.format("%,d", t.getToppingPrice()) %>円</span>
 			</td>
 			<td align="right" valign="middle" class="topping-action-cell">
 			<% if (t.getToppingStock() > 0) { %>
@@ -100,7 +102,8 @@ if (subTotal == null) {
 </div>
 
 <div class="subtotal-box">
-	<div class="subtotal-text">小計:<%= subTotal %>円(税込)</div>
+	<%-- ★3桁カンマ区切りに変更 --%>
+	<div class="subtotal-text">小計:<%= String.format("%,d", subTotal) %>円(税込)</div>
 </div>
 
 <footer>

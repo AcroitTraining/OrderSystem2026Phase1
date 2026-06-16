@@ -45,7 +45,8 @@ if (formAction == null) {
 <div class="main-content">
 	<div class="product-header-box">
 		<div class="product-main-name"><%= pName %></div>
-		<div class="product-main-price"><%= pPrice %>円(税込)</div>
+		<%-- ★①商品価格に3桁カンマを追加 --%>
+		<div class="product-main-price"><%= String.format("%,d", pPrice) %>円(税込)</div>
 	</div>
 
 	<% if (showTopping && toppingList != null && !toppingList.isEmpty()) { 
@@ -65,7 +66,8 @@ if (formAction == null) {
 		<tr class="topping-item-row">
 			<td align="left" valign="middle" class="topping-info-cell">
 				<span class="topping-name"><%= t.getToppingName() %> ： </span>
-				<span class="topping-price"><%= t.getToppingPrice() %>円</span>
+				<%-- ★②トッピング価格に3桁カンマを追加 --%>
+				<span class="topping-price"><%= String.format("%,d", t.getToppingPrice()) %>円</span>
 			</td>
 			<td align="right" valign="middle" class="topping-action-cell">
 			<% if (t.getToppingStock() > 0) { %>
@@ -104,7 +106,8 @@ if (formAction == null) {
 </div>
 
 <div class="subtotal-box">
-	<div class="subtotal-text">小計:<%= subTotal %>円(税込)</div>
+	<%-- ★③最下部の小計に3桁カンマを追加 --%>
+	<div class="subtotal-text">小計:<%= String.format("%,d", subTotal) %>円(税込)</div>
 </div>
 
 <footer>

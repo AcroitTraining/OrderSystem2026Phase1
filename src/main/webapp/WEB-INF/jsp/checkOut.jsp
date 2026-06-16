@@ -26,7 +26,7 @@
 		<br> <font size="4">ご利用ありがとうございます</font><br>
 		<br> <font size="5"><b><%= tableNum %>卓</b></font><br>
 		<!-- 卓番号表示 -->
-		<font size="5"><u><b>合計：<%= totalPrice %>円(税込)
+		<font size="5"><u><b>合計：<%= String.format("%,d", totalPrice) %>円(税込)
 			</b></u></font>
 		<!-- 合計金額表示 -->
 	</div>

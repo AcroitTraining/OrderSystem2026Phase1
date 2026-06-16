@@ -22,9 +22,7 @@ public class ItemDetailsChangeServlet extends HttpServlet {
             throws ServletException, IOException {
         
         HttpSession session = request.getSession(false);
-        // セッションがない、または卓番号などの必須データが消えている場合
         if (session == null || session.getAttribute("tableNumber") == null) {
-            // 即座にエラー画面へ転送する
             response.sendRedirect("error.jsp");
             return;
         }
@@ -90,10 +88,8 @@ public class ItemDetailsChangeServlet extends HttpServlet {
             int index = Integer.parseInt(button.substring(1));
             String action = button.startsWith("+") ? "plus" : "minus";
             
-            // ① 数量を変更する
             logic.calcToppingQuantity(toppingList, index, action);
             
-            // ② 変更された最新の数量を元に、小計を計算する（★ここがポイントです）
             int subTotal = logic.calcSubTotal(
                     ol.getProductPrice(),
                     toppingList);
@@ -108,9 +104,9 @@ public class ItemDetailsChangeServlet extends HttpServlet {
             return;
         }
 
-        // 3. ★変更ボタンでDBを更新（同時にストックも連動変更）
+        // 3. ★変更ボタンでDBを更新
         if ("update".equals(mode)) {
-            // ここでも最新の数量から小計を割り出す
+            // 最新のトッピング状態から小計(subTotal)を算出する
             int subTotal = logic.calcSubTotal(
                     ol.getProductPrice(),
                     toppingList);
@@ -125,26 +121,25 @@ public class ItemDetailsChangeServlet extends HttpServlet {
                 // 0 → 1以上（新規追加：INSERT）
                 if (dbQty == 0 && screenQty > 0) {
                     dao.insertTopping(orderId, screen.getToppingId(), screenQty);
-                    // 在庫マイナス
                     dao.updateToppingStock(screen.getToppingId(), screenQty);
                 }
                 // 1以上 → 0（完全削除：DELETE）
                 else if (dbQty > 0 && screenQty == 0) {
                     dao.deleteTopping(orderId, screen.getToppingId());
-                    // 在庫プラス
                     dao.updateToppingStock(screen.getToppingId(), -dbQty);
                 }
                 // 1以上 → 別の数量（数量変更：UPDATE）
                 else if (dbQty > 0 && screenQty > 0 && dbQty != screenQty) {
-                    dao.updateToppingQuantity(orderId, subTotal, screen.getToppingId(), screenQty);
+                    dao.updateToppingQuantity(orderId, screen.getToppingId(), screenQty);
                     
-                    // 差分を計算
                     int diff = screenQty - dbQty;
                     dao.updateToppingStock(screen.getToppingId(), diff);
                 }
             }
 
-            // 完了後は注文リストへ
+            // ★ここで計算された小計(subTotal)を使って、order_detailsテーブルのorder_priceを一括更新します
+            dao.updateOrderPrice(orderId, subTotal);
+
             response.sendRedirect("OrderListServlet");
             return;
         }
