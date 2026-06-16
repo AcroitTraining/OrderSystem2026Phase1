@@ -123,7 +123,7 @@ footer {
 
 /* ボタン内テキスト（span）の余白・文字色設定 */
 .btn-footer span {
-	color: #000000 !important; /* ★文字色を確実に真っ黒にします */
+	color: #000000 !important; /* 文字色を確実に真っ黒にします */
 	margin: 0 !important;
 	padding: 0 !important;
 	line-height: 1.0 !important; /* 文字の行高を極限まで詰めて画像に近づける */

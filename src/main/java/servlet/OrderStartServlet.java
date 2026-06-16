@@ -29,7 +29,6 @@ public class OrderStartServlet extends HttpServlet {
 		String guestCountStr = request.getParameter("guestCount");
 		String action = request.getParameter("action"); // ボタンの識別用
 		int tableId = Integer.parseInt(tableIdStr);
-		System.out.println(guestCountStr);
 		int guestCount = (guestCountStr == null) ? 1 : Integer.parseInt(guestCountStr);
 
 		OrderStartLogic logic = new OrderStartLogic();

@@ -68,7 +68,7 @@ if (subTotal == null) {
 		<tr class="topping-item-row">
 			<td align="left" valign="middle" class="topping-info-cell">
 				<span class="topping-name"><%= t.getToppingName() %> ： </span>
-				<%-- ★3桁カンマ区切りに変更 --%>
+				<%-- 3桁カンマ区切りに変更 --%>
 				<span class="topping-price"><%= String.format("%,d", t.getToppingPrice()) %>円</span>
 			</td>
 			<td align="right" valign="middle" class="topping-action-cell">
@@ -102,7 +102,7 @@ if (subTotal == null) {
 </div>
 
 <div class="subtotal-box">
-	<%-- ★3桁カンマ区切りに変更 --%>
+	<%-- 3桁カンマ区切りに変更 --%>
 	<div class="subtotal-text">小計:<%= String.format("%,d", subTotal) %>円(税込)</div>
 </div>
 

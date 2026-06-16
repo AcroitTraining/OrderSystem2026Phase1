@@ -44,7 +44,7 @@ public class ShowMenuDAO {
         return productList;
     }
 
-    // 🔥 修正版：session_id + order_flag=0 件数取得
+    // session_id + order_flag=0 件数取得
     public int getOrderItemCount(String sessionId) {
         int count = 0;
         String sql = "SELECT SUM(product_quantity) AS cnt "
@@ -54,7 +54,7 @@ public class ShowMenuDAO {
             Class.forName("com.mysql.cj.jdbc.Driver");
             try (Connection conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS);
                  PreparedStatement ps = conn.prepareStatement(sql)) {
-                // 🔥 ここ重要：DBがINTなら変換
+                // DBがINTなら変換
                 ps.setInt(1, Integer.parseInt(sessionId));
                 ResultSet rs = ps.executeQuery();
                 if (rs.next()) {

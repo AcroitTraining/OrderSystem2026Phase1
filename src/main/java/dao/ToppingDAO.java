@@ -97,8 +97,6 @@ public class ToppingDAO {
             e.printStackTrace();
         }
     }
-
-    // ★修正：ps.setLong から ps.setInt に直しました
     public void updateOrderPrice(int orderId, int orderPrice) {
         String sql =
             "UPDATE order_details " +

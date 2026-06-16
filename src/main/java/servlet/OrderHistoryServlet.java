@@ -66,7 +66,6 @@ public class OrderHistoryServlet extends HttpServlet {
             int totalOrderPrice = logic.calcTotalOrderPrice(orderHistoryList);
             int totalOrderQuantity = logic.calcTotalOrderQuantity(orderHistoryList);
             int popupStatus = logic.showPopUp(olList, orderHistoryList, action);
-            System.out.println("popupStatus"+popupStatus);
             // お会計確定処理 (「はい」が押された場合)
             if ("yes".equals(action) && popupStatus != 1) {
                 dao.updateAccountingFlag(sessionId); 

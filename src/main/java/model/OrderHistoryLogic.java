@@ -22,7 +22,6 @@ public class OrderHistoryLogic {
     }
     
     public int showPopUp(List<OrderListInfo> list, List<OrderHistoryInfo> list2,  String action) {
-        System.out.println("orderhistory size: " + list.size() + ", action: " + action);
         
         // リストが空、または「お会計」ボタンが押されていない通常表示時はポップアップを出さない
         if (list2 == null || !"checkOut".equals(action)) {

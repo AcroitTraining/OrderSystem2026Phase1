@@ -86,7 +86,7 @@ public class ItemDetailsServlet extends HttpServlet {
         // ベースとなるリストを一度取得
         List<ItemDetailsInfo> tList = dao.findToppingListByOrderId(0);
 
-        // ★数量復元（画面から送られてきた各トッピングの数量をtListに同期させる）
+        // 数量復元（画面から送られてきた各トッピングの数量をtListに同期させる）
         for (int i = 0; i < tList.size(); i++) {
             String qty = request.getParameter("oldQty_" + i);
             if (qty != null) {
@@ -140,7 +140,7 @@ public class ItemDetailsServlet extends HttpServlet {
                         // multiple_toppings に注文データを追加
                         dao.insertMutipleToppings(toppingId, qty, orderId);
 
-                        // ご指定通り、選択された数量(qty)と対象のID(toppingId)でストックを直接減算
+                        // 選択された数量(qty)と対象のID(toppingId)でストックを直接減算
                         dao.updateToppingStock(toppingId, qty);
                     }
                 }

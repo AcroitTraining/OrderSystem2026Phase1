@@ -124,7 +124,7 @@ public class ToppingListDAO {
         return false;
     }
 
-    // ★修正：トッピングの在庫を指定された quantity と topping_id で直接減算する
+    // トッピングの在庫を指定された quantity と topping_id で直接減算する
     public boolean updateToppingStock(int toppingId, int quantity) {
         String sql =
             "UPDATE topping " +

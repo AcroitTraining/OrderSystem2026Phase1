@@ -104,7 +104,7 @@ public class ItemDetailsChangeServlet extends HttpServlet {
             return;
         }
 
-        // 3. ★変更ボタンでDBを更新
+        // 3. 変更ボタンでDBを更新
         if ("update".equals(mode)) {
             // 最新のトッピング状態から小計(subTotal)を算出する
             int subTotal = logic.calcSubTotal(
@@ -136,8 +136,6 @@ public class ItemDetailsChangeServlet extends HttpServlet {
                     dao.updateToppingStock(screen.getToppingId(), diff);
                 }
             }
-
-            // ★ここで計算された小計(subTotal)を使って、order_detailsテーブルのorder_priceを一括更新します
             dao.updateOrderPrice(orderId, subTotal);
 
             response.sendRedirect("OrderListServlet");

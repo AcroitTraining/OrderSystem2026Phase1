@@ -19,8 +19,6 @@
 		<img src="./image/木目3.jpg" alt="背景" class="bg-img">
 		<img src="./image/biglogo.png" alt="ロゴ" class="logo-img">
 	</header>
-
-	<div class="guest-container">
 		<div class="yellow-area">
 			<%= tableNumber %>卓
 		</div>
@@ -50,7 +48,6 @@
 				注文開始
 			</button>
 		</form>
-	</div>
 
 </body>
 </html>
