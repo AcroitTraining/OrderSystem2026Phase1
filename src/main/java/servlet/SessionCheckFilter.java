@@ -39,8 +39,13 @@ public class SessionCheckFilter implements Filter {
 		HttpSession session = httpRequest.getSession(false);
 
 		if (session == null) {
+			
+			HttpSession newSession = httpRequest.getSession(true);
+			newSession.setAttribute("errorMessage", "セッションの有効期限が切れたか、不正なアクセスです。もう一度最初からやり直してください。");
+			
 			// セッションがない（または切れている）場合はエラー画面へ強制遷移
 			httpResponse.sendRedirect(httpRequest.getContextPath() + "/error.jsp");
+			
 		} else {
 			// セッションがあれば正常に次の処理（サーブレットやJSP）へ進む
 			chain.doFilter(request, response);

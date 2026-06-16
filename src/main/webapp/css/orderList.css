@@ -4,7 +4,13 @@
 .blank{
 	position: static;
 	width: 100%;
-	height: 110px;
+	height: 100px;
+}
+
+.blank2{
+	position: static;
+	width: 100%;
+	height: 135px;
 }
 
 

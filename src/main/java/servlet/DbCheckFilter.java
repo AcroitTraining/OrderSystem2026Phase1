@@ -47,7 +47,9 @@ public class DbCheckFilter implements Filter {
                 chain.doFilter(request, response);
             }
         } catch (Exception e) {
-            e.printStackTrace(); 
+            e.printStackTrace();
+            String errorMsg = e.getMessage() != null ? e.getMessage() : e.toString();
+            httpRequest.getSession().setAttribute("errorMessage", errorMsg);
             httpResponse.sendRedirect(httpRequest.getContextPath() + "/error.jsp");
         }
     }

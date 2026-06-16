@@ -24,7 +24,7 @@ if (tableNum == null) {
 		<img src="./image/木目3.jpg" alt="背景" class="bg-img"> <img
 			src="./image/biglogo.png" alt="ロゴ" class="logo-img">
 	</header>
-	<div class ="blank"></div>
+	<div class="blank"></div>
 	<c:choose>
 		<%-- リストが空の場合 --%>
 		<c:when test="${empty olList}">
@@ -141,13 +141,14 @@ if (tableNum == null) {
 							<td align="right" style="font-weight: bold; font-size: 1.1em;">
 								小計：<fmt:formatNumber value="${item.subTotal}" pattern="#,###" />円
 
+
 							
 						</tr>
 					</table>
 
 				</div>
 			</c:forEach>
-
+			<div class="blank2"></div>
 			<div class="total-area">
 				<div class="total-text">
 					合計：
