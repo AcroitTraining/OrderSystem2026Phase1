@@ -1,80 +1,17 @@
 @charset "UTF-8";
 
 /* 基本レイアウト */
-body {
-	margin: 0;
-	padding-bottom: 100px; /* フッターと重ならないための余白 */
-	font-family: sans-serif;
-	background: #FDF5E6;
-	display: flex;
-	flex-direction: column;
-	align-items: center; /* 画面中央にコンテンツを寄せる */
-}
-
-.container {
+.blank{
+	position: static;
 	width: 100%;
-	min-height: 100vh;
-	display: flex;
-	flex-direction: column;
-	margin-top: 100px;
-}
-
-.content {
-	flex-grow: 1;
-	overflow-y: auto;
-	padding-bottom: 120px;
-}
-
-.yellow-area{
-	background-color: #FFD700;
-	margin-top: 110px;
-	text-align: center;
-	width: 80%;
-	max-width: 450px;
-	padding: 20px 20px 20px 20px;
-	border-radius: 15px;
+	height: 110px;
 }
 
 
-/* =========================
-   header設定
-========================= */
-.header-area {
-	width: 100%;
-	max-width: 450px; /* 下部コンテンツと幅を統一 */
-	height: 100px; 
-	position: fixed;
-	top: 0;            
-	left: 50%;         
-	transform: translateX(-50%); 
-	z-index: 1000;
-	overflow: hidden; /* 木目画像がはみ出さないようにガード */
-}
-
-.bg-img {
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-	object-position: center;
-	position: absolute;
-	top: 0;
-	left: 0;
-	z-index: 1; /* 背景を一番下に */
-}
-
-.logo-img {
-	position: absolute; 
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%); /* 木目看板のちょうど真ん中に配置 */
-	width: 55%; 
-	height: auto;
-	object-fit: contain;
-	z-index: 2; /* 背景画像の上に重ねる */
-}
 
 /* --- 商品ごとの区切り外枠ボックス --- */
 .order-item-box {
+	position: relative;
 	width: 90%;
 	max-width: 450px; /* 広すぎるPC画面でも見本画像のようにコンパクトに保つ */
 	margin: 15px auto 0 auto;
@@ -152,74 +89,7 @@ body {
 	text-decoration: underline;
 }
 
-/* フッターボタンのベース共通設定 */
-footer {
-	position: fixed;
-	bottom: 0;
-	width: 100%;
-	max-width: 450px;
-	background: #ffffff;
-	box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
-	z-index: 200;
-}
-
-.footer-table {
-	width: 100%;
-	border-collapse: collapse;
-	text-align: center;
-}
-
-.footer-table td {
-	height: 85px;
-	padding: 0;
-	vertical-align: middle;
-}
-
-
-.btn-footer {
-	width: 100%;
-	height: 85px;
-	border: none;
-	cursor: pointer;
-	font-size: 12px;
-	font-weight: bold;
-	color: #333333;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	background: transparent;
-	padding: 8px 0;
-}
-
-.btn-footer img {
-	width: 32px;
-	height: 32px;
-	margin-bottom: 4px;
-	object-fit: contain;
-}
-
-/* 中央の卓番号 */
-.table-num {
-	background: #ffffff;
-	height: 85px;
-	line-height: 85px;
-	font-size: 2.2rem;
-	font-weight: bold;
-	color: #000000;
-	border-left: 1px solid #dddddd;
-	border-right: 1px solid #dddddd;
-}
-.footer-btn {
-	flex: 1;
-	border: none;
-	cursor: pointer;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	color: #333;
-}
+/*ッターボタンカラー*/
 
 .btn-menu { background-color: #A0FFA0; }
 .btn-order { background-color: #FF8C60; color: white; }
