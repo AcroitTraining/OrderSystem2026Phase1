@@ -9,9 +9,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport"
-	content="width=device-width, initial-scale=1.0, user-scalable=no">
-<!-- 見ている画面の範囲 -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta http-equiv="refresh" content="10">
 <meta charset="UTF-8">
 <title>会計完了</title>
 <link rel="stylesheet" href="./css/common.css">
@@ -25,10 +24,8 @@
 		<font size="4">会計が確定されました</font><br>
 		<br> <font size="4">ご利用ありがとうございます</font><br>
 		<br> <font size="5"><b><%= tableNum %>卓</b></font><br>
-		<!-- 卓番号表示 -->
 		<font size="5"><u><b>合計：<%= String.format("%,d", totalPrice) %>円(税込)
 			</b></u></font>
-		<!-- 合計金額表示 -->
 	</div>
 	</tr>
 	<tr>
