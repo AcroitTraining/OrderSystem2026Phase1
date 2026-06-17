@@ -55,11 +55,15 @@ public class OrderStartServlet extends HttpServlet {
 			// jspへ値を戻す
 			request.setAttribute("tableNumber", tableId);
 			request.setAttribute("guestCount", guestCount);
+			
+			if ("true".equals(request.getParameter("ajax"))) {
+		        response.setContentType("text/plain;charset=UTF-8");
+		        response.getWriter().print(guestCount);
+		        return;
+		    }
 
 			RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/orderStart.jsp");
 			dispatcher.forward(request, response);
 		}
 	}
-
-
 }

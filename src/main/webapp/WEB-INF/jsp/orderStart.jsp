@@ -8,13 +8,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<meta http-equiv="refresh" content="10">
 <title>注文開始</title>
 <link rel="stylesheet" href="./css/common.css">
 <link rel="stylesheet" href="./css/orderStart.css">
 <script src="./js/windowScaler.js"></script>
+<script src="./js/ajax-loader.js"></script>
 </head>
 <body>
+<script>
+    const refresher = new AutoRefresher
+    ('OrderStartServlet', 'guest-count-display', { tableId: "${tableNumber}", guestCount: "${guestCount}" });
+    refresher.start();
+</script>
 
 	<header class="header-area">
 		<img src="./image/木目3.jpg" alt="背景" class="bg-img">
@@ -38,7 +43,9 @@
 					<td>
 						<button type="submit" name="action" value="minus" class="btn-counter">-</button>
 					</td>
-					<td class="guest-display"><%= guestCount %></td>
+					<td class="guest-display">
+						<span id="guest-count-display"><%= guestCount %></span>
+					</td>
 					<td>
 						<button type="submit" name="action" value="plus" class="btn-counter">+</button>
 					</td>
