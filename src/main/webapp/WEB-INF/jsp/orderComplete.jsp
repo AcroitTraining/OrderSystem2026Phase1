@@ -5,7 +5,6 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="refresh" content="10">
 <title>注文完了画面</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="./css/common.css">
@@ -15,19 +14,11 @@
 		<img src="./image/木目3.jpg" alt="背景" class="bg-img"> <img
 			src="./image/biglogo.png" alt="ロゴ" class="logo-img">
 	</header>
-
-	<div class="container">
-		<div class="content">
 			<div class="yellow-area">
-
-
 				<font size="4">ご注文いただきありがとうございます。</font> <br>
 				<font size="4"> お料理を準備いたしますので </font><br>
 				<font size="4">しばらくお待ちください</font>
 			</div>
-		</div>
-	</div>
-
 	<footer>
 		<table class="footer-table">
 			<tr>
