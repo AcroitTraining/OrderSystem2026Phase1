@@ -148,8 +148,6 @@ public class OrderListServlet extends HttpServlet {
 				e.printStackTrace();
 			}		
 			logic.calcSubTotal();
-			RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/orderList.jsp");
-			dispatcher.forward(request, response);
 
 		} else if("-".equals(Button)) {
 			logic.calcOrderQuantity(-1, oid);
@@ -162,10 +160,10 @@ public class OrderListServlet extends HttpServlet {
 				e.printStackTrace();
 			}		
 			logic.calcSubTotal();
-			RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/orderList.jsp");
-			dispatcher.forward(request, response);
+			
 			
 		} 
+		response.sendRedirect("OrderListServlet");
 		
 	}
 }
