@@ -39,6 +39,7 @@ if (subTotal == null) {
 <script src="./js/windowScaler.js"></script>
 </head>
 <body>
+<script src="./js/itemDetails.js"></script>
 
 <header class="header-area">
   <img src="./image/木目3.jpg" alt="背景" class="bg-img">

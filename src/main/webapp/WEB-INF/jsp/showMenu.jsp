@@ -33,7 +33,7 @@ if(currentCategory == null) {
   <img src="./image/木目3.jpg" alt="背景" class="bg-img">
   <img src="./image/biglogo.png" alt="ロゴ" class="logo-img">
 </header>
-
+<script src="./js/showMenu.js"></script>
 <div class="category-area">
 	<div class="scroll-text"></div>
 	<nav class="category-wrap" id="categoryWrap">
@@ -125,7 +125,7 @@ if(currentCategory == null) {
 	</table>
 </footer>
 
-<script src="./js/showMenu.js"></script>
+
 
 </body>
 </html>
