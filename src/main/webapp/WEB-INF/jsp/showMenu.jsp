@@ -20,6 +20,7 @@ if(currentCategory == null) {
 <!DOCTYPE html>
 <html>
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>メニュー表示</title>
@@ -35,7 +36,7 @@ if(currentCategory == null) {
 
 <div class="category-area">
 	<div class="scroll-text"></div>
-	<nav class="category-wrap">
+	<nav class="category-wrap" id="categoryWrap">
 		<form action="ShowMenuServlet" method="post">
 			<table class="category-table">
 				<tr>
@@ -123,5 +124,8 @@ if(currentCategory == null) {
 		</tr>
 	</table>
 </footer>
+
+<script src="./js/showMenu.js"></script>
+
 </body>
 </html>

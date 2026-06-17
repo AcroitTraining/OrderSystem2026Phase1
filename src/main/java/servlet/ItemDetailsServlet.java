@@ -19,12 +19,6 @@ public class ItemDetailsServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
     	HttpSession session = request.getSession(false);
-		// セッションがない、または卓番号などの必須データが消えている場合
-		if (session == null || session.getAttribute("tableNumber") == null) {
-			// 即座にエラー画面へ転送する
-			response.sendRedirect("error.jsp");
-			return;
-		}
     	
         request.setCharacterEncoding("UTF-8");
 
