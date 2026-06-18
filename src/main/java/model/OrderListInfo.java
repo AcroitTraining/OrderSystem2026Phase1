@@ -22,12 +22,15 @@ public class OrderListInfo implements Serializable{
 	    public static class ToppingList implements Serializable {
 	        private String name;
 	        private int quantity;
-	        public ToppingList(String name, int quantity) {
+	        private int price;
+	        public ToppingList(String name, int quantity, int price) {
 	            this.name = name;
 	            this.quantity = quantity;
+	            this.price = price;
 	        }
 	        public String getName() { return name; }
 	        public int getQuantity() { return quantity; }
+	        public int getprice() { return price; }
 	    }
 	
 	public OrderListInfo(int allOrderPrice) {this.allOrderPrice = allOrderPrice;}	
@@ -121,9 +124,9 @@ public class OrderListInfo implements Serializable{
 		this.orderPrice = orderPrice;
 	}
 	public List<ToppingList> getToppings() { return toppings; }
-	public void addTopping(String name, int quantity) {
+	public void addTopping(String name, int quantity, int price) {
 		if (name != null) {
-			this.toppings.add(new ToppingList(name, quantity));
+			this.toppings.add(new ToppingList(name, quantity, price));
 		}	
 	}
 

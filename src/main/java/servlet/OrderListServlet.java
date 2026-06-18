@@ -50,10 +50,6 @@ public class OrderListServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		HttpSession session = request.getSession(false);
-		if (session == null || session.getAttribute("tableNumber") == null) {
-			response.sendRedirect("error.jsp");
-			return;
-		}
 
 		String tableNumber = (String) session.getAttribute("tableNumber");
 		int sessionId = 0;

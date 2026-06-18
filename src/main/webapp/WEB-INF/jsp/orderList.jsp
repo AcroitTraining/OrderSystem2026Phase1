@@ -71,8 +71,8 @@ if (tableNum == null) {
 						<c:forEach var="t" items="${item.toppings}">
 							<table width="100%" style="padding: 0 10px; color: #555;">
 								<tr>
-									<td align="left">・${t.name}✕${t.quantity}</td>
-									<td align="right"></td>
+									<td align="left" style="font-weight: bold;">・${t.name}✕${t.quantity}</td>
+									<td align="right" style="font-weight: bold;">${t.price}円</td>
 								</tr>
 							</table>
 						</c:forEach>
@@ -142,6 +142,7 @@ if (tableNum == null) {
 								小計：<fmt:formatNumber value="${item.subTotal}" pattern="#,###" />円
 
 
+
 							
 						</tr>
 					</table>
@@ -153,7 +154,7 @@ if (tableNum == null) {
 				<div class="total-text">
 					合計：
 					<fmt:formatNumber value="${aop.allOrderPrice}" pattern="#,###" />
-					円（税込）
+					円（税込み）
 				</div>
 			</div>
 

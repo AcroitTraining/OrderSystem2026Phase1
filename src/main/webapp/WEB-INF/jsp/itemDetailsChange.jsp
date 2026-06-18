@@ -49,7 +49,7 @@ if (subTotal == null) {
 	<div class="product-header-box">
 		<div class="product-main-name"><%= productName %></div>
 		<%-- ★3桁カンマ区切りに変更 --%>
-		<div class="product-main-price"><%= String.format("%,d", productPrice) %>円(税込)</div>
+		<div class="product-main-price"><%= String.format("%,d", productPrice) %>円(税込み)</div>
 	</div>
 
 	<% if (toppingList != null && !toppingList.isEmpty()) { 
@@ -103,7 +103,7 @@ if (subTotal == null) {
 
 <div class="subtotal-box">
 	<%-- 3桁カンマ区切りに変更 --%>
-	<div class="subtotal-text">小計:<%= String.format("%,d", subTotal) %>円(税込)</div>
+	<div class="subtotal-text">小計:<%= String.format("%,d", subTotal) %>円(税込み)</div>
 </div>
 
 <footer>

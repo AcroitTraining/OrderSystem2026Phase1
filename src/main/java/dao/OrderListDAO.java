@@ -68,6 +68,7 @@ public class OrderListDAO {
                     info.setProductStock(rs.getInt("product_stock"));
                     info.setToppingStock(rs.getInt("topping_stock"));
                     info.setToppingQuantity(rs.getInt("topping_quantity"));
+                    info.setToppingPrice(rs.getInt("topping_price"));
                     // 初期金額（商品単価 × 数量）
                     info.setSubTotal(rs.getInt("product_price") * rs.getInt("product_quantity"));
                     map.put(orderId, info);
@@ -77,7 +78,7 @@ public class OrderListDAO {
                 if (toppingName != null) {
                     int tQty = rs.getInt("topping_quantity");
                     int tPrice = rs.getInt("topping_price");
-                    info.addTopping(toppingName, tQty);
+                    info.addTopping(toppingName, tQty, tPrice);
                     // トッピング金額を加算 (トッピング単価 × 個数 × 商品の数量)
                     int currentSubTotal = info.getSubTotal();
                     info.setSubTotal(currentSubTotal + (tPrice * tQty * info.getOrderQuantity()));

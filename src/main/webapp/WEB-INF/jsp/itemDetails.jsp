@@ -45,7 +45,7 @@ if (formAction == null) {
 <div class="main-content">
 	<div class="product-header-box">
 		<div class="product-main-name"><%= pName %></div>
-		<div class="product-main-price"><%= String.format("%,d", pPrice) %>円(税込)</div>
+		<div class="product-main-price"><%= String.format("%,d", pPrice) %>円(税込み)</div>
 	</div>
 
 	<% if (showTopping && toppingList != null && !toppingList.isEmpty()) { 
@@ -103,7 +103,7 @@ if (formAction == null) {
 </div>
 
 <div class="subtotal-box">
-	<div class="subtotal-text">小計:<%= String.format("%,d", subTotal) %>円(税込)</div>
+	<div class="subtotal-text">小計:<%= String.format("%,d", subTotal) %>円(税込み)</div>
 </div>
 
 <footer>

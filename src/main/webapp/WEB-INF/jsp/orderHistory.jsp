@@ -57,7 +57,7 @@
 				<div class="total-area">
 					<span class="total-qty-text">${totalOrderQuantity}点</span><br>
 					<span class="total-price">
-						<fmt:formatNumber value="${totalOrderPrice}" pattern="#,###"/>円(税込)
+						<fmt:formatNumber value="${totalOrderPrice}" pattern="#,###"/>円(税込み)
 					</span>
 				</div>
 			</c:otherwise>
