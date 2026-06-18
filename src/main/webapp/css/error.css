@@ -1,0 +1,39 @@
+@charset "UTF-8";
+
+h1 {
+	color: #dc3545;
+}
+
+.error-code {
+	font-size: 1.2em;
+	font-weight: bold;
+	color: #6c757d;
+}
+
+.message {
+	font-size: 1.1em;
+}
+
+/* 追加：エラー詳細メッセージ用のスタイル */
+.detail-message {
+	padding: 10px;
+	background-color: #fff3cd;
+	border: 1px solid #ffeeba;
+	color: #856404;
+	border-radius: 4px;
+	text-align: left;
+	font-family: monospace;
+	font-size: 0.9em;
+	word-break: break-all;
+}
+
+.home-link {
+	margin-top: 30px;
+	display: inline-block;
+	color: #007bff;
+	text-decoration: none;
+}
+
+.home-link:hover {
+	text-decoration: underline;
+}

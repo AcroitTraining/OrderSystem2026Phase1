@@ -5,7 +5,7 @@ public class OrderStartLogic {
         int newCount = currentCount;
         
         if ("plus".equals(action)) {
-            if (newCount < 9) {
+            if (newCount < 4) {
                 newCount++;
             }
         } else if ("minus".equals(action)) {
