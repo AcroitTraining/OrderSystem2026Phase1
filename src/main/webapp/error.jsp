@@ -12,6 +12,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="./css/common.css">
+<link rel="stylesheet" href="./css/error.css">
 <title>エラーが発生しました</title>
 </head>
 <body>
@@ -21,8 +22,8 @@
 	</header>
 
 
-	<div class="yellow-area">
-		<h1>システムエラーが発生しました</h1>
+	<div class="error-area">
+		<h1>システムエラーが<br>発生しました</h1>
 		<div class="message">
 			<% if (session.getAttribute("errorMessage") != null) { %>
 			<div class="detail-message">
