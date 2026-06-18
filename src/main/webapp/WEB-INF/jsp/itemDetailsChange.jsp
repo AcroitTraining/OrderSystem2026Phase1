@@ -83,13 +83,12 @@ if (subTotal == null) {
 					<button type="submit" name="Button" value="-<%= i %>" class="btn-qty" <%= (t.getToppingQuantity() <= 0) ? "disabled" : "" %>>－</button>
 					<span class="qty-text"><%= t.getToppingQuantity() %></span>
 					
-					<%-- 全体が4個に達した、または個別在庫の上限に達したら disabled --%>
 					<button type="submit" name="Button" value="+<%= i %>" class="btn-qty" <%= (totalToppingQty >= 4 || t.getToppingQuantity() >= t.getToppingStock()) ? "disabled" : "" %>>＋</button>
 				</form>
 			<% } else { %>
-				<%-- 売り切れ時はボタンを非表示にし、売切テキストのみ表示 --%>
+
 				<div class="quantity-form">
-					<span class="sold-out-text">売切</span>
+					<img src="./image/soldout.png" alt="売切" class="img-sold-out">
 				</div>
 			<% } %>
 			</td>

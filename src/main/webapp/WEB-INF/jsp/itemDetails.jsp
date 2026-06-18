@@ -89,7 +89,7 @@ if (formAction == null) {
 				</form>
 			<% } else { %>
 				<div class="quantity-form">
-					<span class="sold-out-text">売切</span>
+					<img src="./image/soldout.png" alt="売切" class="img-sold-out">
 				</div>
 			<% } %>
 			</td>

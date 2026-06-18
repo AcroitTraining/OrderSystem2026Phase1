@@ -4,11 +4,12 @@ body {
 	padding-bottom: 160px; 
 }
 
+
 /* =========================
    メインコンテンツエリア
 ========================= */
 .main-content {
-	margin-top: 100px;
+	margin-top: 100px; /* もし上部ヘッダーと被る場合は数値を調整してください */
 	width: 100%;
 	max-width: 450px;
 	box-sizing: border-box;
@@ -16,8 +17,12 @@ body {
 }
 
 .product-header-box {
+	position: sticky; /* 画面上部に固定 */
+	top: 100px;       /* 木目ヘッダーの高さ(100px)に合わせて固定位置を設定 */
+	z-index: 100;     /* トッピングが上に被らないように前面に出す */
+	
 	padding: 15px 20px;
-	border-bottom: 2px solid #555;
+	border-bottom: 2px solid #555; /* これが「その下の線」になります */
 	background: #FDF5E6;
 	text-align: left;
 }
