@@ -111,7 +111,7 @@ if (formAction == null) {
 		<tr>
 			<td>
 				<form action="ShowMenuServlet" method="post">
-					<button type="submit" class="btn-footer btn-green-style"><img src="./image/menu.png" alt="メニューアイコン"><span>メニュー</span></button>
+					<button type="submit" class="btn-footer btn-green-style"><img src="./image/menu.png" alt="メニューアイコン"><span>戻る</span></button>
 				</form>
 			</td>
 			<td>

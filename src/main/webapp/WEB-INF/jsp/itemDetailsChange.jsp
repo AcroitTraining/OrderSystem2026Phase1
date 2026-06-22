@@ -111,7 +111,7 @@ if (subTotal == null) {
 		<tr>
 			<td>
 				<form action="OrderListServlet" method="get">
-					<button type="submit" class="btn-footer btn-green-style"><img src="./image/menu.png" alt="注文リストアイコン"><span>注文リスト</span></button>
+					<button type="submit" class="btn-footer btn-green-style"><img src="./image/menu.png" alt="注文リストアイコン"><span>戻る</span></button>
 				</form>
 			</td>
 			<td>
@@ -126,7 +126,7 @@ if (subTotal == null) {
 					<input type="hidden" name="oldQty_<%= j %>" value="<%= toppingList.get(j).getToppingQuantity() %>">
 					<%  }
 					} %>
-					<button type="submit" name="Button" value="更新" class="btn-footer btn-orange-style"><img src="./image/changeCart.png" alt="更新アイコン"><span>更新</span></button>
+					<button type="submit" name="Button" value="変更" class="btn-footer btn-orange-style"><img src="./image/changeCart.png" alt="更新アイコン"><span>変更</span></button>
 				</form>
 			</td>
 		</tr>

@@ -77,7 +77,6 @@ public class ItemDetailsServlet extends HttpServlet {
         }
 
         ToppingListDAO dao = new ToppingListDAO();
-        // ベースとなるリストを一度取得
         List<ItemDetailsInfo> tList = dao.findToppingListByOrderId(0);
 
         // 数量復元（画面から送られてきた各トッピングの数量をtListに同期させる）
