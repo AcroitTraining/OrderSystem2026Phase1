@@ -33,7 +33,7 @@
 						<tr>
 							<th>商品名</th>
 							<th width="15%">数量</th>
-							<th width="30%">金額(税込)</th>
+							<th width="30%">金額(税込み)</th>
 						</tr>
 					</thead>
 					<tbody>

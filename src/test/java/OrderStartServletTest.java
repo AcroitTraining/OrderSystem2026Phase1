@@ -25,7 +25,7 @@ class OrderStartServletTest2 {
 	// request, response, dispatcher：mock化する
 
 
-	//    @Mock private OrderStartDAO dao;
+	// @Mock private OrderStartDAO dao;
 	@Mock private HttpServletRequest request;
 	@Mock private HttpServletResponse response;
 	@Mock private RequestDispatcher dispatcher;
@@ -61,7 +61,6 @@ class OrderStartServletTest2 {
 		verify(request, times(1)).setAttribute("tableInfo", tableInfo);
 		verify(request, times(1)).getRequestDispatcher(anyString());
 		verify(request, times(1)).getRequestDispatcher(anyString());
-
 	}
 	
 	@Test

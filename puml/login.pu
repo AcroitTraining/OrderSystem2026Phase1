@@ -1,0 +1,37 @@
+@startuml
+
+!include ./color_setting.pu
+
+title Phase2 login.jsp、ログイン画面
+
+actor 店員 #blue
+participant login.jsp
+participant LoginServlet
+participant LoginDAO
+database "データベース" as DB #red
+participant HomeServlet
+
+店員->>login.jsp:入力
+activate login.jsp
+login.jsp->LoginServlet :loginButton押下でloginId,loginPass
+activate LoginServlet
+LoginServlet->LoginDAO :findUserLogin()
+activate LoginDAO
+LoginDAO->DB : user_login
+activate DB
+DB-->LoginDAO:login_id, login_password
+deactivate DB
+LoginDAO-->LoginServlet: loginId, loginPass
+deactivate LoginDAO
+LoginServlet->LoginServlet:IDとパスワードを確かめる
+
+alt loginIdとloginPassが正しい場合
+	LoginServlet->HomeServlet: redirect
+	activate HomeServlet
+else loginIdとloginPassが間違えている場合
+	LoginServlet->login.jsp: エラーメッセージを出力
+end
+
+deactivate LoginServlet
+deactivate login.jsp
+@enduml

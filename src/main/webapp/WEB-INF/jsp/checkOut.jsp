@@ -23,7 +23,7 @@
 		<font size="4">会計が確定されました</font><br>
 		<br> <font size="4">ご利用ありがとうございます</font><br>
 		<br> <font size="5"><b><%= tableNum %>卓</b></font><br>
-		<font size="5"><u><b>合計：<%= String.format("%,d", totalPrice) %>円(税込)
+		<font size="5"><u><b>合計：<%= String.format("%,d", totalPrice) %>円(税込み)
 			</b></u></font>
 	</div>
 	</tr>

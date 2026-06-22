@@ -72,7 +72,7 @@ if (tableNum == null) {
 							<table width="100%" style="padding: 0 10px; color: #555;">
 								<tr>
 									<td align="left" style="font-weight: bold;">・${t.name}✕${t.quantity}</td>
-									<td align="right" style="font-weight: bold;">${t.price}円</td>
+									<td align="right" style="font-weight: bold;">${t.price * t.quantity}円</td>
 								</tr>
 							</table>
 						</c:forEach>
