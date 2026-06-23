@@ -41,7 +41,7 @@ ServedHistoryServlet-->servedHistory.jsp:更新したデータを送る
 deactivate ServedHistoryServlet
 servedHistory.jsp->:orderManagementButtonを押下orderManagementServletへ遷移
 servedHistory.jsp->:editButtonを押下EditOrderServletへ遷移
-
+servedHistory.jsp->:homeButtonを押下HomeServletへ遷移
 
 @enduml
 
