@@ -27,7 +27,7 @@ model-->dao:toppingName;String型, toppingPrice;int型, categoryName;String型
 deactivate model
 dao-->servlet:toppingName, toppingPrice, categoryNameをsessionで送る
 deactivate dao
-servlet->>jsp:フォワード;session(toppingName, toppingPrice, categoryName)
+servlet->>jsp:フォワード;session(oppingName, toppingPrice, categoryName)
 deactivate servlet
 activate jsp
 jsp->:editButton押下でToppingEditServletへ遷移

@@ -9,24 +9,51 @@ participant "ProductEditSDAO" as DAO
 database "データベース" as DB #red
 participant "ProductEditInfo" as Info
 participant "productEdit.jsp" as JSP
-->Servlet:商品一覧から遷移
+
+alt 商品一覧が新規作成ボタンの場合
+->Servlet:action
 activate Servlet
+Servlet->JSP:フォワード
 activate JSP
-JSP -> Servlet:createButton押下,作成リクエスト送信\n(toppingId,ToppingName,productName,productPrice)
+JSP -> Servlet:createButton押下,作成リクエスト送信\n(toppingId,ToppingName,productName,productPrice,categoryName)
 deactivate JSP
-Servlet -> DAO:InsertProductDetails()
+Servlet -> DAO:InsertProductDetails(toppingId,ToppingName,productName,productPrice,categoryName)
 activate DAO
 DAO -> DB:insert処理\nproduct_topping\nproduct
-activate DB
-DB-->DAO:作成完了
-DB->Info:
-activate Info
-deactivate DB
-DAO-->Servlet:insert結果返却
-Info->Servlet
-deactivate Info
 deactivate DAO
+activate DB
 Servlet ->:redirect\nProductListServlet（商品一覧）
+deactivate DB
+
+else 商品一覧が編集ボタンの場合
+
+->Servlet:action
+Servlet->DAO:findProductDetails()
+activate DAO
+DAO->DB:product,product_topping
+activate DB
+DB-->DAO:全部渡す
+deactivate DB
+DAO->Info:リストにする
+activate Info
+Info-->DAO:prodctDetails
+deactivate Info
+DAO-->Servlet:productDetailsをセッションスコープで送る
+deactivate DAO
+Servlet->JSP:productDetailsをjspに送る
+
+activate JSP
+JSP -> Servlet:editButton押下,updateリクエスト送信\n(toppingId,ToppingName,productName,productPrice,categoryName)
+deactivate JSP
+Servlet -> DAO:updateProductDetails(toppingId,ToppingName,productName,productPrice,categoryName)
+activate DAO
+DAO -> DB:update処理\nproduct_topping\nproduct
+deactivate DAO
+activate DB
+Servlet ->:redirect\nProductListServlet（商品一覧）
+deactivate DB
+deactivate Servlet
+end
 
 activate JSP
 JSP->:商品一覧画面に遷移
