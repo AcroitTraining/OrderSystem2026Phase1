@@ -2,7 +2,7 @@
 
 !include ./color_setting.pu
 
-title Phase2 login.jsp、ログイン画面
+title Phase2 Home、ホーム画面
 
 participant login.jsp
 participant HomeServlet

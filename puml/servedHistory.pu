@@ -2,7 +2,7 @@
 
 !include ./color_setting.pu
 
-title Phase2 ordermanegement.jsp、注文管理画面
+title Phase2  servedHistory.jsp、提供済み履歴画面
 
 participant ServedHistoryServlet
 participant ServedHistoryDAO

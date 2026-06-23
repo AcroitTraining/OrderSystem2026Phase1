@@ -1,0 +1,35 @@
+@startuml
+
+!include ./color_setting.pu
+
+title Phase2 productEditServlet.jsp、商品新規作成・編集画面
+
+participant "ProductEditServlet" as Servlet
+participant "ProductEditSDAO" as DAO
+database "データベース" as DB #red
+participant "ProductEditInfo" as Info
+participant "productEdit.jsp" as JSP
+->Servlet:商品一覧から遷移
+activate Servlet
+activate JSP
+JSP -> Servlet:createButton押下,作成リクエスト送信\n(toppingId,ToppingName,productName,productPrice)
+deactivate JSP
+Servlet -> DAO:InsertProductDetails()
+activate DAO
+DAO -> DB:insert処理\nproduct_topping\nproduct
+activate DB
+DB-->DAO:作成完了
+DB->Info:
+activate Info
+deactivate DB
+DAO-->Servlet:insert結果返却
+Info->Servlet
+deactivate Info
+deactivate DAO
+Servlet ->:redirect\nProductListServlet（商品一覧）
+
+activate JSP
+JSP->:商品一覧画面に遷移
+deactivate JSP
+@enduml
+
