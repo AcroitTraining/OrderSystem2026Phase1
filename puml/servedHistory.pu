@@ -1,0 +1,50 @@
+@startuml
+
+!include ./color_setting.pu
+
+title Phase2 ordermanegement.jsp、注文管理画面
+
+participant ServedHistoryServlet
+participant ServedHistoryDAO
+database "データベース" as DB #red
+participant ServedHistoryInfo
+participant servedHistory.jsp
+
+
+->ServedHistoryServlet:orderManagement.jspから画面遷移
+
+
+activate ServedHistoryServlet
+ServedHistoryServlet->ServedHistoryDAO:findServedOrder(orderId)
+activate ServedHistoryDAO
+ServedHistoryDAO->DB:order_details,multiple_topping,topping
+activate DB
+DB-->ServedHistoryDAO:全部渡す
+deactivate DB
+ServedHistoryDAO->ServedHistoryInfo:
+activate ServedHistoryInfo
+ServedHistoryInfo-->ServedHistoryDAO:servedHistoryList
+deactivate ServedHistoryInfo
+ServedHistoryDAO-->ServedHistoryServlet:servedHistoryListをセッションスコープで送る
+deactivate ServedHistoryDAO
+ServedHistoryServlet->servedHistory.jsp:ListをJSPに送る
+
+activate servedHistory.jsp
+servedHistory.jsp->ServedHistoryServlet:returnButtonを押下
+ServedHistoryServlet->ServedHistoryDAO:UpDateProvidedFlag(orderId)
+activate ServedHistoryDAO
+ServedHistoryDAO->DB:order_detailsのorder_flag = 0
+activate DB
+deactivate ServedHistoryDAO
+deactivate DB
+ServedHistoryServlet-->servedHistory.jsp:更新したデータを送る
+deactivate ServedHistoryServlet
+servedHistory.jsp->:orderManagementButtonを押下orderManagementServletへ遷移
+servedHistory.jsp->:editButtonを押下EditOrderServletへ遷移
+
+
+@enduml
+
+
+
+

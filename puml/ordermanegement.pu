@@ -34,7 +34,7 @@ activate orderManegement.jsp
 orderManegement.jsp->OrderManegementServlet:severdButtonを押下
 OrderManegementServlet->OrderManegementDAO:UpDateProvidedFlag(orderId)
 activate OrderManegementDAO
-OrderManegementDAO->DB:order_details
+OrderManegementDAO->DB:order_detailsのorder_flag = 1
 activate DB
 deactivate OrderManegementDAO
 deactivate DB
