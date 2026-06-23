@@ -1,0 +1,67 @@
+@startuml
+
+!include ./color_setting.pu
+
+title Phase2 toppingEditServlet.jsp、トッピング新規作成・編集画面
+
+participant ToppingEditServlet as servlet
+participant toppingEditSDAO as dao
+database データベース as db #red
+participant ToppingEditInfo as model
+participant toppingEdit.jsp as jsp
+
+activate servlet
+
+alt action = add
+
+->servlet:トッピング一覧から遷移(action)
+servlet->jsp:フォワード
+deactivate servlet
+activate jsp
+jsp-->servlet:action, toppingName, toppingPrice
+deactivate jsp
+activate servlet
+servlet->dao:insertTopping(toppingName, toppingPrice);
+activate dao
+dao->db:topping
+activate db
+deactivate dao
+db->db:topping追加
+deactivate db
+servlet->:ToppingListServletへリダイレクト
+deactivate servlet
+
+
+else action = edit
+
+->servlet:トッピング一覧から遷移(action)
+servlet->dao:findTopping(toppingId)
+activate dao
+dao->db:topping
+activate db
+db-->dao:topping_name, topping_price
+deactivate db
+dao->model:setToppingName,ToppingPrice
+activate model
+model-->dao
+deactivate model
+dao-->servlet:session(toppingName, toppingPrice)
+deactivate dao
+servlet->jsp:フォワード,session(toppingName, toppingPrice)
+deactivate servlet
+activate jsp
+jsp-->servlet:action, toppingName, toppingPrice
+deactivate jsp
+activate servlet
+servlet->dao:updateTopping(toppingId, toppingName, toppingPrice);
+activate dao
+dao->db:topping
+activate db
+deactivate dao
+db->db:topping更新
+deactivate db
+servlet->:ToppingListServletへリダイレクト
+deactivate servlet
+end
+@enduml
+
