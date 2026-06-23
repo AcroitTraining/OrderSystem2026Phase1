@@ -2,47 +2,47 @@
 
 !include ./color_setting.pu
 
-title Phase2 ordermanagement.jsp、注文管理画面
+title Phase2 ordermanegement.jsp、注文管理画面
 
-participant home.jsp
-participant OrderManagementServlet
-participant OrderManagementDAO
+participant Home.jsp
+participant OrderManegementServlet
+participant OrderManegementDAO
 database "データベース" as DB #red
-participant OrderManagementInfo
-participant orderManagement.jsp
+participant OrderManegementInfo
+participant orderManegement.jsp
 
-activate home.jsp
-home.jsp->OrderManagementServlet:画面遷移
-deactivate home.jsp
+activate Home.jsp
+Home.jsp->OrderManegementServlet:画面遷移
+deactivate Home.jsp
 
-activate OrderManagementServlet
-OrderManagementServlet->OrderManagementDAO:findAllOrder()
-activate OrderManagementDAO
-OrderManagementDAO->DB:order_details,multiple_topping,topping
+activate OrderManegementServlet
+OrderManegementServlet->OrderManegementDAO:findAllOrder()
+activate OrderManegementDAO
+OrderManegementDAO->DB:order_details,multiple_topping,topping
 activate DB
-DB-->OrderManagementDAO:全部渡す
+DB-->OrderManegementDAO:全部渡す
 deactivate DB
-OrderManagementDAO->OrderManagementInfo:
-activate OrderManagementInfo
-OrderManagementInfo-->OrderManagementDAO:orderManagementList
-deactivate OrderManagementInfo
-OrderManagementDAO-->OrderManagementServlet:orderManagementListをセッションスコープで送る
-deactivate OrderManagementDAO
-OrderManagementServlet->orderManagement.jsp:Listをjspに送る
+OrderManegementDAO->OrderManegementInfo:
+activate OrderManegementInfo
+OrderManegementInfo-->OrderManegementDAO:orderManegementList
+deactivate OrderManegementInfo
+OrderManegementDAO-->OrderManegementServlet:orderManegementListをセッションスコープで送る
+deactivate OrderManegementDAO
+OrderManegementServlet->orderManegement.jsp:ListをJSPに送る
 
-activate orderManagement.jsp
-orderManagement.jsp->OrderManagementServlet:severdButtonを押下
-OrderManagementServlet->OrderManagementDAO:updateProvidedFlag(orderId)
-activate OrderManagementDAO
-OrderManagementDAO->DB:order_detailsのorder_flag = 1
+activate orderManegement.jsp
+orderManegement.jsp->OrderManegementServlet:severdButtonを押下
+OrderManegementServlet->OrderManegementDAO:UpDateProvidedFlag(orderId)
+activate OrderManegementDAO
+OrderManegementDAO->DB:order_details
 activate DB
-deactivate OrderManagementDAO
+deactivate OrderManegementDAO
 deactivate DB
-OrderManegementServlet-->orderManagement.jsp:更新したデータを送る
-deactivate OrderManagementServlet
-orderManagement.jsp->:historyButtonを押下ServidHistoryServletへ遷移
-orderManagement.jsp->:editButtonを押下EditOrderServletへ遷移
-orderManagement.jsp->:homeButtonを押下HomeServletへ遷移
+OrderManegementServlet-->orderManegement.jsp:更新したデータを送る
+deactivate OrderManegementServlet
+orderManegement.jsp->:historyButtonを押下ServidHistoryServletへ遷移
+orderManegement.jsp->:editButtonを押下EditOrderServletへ遷移
+
 
 @enduml
 

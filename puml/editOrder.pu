@@ -1,0 +1,67 @@
+@startuml
+
+!include ./color_setting.pu
+
+title Phase2 ordermanegement.jsp、注文管理画面
+
+participant "EditOrderServlet" as Servlet
+participant "EditOrderDAO" as DAO
+database "データベース" as DB #red
+participant "EditOrderInfo" as Info
+participant "EditOrderLogic" as Logic
+participant "editOrder.jsp" as JSP
+
+activate Servlet
+Servlet->DAO:findAOrderDetails()
+activate DAO
+DAO->DB:order_details,multiple_topping,topping,product_details,product
+activate DB
+DB-->DAO:全部渡す
+deactivate DB
+DAO->Info:リストにする
+activate Info
+Info-->DAO:EditOrderList
+deactivate Info
+DAO-->Servlet:EditOrderListをセッションスコープで送る
+deactivate DAO
+Servlet->JSP:Listをjspに送る
+
+activate JSP
+JSP->Servlet:plusButton / minusButton押下数量変更リクエスト送信(productId, quantity)
+Servlet->Logic:数量変更処理依頼(現在数量、増減値)
+activate Logic
+Logic->Logic:数量計算
+Logic-->Servlet:変更後quantityを返す
+deactivate Logic
+Servlet-->JSP:変更後の数量を返す
+
+JSP -> Servlet:変更ボタン押下,変更リクエスト送信\n(orderQuantity,ToppingQuantity)
+deactivate JSP
+Servlet -> DAO:updateOrderDetails()
+activate DAO
+DAO -> DB:update処理\norder_details,\nmultiple_topping,\ntopping,\nproduct_details,\nproduct
+activate DB
+DB-->DAO:更新完了
+deactivate DB
+DAO-->Servlet:update結果返却
+deactivate DAO
+Servlet ->:redirect\nOrderManagement
+
+activate JSP
+JSP -> Servlet:注文取り消しをしたら
+deactivate JSP
+Servlet -> DAO:deleteOrderDetails()
+activate DAO
+DAO -> DB:delete処理\norder_details,\nmultiple_topping,\ntopping,\nproduct_details,\nproduct
+activate DB
+DB-->DAO:更新完了
+deactivate DB
+DAO-->Servlet:delete結果返却
+deactivate DAO
+Servlet ->:redirect\nOrderManagement
+
+activate JSP
+JSP->:OrderManagementに遷移
+deactivate JSP
+@enduml
+

@@ -2,7 +2,7 @@
 
 !include ./color_setting.pu
 
-title Phase2 puroductList.jsp、商品一覧画面
+title Phase2 productList.jsp、商品一覧画面
 
 participant ProductListServlet as servlet
 participant ProductListDAO as dao
