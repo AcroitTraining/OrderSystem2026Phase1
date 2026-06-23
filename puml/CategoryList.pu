@@ -1,0 +1,32 @@
+@startuml
+
+!include ./color_setting.pu
+
+participant CategoryListServlet as servlet
+participant CategoryListDAO as dao
+database "データベース" as db #red
+participant CategoryListInfo as model
+participant categorylist.jsp as jsp
+
+->servlet:home.jspから遷移
+activate servlet
+servlet->dao:findAllCategory()
+activate dao
+dao->db:productテーブル
+activate db
+db-->dao:category_name
+deactivate db
+dao->model
+activate model
+model-->dao:categoryNameList<>
+deactivate model
+dao-->servlet:session(categoryNameList<>)
+deactivate dao
+servlet->jsp:フォワードsession(categoryNameList<>)
+deactivate servlet
+activate jsp
+jsp->:homuButton押下でHomeServletへ遷移
+deactivate jsp
+
+
+@enduml
