@@ -1,0 +1,48 @@
+@startuml
+
+!include ./color_setting.pu
+
+title Phase2 puroductList.jsp、商品一覧画面
+
+participant ProductListServlet as servlet
+participant ProductListDAO as dao
+database "データベース" as db #red
+participant ProductListInfo as model
+participant productList.jsp as jsp
+
+->servlet:home.jspから画面遷移
+
+activate servlet
+
+loop
+servlet->dao:findAllProduct()
+activate dao
+dao->db:productテーブル
+activate db
+db-->dao:product_name, prodct_price, category_name
+deactivate db
+dao->model
+activate model
+model-->dao:productName;String型, productPrice;int型, categoryName;String型
+deactivate model
+dao-->servlet:productName, productPrice, categoryNameをsessionで送る
+deactivate dao
+servlet->>jsp:フォワード;session(productName, productPrice, categoryName)
+deactivate servlet
+activate jsp
+jsp->:editButton押下でProductEditServletへ遷移
+jsp->servlet:switchButton押下でProductListServletへ遷移
+activate servlet
+servlet->>dao:updateDisplayFlag(productId)
+activate dao
+dao->>db:productテーブルのdisplay_flagを切り替える
+deactivate db
+deactivate dao
+jsp-->servlet:deleteButton押下でProductListServletへ遷移
+servlet->>dao:updateProductDeleteFlag(productId)
+dao->>db:productテーブルのproduct_delete_flagを切り替える
+jsp->:homeButton押下でHomeServletへ遷移
+end
+
+
+@enduml
