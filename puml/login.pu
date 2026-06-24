@@ -5,33 +5,34 @@
 title Phase2 login.jsp、ログイン画面
 
 actor 店員 #blue
-participant login.jsp
-participant LoginServlet
-participant LoginDAO
-database "データベース" as DB #red
+participant login.jsp as jsp
+participant LoginServlet as servlet
+participant LoginDAO as dao
+database "データベース" as db #red
 participant HomeServlet
 
-店員->>login.jsp:入力
-activate login.jsp
-login.jsp->LoginServlet :loginButton押下でloginId,loginPass
-activate LoginServlet
-LoginServlet->LoginDAO :findUserLogin()
-activate LoginDAO
-LoginDAO->DB : user_login
-activate DB
-DB-->LoginDAO:login_id, login_password
-deactivate DB
-LoginDAO-->LoginServlet: loginId, loginPass
-deactivate LoginDAO
-LoginServlet->LoginServlet:IDとパスワードを確かめる
+店員->>jsp:入力
+activate jsp
+jsp->servlet :loginButton押下でloginId,loginPass
+deactivate jsp
+activate servlet
+servlet->dao:findUserLogin(loginId, loginPass);
+activate dao
+dao->db : user_login
+activate db
+db-->dao:login_id, login_password
+deactivate db
+dao-->servlet: loginId, loginPass
+deactivate dao
+servlet->servlet:IDとパスワードを確かめる
 
 alt loginIdとloginPassが正しい場合
-	LoginServlet->HomeServlet: redirect
+	servlet->HomeServlet: redirect
 	activate HomeServlet
 else loginIdとloginPassが間違えている場合
-	LoginServlet->login.jsp: エラーメッセージを出力
+	servlet->jsp: エラーメッセージを出力
 end
 
-deactivate LoginServlet
-deactivate login.jsp
+deactivate servlet
+deactivate jsp
 @enduml

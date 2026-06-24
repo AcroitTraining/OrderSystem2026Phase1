@@ -4,8 +4,8 @@
 
 title Phase2 Home、ホーム画面
 
-participant login.jsp
-participant HomeServlet
+participant login.jsp 
+participant HomeServlet 
 participant home.jsp
 
 
@@ -14,6 +14,7 @@ login.jsp->HomeServlet : 画面遷移
 deactivate login.jsp
 activate HomeServlet
 HomeServlet->home.jsp :フォワード
+deactivate HomeServlet
 activate home.jsp
 home.jsp->:logOutButton押下でログイン画面へ遷移
 home.jsp->:orderManegementButton押下で注文管理画面へ遷移

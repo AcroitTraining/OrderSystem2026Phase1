@@ -4,44 +4,41 @@
 
 title Phase2 ordermanegement.jsp、注文管理画面
 
-participant Home.jsp
-participant OrderManegementServlet
-participant OrderManegementDAO
-database "データベース" as DB #red
-participant OrderManegementInfo
-participant orderManegement.jsp
+participant OrderManegementServlet as servlet
+participant OrderManegementDAO as dao
+database "データベース" as db #red
+participant OrderManegementInfo as model
+participant orderManegement.jsp as jsp
 
-activate Home.jsp
-Home.jsp->OrderManegementServlet:画面遷移
-deactivate Home.jsp
+->servlet:画面遷移
+activate servlet
+servlet->dao:findCurrentOrder()
+activate dao
+dao->db:order_details, multiple_topping, topping, product_details, product, table_sessions
+activate db
+db-->dao:全部渡す
+deactivate db
+dao->model:
+activate model
+model-->dao:orderManegementList
+deactivate model
+dao-->servlet:orderManegementListをセッションスコープで送る
+deactivate dao
+servlet->jsp:ListをJSPに送る
 
-activate OrderManegementServlet
-OrderManegementServlet->OrderManegementDAO:findAllOrder()
-activate OrderManegementDAO
-OrderManegementDAO->DB:order_details,multiple_topping,topping
-activate DB
-DB-->OrderManegementDAO:全部渡す
-deactivate DB
-OrderManegementDAO->OrderManegementInfo:
-activate OrderManegementInfo
-OrderManegementInfo-->OrderManegementDAO:orderManegementList
-deactivate OrderManegementInfo
-OrderManegementDAO-->OrderManegementServlet:orderManegementListをセッションスコープで送る
-deactivate OrderManegementDAO
-OrderManegementServlet->orderManegement.jsp:ListをJSPに送る
-
-activate orderManegement.jsp
-orderManegement.jsp->OrderManegementServlet:severdButtonを押下
-OrderManegementServlet->OrderManegementDAO:UpDateProvidedFlag(orderId)
-activate OrderManegementDAO
-OrderManegementDAO->DB:order_details
-activate DB
-deactivate OrderManegementDAO
-deactivate DB
-OrderManegementServlet-->orderManegement.jsp:更新したデータを送る
-deactivate OrderManegementServlet
-orderManegement.jsp->:historyButtonを押下ServidHistoryServletへ遷移
-orderManegement.jsp->:editButtonを押下EditOrderServletへ遷移
+activate jsp
+jsp->servlet:severdButtonを押下
+servlet->dao:UpdateProvidedFlag(orderId)
+activate dao
+dao->db:order_details
+deactivate dao
+activate db
+db->db:更新する
+deactivate db
+servlet-->jsp:更新したデータを送る
+deactivate servlet
+jsp->:historyButtonを押下ServidHistoryServletへ遷移
+jsp->:editButtonを押下EditOrderServletへ遷移
 
 
 @enduml
