@@ -18,8 +18,8 @@ public class ItemDetailsServlet extends HttpServlet {
     
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-    	HttpSession session = request.getSession(false);
-    	
+        HttpSession session = request.getSession(false);
+        
         request.setCharacterEncoding("UTF-8");
 
         String productIdStr = request.getParameter("productId");
@@ -35,8 +35,8 @@ public class ItemDetailsServlet extends HttpServlet {
         int price = (priceStr != null) ? Integer.parseInt(priceStr) : 0;
 
         ToppingListDAO dao = new ToppingListDAO();
-        // 初期表示時は orderId = 0 でマスターのトッピング一覧を取得
-        List<ItemDetailsInfo> tList = dao.findToppingListByOrderId(0);
+        // 商品ID(productId)を渡し、その商品に紐づくトッピング一覧のみを取得
+        List<ItemDetailsInfo> tList = dao.findToppingListByProductId(productId, 0);
         
         request.setAttribute("productId", productId);
         request.setAttribute("selectedPName", productName);
@@ -77,7 +77,8 @@ public class ItemDetailsServlet extends HttpServlet {
         }
 
         ToppingListDAO dao = new ToppingListDAO();
-        List<ItemDetailsInfo> tList = dao.findToppingListByOrderId(0);
+        // 商品ID(productId)に紐づくトッピング一覧を取得
+        List<ItemDetailsInfo> tList = dao.findToppingListByProductId(productId, 0);
 
         // 数量復元（画面から送られてきた各トッピングの数量をtListに同期させる）
         for (int i = 0; i < tList.size(); i++) {
@@ -110,39 +111,31 @@ public class ItemDetailsServlet extends HttpServlet {
         // 追加ボタン（確定）が押された時の処理
         if ("add".equals(mode)) {
             boolean ok = dao.insertProductDetail(productId);
-
             if (ok) {
                 int orderId = dao.getLastOrderId();
-
-                // 1. order_details 登録
+                
+                // 【連動完了】DAO側の引数とぴったり一致する6個で呼び出します
                 dao.insertOrderDetail(
                         orderId, 1, subTotal, sessionId,
-                        0, 0, 0, productId, 0
+                        0, 0
                 );
-
-                // 2. 商品在庫を 1 減らす (product_stock = product_stock - 1)
+                
+                // 商品在庫を減算
                 dao.updateProductStock(productId);
-
-                // 3. トッピング登録 ＋ 在庫減算
+                
+                // 各トッピングの登録処理
                 for (ItemDetailsInfo t : tList) {
                     int qty = t.getToppingQuantity();
                     int toppingId = t.getToppingId();
-
-                    // 数量が 1 つ以上選択されている場合のみDBを更新
                     if (qty > 0) {
-                        // multiple_toppings に注文データを追加
                         dao.insertMutipleToppings(toppingId, qty, orderId);
-
-                        // 選択された数量(qty)と対象のID(toppingId)でストックを直接減算
                         dao.updateToppingStock(toppingId, qty);
                     }
                 }
-
                 response.sendRedirect("OrderListServlet");
                 return;
             }
         }
-        
         response.sendRedirect("ShowMenuServlet");
     }
 }

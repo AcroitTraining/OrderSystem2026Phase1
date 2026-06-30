@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +15,40 @@ public class ToppingListDAO {
     private final String DB_USER = "order";
     private final String DB_PASS = "1234";
 
+    // 商品ID(productId)に紐づくトッピング一覧のみを取得するメソッド
+    public List<ItemDetailsInfo> findToppingListByProductId(int productId, int orderId) {
+        List<ItemDetailsInfo> list = new ArrayList<>();
+        String sql =
+                "SELECT t.topping_id, t.topping_name, t.topping_price, t.topping_stock, " +
+                "IFNULL(mt.topping_quantity, 0) AS topping_quantity " +
+                "FROM product_topping pt " +
+                "JOIN topping t ON pt.topping_id = t.topping_id " +
+                "LEFT JOIN multiple_toppings mt ON t.topping_id = mt.topping_id AND mt.order_id = ? " +
+                "WHERE pt.product_id = ?";
+
+        try (Connection conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS);
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, orderId);
+            ps.setInt(2, productId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                ItemDetailsInfo t = new ItemDetailsInfo();
+
+                t.setToppingId(rs.getInt("topping_id"));
+                t.setToppingName(rs.getString("topping_name"));
+                t.setToppingPrice(rs.getInt("topping_price"));
+                t.setToppingStock(rs.getInt("topping_stock"));
+                t.setToppingQuantity(rs.getInt("topping_quantity"));
+
+                list.add(t);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    // 互換性のために残しているメソッド
     public List<ItemDetailsInfo> findToppingListByOrderId(int orderId) {
         List<ItemDetailsInfo> list = new ArrayList<>();
         String sql =
@@ -74,32 +107,33 @@ public class ToppingListDAO {
         return 0;
     }
 
-    // order_details INSERT
+    // 【修正完了】引数はぴったり6個、SQLのカラムと?の数も8個で同期させています
     public boolean insertOrderDetail(
             int orderId,
             int productQuantity,
             int orderPrice,
             int sessionId,
-            int orderTime,
             int orderFlag,
-            int accountingFlag,
-            int productId,
-            int toppingId) {
-        String sql =
-                "INSERT INTO order_details " +
-                "(order_id, product_quantity, order_price, session_id, order_time, order_flag, accounting_flag, product_id, topping_id) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            int accountingFlag) {
+        
+        String sql = "INSERT INTO order_details (order_id, product_quantity, order_price, session_id, order_time, order_flag, accounting_flag, served_flag) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                
         try (Connection conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS);
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, orderId);
             ps.setInt(2, productQuantity);
             ps.setInt(3, orderPrice);
             ps.setInt(4, sessionId);
-            ps.setTimestamp(5, new Timestamp(System.currentTimeMillis()));
+            
+            // order_time を null に固定
+            ps.setNull(5, java.sql.Types.TIMESTAMP);
+            
             ps.setInt(6, orderFlag);
             ps.setInt(7, accountingFlag);
-            ps.setInt(8, productId);
-            ps.setInt(9, toppingId);
+            
+            // served_flag を 0 に固定
+            ps.setInt(8, 0);
+
             return ps.executeUpdate() > 0;
         } catch (Exception e) {
             e.printStackTrace();
