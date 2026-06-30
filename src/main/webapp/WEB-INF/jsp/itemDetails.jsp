@@ -18,8 +18,9 @@ if (category == null) {
 if (tableNum == null) {
     tableNum = "-";
 }
-Set<String> toppingCategories = Set.of("お好み焼き","もんじゃ焼き");
-boolean showTopping = toppingCategories.contains(category);
+
+// データベースから取得したトッピングの件数が1件でもあれば表示する
+boolean showTopping = (toppingList != null && !toppingList.isEmpty());
 
 if (formAction == null) {
     formAction = "ItemDetailsServlet";
@@ -48,8 +49,7 @@ if (formAction == null) {
 		<div class="product-main-price"><%= String.format("%,d", pPrice) %>円(税込み)</div>
 	</div>
 
-	<% if (showTopping && toppingList != null && !toppingList.isEmpty()) { 
-		// 現在のトッピング全体の合計選択数を算出する
+	<% if (showTopping) { 
 		int totalToppingQty = 0;
 		for (ItemDetailsInfo t : toppingList) {
 			totalToppingQty += t.getToppingQuantity();
@@ -84,7 +84,6 @@ if (formAction == null) {
 					<button type="submit" name="Button" value="-<%= i %>" class="btn-qty" <%= (t.getToppingQuantity() <= 0) ? "disabled" : "" %>>－</button>
 					<span class="qty-text"><%= t.getToppingQuantity() %></span>
 					
-					<%-- 全体が4個に達した、または個別在庫の上限に達したら disabled --%>
 					<button type="submit" name="Button" value="+<%= i %>" class="btn-qty" <%= (totalToppingQty >= 4 || t.getToppingQuantity() >= t.getToppingStock()) ? "disabled" : "" %>>＋</button>
 				</form>
 			<% } else { %>
