@@ -24,7 +24,8 @@ public class OrderCompleteDAO {
 		try(Connection conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS)){
 
 			//order_details更新のsql
-			String sql = "UPDATE order_details SET order_flag = 1 WHERE order_flag = 0"; 
+			// order_time に現在日時をセットする処理を追加
+			String sql = "UPDATE order_details SET order_flag = 1, order_time = CURRENT_TIMESTAMP WHERE order_flag = 0";
 			PreparedStatement pStmt = conn.prepareStatement(sql);
 			int rs = pStmt.executeUpdate();
 
