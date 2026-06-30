@@ -48,12 +48,10 @@ if (subTotal == null) {
 <div class="main-content">
 	<div class="product-header-box">
 		<div class="product-main-name"><%= productName %></div>
-		<%-- ★3桁カンマ区切りに変更 --%>
 		<div class="product-main-price"><%= String.format("%,d", productPrice) %>円(税込み)</div>
 	</div>
 
 	<% if (toppingList != null && !toppingList.isEmpty()) { 
-		// 現在のトッピング全体の合計選択数を算出する
 		int totalToppingQty = 0;
 		for (ItemDetailsInfo t : toppingList) {
 			totalToppingQty += t.getToppingQuantity();
@@ -69,7 +67,6 @@ if (subTotal == null) {
 		<tr class="topping-item-row">
 			<td align="left" valign="middle" class="topping-info-cell">
 				<span class="topping-name"><%= t.getToppingName() %> ： </span>
-				<%-- 3桁カンマ区切りに変更 --%>
 				<span class="topping-price"><%= String.format("%,d", t.getToppingPrice()) %>円</span>
 			</td>
 			<td align="right" valign="middle" class="topping-action-cell">
@@ -86,7 +83,6 @@ if (subTotal == null) {
 					<button type="submit" name="Button" value="+<%= i %>" class="btn-qty" <%= (totalToppingQty >= 4 || t.getToppingQuantity() >= t.getToppingStock()) ? "disabled" : "" %>>＋</button>
 				</form>
 			<% } else { %>
-
 				<div class="quantity-form">
 					<img src="./image/soldout.png" alt="売切" class="img-sold-out">
 				</div>
@@ -102,7 +98,6 @@ if (subTotal == null) {
 </div>
 
 <div class="subtotal-box">
-	<%-- 3桁カンマ区切りに変更 --%>
 	<div class="subtotal-text">小計:<%= String.format("%,d", subTotal) %>円(税込み)</div>
 </div>
 
