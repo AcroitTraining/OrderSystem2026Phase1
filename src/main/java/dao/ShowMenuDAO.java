@@ -44,7 +44,7 @@ public class ShowMenuDAO {
         return productList;
     }
 
-    // session_id + order_flag=0 件数取得
+    // session_id ,( order_flag=0) 件数取得
     public int getOrderItemCount(String sessionId) {
         int count = 0;
         String sql = "SELECT SUM(product_quantity) AS cnt "
