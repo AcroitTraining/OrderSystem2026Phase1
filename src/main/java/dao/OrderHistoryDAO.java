@@ -43,7 +43,7 @@ public class OrderHistoryDAO {
                 + "LEFT JOIN topping AS t "
                 + "ON mt.topping_id = t.topping_id "
                 + "WHERE od.session_id = ? "
-                + "AND od.order_flag = 1 "
+                + "AND od.served_flag = 1 "
                 + "AND od.accounting_flag = 0 "
                 + "ORDER BY od.order_id ASC";
         
