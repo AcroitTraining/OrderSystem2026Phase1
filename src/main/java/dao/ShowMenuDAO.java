@@ -17,11 +17,14 @@ public class ShowMenuDAO {
 
     public List<ProductInfo> findProductTable() {
         List<ProductInfo> productList = new ArrayList<>();
+        
+        // category テーブル(c)を JOIN し、c.category_name を取得するように修正
         String sql =
-            "SELECT p.product_id, p.product_name, p.category_name, " +
+            "SELECT p.product_id, p.product_name, c.category_name, " +
             "p.product_price, p.product_stock, p.product_display_flag " +
             "FROM product p " +
-            "GROUP BY p.product_id";
+            "JOIN category c ON p.category_id = c.category_id";
+            
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             try (Connection conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS);
