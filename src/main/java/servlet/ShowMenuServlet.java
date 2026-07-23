@@ -20,6 +20,10 @@ public class ShowMenuServlet extends HttpServlet {
 
 		HttpSession session = request.getSession(false);
 
+		if (session == null || (session.getAttribute("tableNumber") == null && request.getParameter("tableId") == null)) {
+			response.sendRedirect("error.jsp");
+			return;
+		}
 
 		String tableId = request.getParameter("tableId");
 		if (tableId != null && !tableId.isEmpty()) {
@@ -28,32 +32,43 @@ public class ShowMenuServlet extends HttpServlet {
 
 		String sessionId = (String) session.getAttribute("tableNumber");
 		ShowMenuDAO dao = new ShowMenuDAO();
-		// order_flag=0 の件数
+		
 		int items = 0;
 		if (sessionId != null) {
 			items = dao.getOrderItemCount(sessionId);
 		}
 		session.setAttribute("items", items);
-		// 商品
+		
+		// カテゴリ一覧を取得
+		List<ProductInfo> categoryList = dao.findAllCategories();
+		request.setAttribute("categoryList", categoryList);
+
+		// 商品一覧を取得
 		List<ProductInfo> productList = dao.findProductTable();
 		session.setAttribute("productList", productList);
-		// カテゴリ
-		String category = request.getParameter("category");
-		if (category == null) {
-			category = "お好み焼き";
+
+		// 選択された categoryId の取得
+		int currentCategoryId = -1;
+		String categoryIdParam = request.getParameter("categoryId");
+
+		if (categoryIdParam != null && !categoryIdParam.isEmpty()) {
+			try {
+				currentCategoryId = Integer.parseInt(categoryIdParam);
+			} catch (NumberFormatException e) {
+				currentCategoryId = -1;
+			}
 		}
 
-		// セッションがない、または卓番号などの必須データが消えている場合
-		if (session == null || session.getAttribute("tableNumber") == null) {
-			// 即座にエラー画面へ転送する
-			response.sendRedirect("error.jsp");
-			return;
+		// リクエストになければ先頭のカテゴリIDをデフォルトに設定
+		if (currentCategoryId == -1 && categoryList != null && !categoryList.isEmpty()) {
+			currentCategoryId = categoryList.get(0).getCategoryId();
 		}
-		request.setAttribute("currentCategory", category);
-		RequestDispatcher rd =
-				request.getRequestDispatcher("WEB-INF/jsp/showMenu.jsp");
+
+		request.setAttribute("currentCategoryId", currentCategoryId);
+		RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/jsp/showMenu.jsp");
 		rd.forward(request, response);
 	}
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		doGet(request, response);

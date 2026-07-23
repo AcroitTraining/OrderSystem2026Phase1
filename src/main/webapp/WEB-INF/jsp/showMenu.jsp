@@ -4,16 +4,16 @@
 
 <%
 List<ProductInfo> productList = (List<ProductInfo>)session.getAttribute("productList");
-String currentCategory = (String)request.getAttribute("currentCategory");
+List<ProductInfo> categoryList = (List<ProductInfo>)request.getAttribute("categoryList");
+Integer currentCategoryIdObj = (Integer)request.getAttribute("currentCategoryId");
+int currentCategoryId = (currentCategoryIdObj != null) ? currentCategoryIdObj : -1;
+
 Object tableObj = session.getAttribute("tableNumber");
 String tableNum = (tableObj != null) ? tableObj.toString() : "-";
 Integer items = (Integer)session.getAttribute("items");
 
 if(items == null){
 	items = 0;
-}
-if(currentCategory == null) {
-	currentCategory = "";
 }
 %>
 
@@ -34,22 +34,30 @@ if(currentCategory == null) {
   <img src="./image/biglogo.png" alt="ロゴ" class="logo-img">
 </header>
 <script src="./js/showMenu.js"></script>
+
 <div class="category-area">
 	<div class="scroll-text"></div>
 	<nav class="category-wrap" id="categoryWrap">
-		<form action="ShowMenuServlet" method="post">
-			<table class="category-table">
-				<tr>
-					<td><input type="submit" name="category" value="お好み焼き" class="<%= "お好み焼き".equals(currentCategory.trim()) ? "active" : "" %>"></td>
-					<td><input type="submit" name="category" value="もんじゃ焼き" class="<%= "もんじゃ焼き".equals(currentCategory.trim()) ? "active" : "" %>"></td>
-					<td><input type="submit" name="category" value="鉄板焼き" class="<%= "鉄板焼き".equals(currentCategory.trim()) ? "active" : "" %>"></td>
-					<td><input type="submit" name="category" value="サイドメニュー" class="<%= "サイドメニュー".equals(currentCategory.trim()) ? "active" : "" %>"></td>
-					<td><input type="submit" name="category" value="ソフトドリンク" class="<%= "ソフトドリンク".equals(currentCategory.trim()) ? "active" : "" %>"></td>
-					<td><input type="submit" name="category" value="お酒" class="<%= "お酒".equals(currentCategory.trim()) ? "active" : "" %>"></td>
-					<td><input type="submit" name="category" value="ボトル" class="<%= "ボトル".equals(currentCategory.trim()) ? "active" : "" %>"></td>
-				</tr>
-			</table>
-		</form>
+		<table class="category-table">
+			<tr>
+			<% 
+			if (categoryList != null) {
+				for (ProductInfo cat : categoryList) { 
+			%>
+				<td>
+					<form action="ShowMenuServlet" method="post" style="margin:0;">
+						<input type="hidden" name="categoryId" value="<%= cat.getCategoryId() %>">
+						<input type="submit" 
+						       value="<%= cat.getCategoryName() %>" 
+						       class="<%= cat.getCategoryId() == currentCategoryId ? "active" : "" %>">
+					</form>
+				</td>
+			<% 
+				}
+			} 
+			%>
+			</tr>
+		</table>
 	</nav>
 </div>
 
@@ -59,7 +67,8 @@ if(currentCategory == null) {
 	int productCount = 0; 
 	if(productList != null){
 		for(ProductInfo p : productList){
-			if(p.getCategoryName().trim().equals(currentCategory.trim()) && p.getProductDisplayFlag() == 1){
+			// ★商品の category_id と選択中の category_id が一致するものだけ表示
+			if(p.getCategoryId() == currentCategoryId && p.getProductDisplayFlag() == 1){
 				productCount++; 
 	%>
 	<tr class="product-item-row">
@@ -124,8 +133,6 @@ if(currentCategory == null) {
 		</tr>
 	</table>
 </footer>
-
-
 
 </body>
 </html>

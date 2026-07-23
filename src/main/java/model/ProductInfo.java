@@ -5,6 +5,7 @@ import java.io.Serializable;
 public class ProductInfo implements Serializable {
     private int productId;
     private String productName;
+    private int categoryId; // ★追加
     private String categoryName;
     private int productPrice;
     private int productStock;
@@ -12,10 +13,12 @@ public class ProductInfo implements Serializable {
 
     public ProductInfo() {}
 
-    public ProductInfo(int productId, String productName, String categoryName, 
+    // コンストラクタ（categoryIdを含める）
+    public ProductInfo(int productId, String productName, int categoryId, String categoryName, 
                        int productPrice, int productStock, int productDisplayFlag) {
         this.productId = productId;
         this.productName = productName;
+        this.categoryId = categoryId;
         this.categoryName = categoryName;
         this.productPrice = productPrice;
         this.productStock = productStock;
@@ -27,6 +30,9 @@ public class ProductInfo implements Serializable {
     
     public String getProductName() { return productName; }
     public void setProductName(String productName) { this.productName = productName; }
+    
+    public int getCategoryId() { return categoryId; } // ★Getter
+    public void setCategoryId(int categoryId) { this.categoryId = categoryId; } // ★Setter
     
     public String getCategoryName() { return categoryName; }
     public void setCategoryName(String categoryName) { this.categoryName = categoryName; }
