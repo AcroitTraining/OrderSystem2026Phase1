@@ -98,7 +98,8 @@ public class CheckOutDAO {
 
 	private void createNewSession(Connection conn, String tableNumber) throws SQLException {
 		String sql = "INSERT INTO table_sessions (table_id, session_status, url_token, guest_count) "
-				+ "VALUES (?, 'inactive', CONCAT(UUID(), '-', SUBSTRING(MD5(RAND()), 1, 8)), 0);";
+			    + "VALUES (?, 'inactive', SUBSTRING(MD5(RAND()), 1, 16), 0);";
+
 
 		try (PreparedStatement pStmt = conn.prepareStatement(sql)) {
 			pStmt.setString(1, tableNumber);

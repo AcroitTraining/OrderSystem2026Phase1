@@ -72,7 +72,7 @@ public class OrderStartDAO {
         }
 
         int sessionId = 0;
-        String sql = "SELECT table_id "
+        String sql = "SELECT session_id "
                    + "FROM table_sessions "
                    + "WHERE table_id = ? "
                    + "AND session_status = 'active'";
@@ -83,7 +83,7 @@ public class OrderStartDAO {
             pStmt.setInt(1, tableId);
             try (ResultSet rs = pStmt.executeQuery()) {
                 if (rs.next()) {
-                    sessionId = rs.getInt("table_id");
+                    sessionId = rs.getInt("session_id");
                 }
             }
         } catch (SQLException e) {

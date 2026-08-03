@@ -9,6 +9,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import model.OrderStartLogic;
 import model.TableInfo;
 
@@ -21,7 +22,7 @@ public class OrderStartServlet extends HttpServlet {
 	public void doPost(HttpServletRequest request, 
 			HttpServletResponse response) 
 					throws ServletException, IOException {
-
+		HttpSession session = request.getSession();
 		request.setCharacterEncoding("UTF-8");
 
 		// パラメータ取得
@@ -40,7 +41,8 @@ public class OrderStartServlet extends HttpServlet {
 			int sessionId = dao.findSessionId(tableId);	
 			// 遷移先へ渡すデータ
 			tableInfo = new TableInfo(tableId, sessionId, "active");
-			request.setAttribute("tableInfo", tableInfo);
+			System.out.println("orderstartservlet sessionId確認" +tableInfo.getSessionId());
+			session.setAttribute("tableInfo", tableInfo);
 
 			// 次の画面（メニュー画面）へ遷移
 			RequestDispatcher dispatcher = request.getRequestDispatcher("ShowMenuServlet");
