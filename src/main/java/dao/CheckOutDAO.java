@@ -108,13 +108,12 @@ public class CheckOutDAO {
 	}
 
 	private void updateTableMaster(Connection conn, String tableNumber) throws SQLException {
-		String sql = "UPDATE table_master "
-				+ "SET table_status = 'inactive', updated_at = CURRENT_TIMESTAMP "
-				+ "WHERE table_id = ?";
-
-		try (PreparedStatement pStmt = conn.prepareStatement(sql)) {
-			pStmt.setString(1, tableNumber);
-			pStmt.executeUpdate();
-		}
+	    String sql = "UPDATE table_master "
+	            + "SET table_status = 'inactive', update_flag = 1, updated_at = CURRENT_TIMESTAMP "
+	            + "WHERE table_id = ?";
+	    try (PreparedStatement pStmt = conn.prepareStatement(sql)) {
+	        pStmt.setString(1, tableNumber);
+	        pStmt.executeUpdate();
+	    }
 	}
 }

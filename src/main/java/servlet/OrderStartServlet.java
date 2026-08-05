@@ -1,11 +1,6 @@
 package servlet;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 import dao.OrderStartDAO;
 import jakarta.servlet.RequestDispatcher;
@@ -30,46 +25,35 @@ public class OrderStartServlet extends HttpServlet {
 	        throws ServletException, IOException {
 
 	    String token = request.getParameter("tt");
-	    int tableId = -1;
-	    int sessionId = -1;
+	    OrderStartDAO dao = new OrderStartDAO();
+	    TableInfo tableInfo = dao.findTableSessionByToken(token);
 
-	    if (token != null && !token.isEmpty()) {
-	        // トークンから table_id と session_id を取得
-	        String sql = "SELECT table_id, session_id FROM table_sessions WHERE url_token = ? AND session_status != 'closed'";
-
-	        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/order_management", "order", "1234");
-	             PreparedStatement ps = conn.prepareStatement(sql)) {
-
-	            ps.setString(1, token);
-	            try (ResultSet rs = ps.executeQuery()) {
-	                if (rs.next()) {
-	                    tableId = rs.getInt("table_id");
-	                    sessionId = rs.getInt("session_id");
-	                }
-	            }
-	        } catch (SQLException e) {
-	            e.printStackTrace();
-	        }
-	    }
-
-	    if (tableId != -1) {
+	    if (tableInfo != null) {
 	        HttpSession session = request.getSession();
-	        
-	        // ★ 単体の table_id だけではなく、システム全域で使われる tableInfo もセッションにセットする
-	        TableInfo tableInfo = new TableInfo(tableId, sessionId, "active");
-	        session.setAttribute("table_id", tableId);
+	        session.setAttribute("table_id", tableInfo.getTableId());
 	        session.setAttribute("tableInfo", tableInfo);
 
-	        System.out.println("✅ 卓番 " + tableId + " (sessionId: " + sessionId + ") のセッションを正常開始しました。");
+	        System.out.println("✅ 卓番 " + tableInfo.getTableId() 
+	                + " (sessionId: " + tableInfo.getSessionId() 
+	                + ", status: " + tableInfo.getSessionStatus() + ") のセッションを確認しました。");
 
-	        // 人数選択画面（orderStart.jsp）へ遷移
-	        request.setAttribute("tableNumber", tableId);
-	        request.setAttribute("guestCount", 1);
-	        RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/orderStart.jsp");
-	        dispatcher.forward(request, response);
+	        if ("active".equals(tableInfo.getSessionStatus())) {
+	            // ★ 既に稼働中（後から来た人）→ 人数設定スキップしてメニューへ直行
+	            // ShowMenuServlet が要求する tableNumber をセッションにセットしとく
+	            session.setAttribute("tableNumber", String.valueOf(tableInfo.getTableId()));
+
+	            RequestDispatcher dispatcher = request.getRequestDispatcher("ShowMenuServlet");
+	            dispatcher.forward(request, response);
+
+	        } else {
+	            // 空席（inactive）→ 従来通り人数選択画面へ
+	            request.setAttribute("tableNumber", tableInfo.getTableId());
+	            request.setAttribute("guestCount", 1);
+	            RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/orderStart.jsp");
+	            dispatcher.forward(request, response);
+	        }
 
 	    } else {
-	        // トークンが無効（すでに閉じた会計など）の場合
 	        response.setContentType("text/html;charset=UTF-8");
 	        response.getWriter().println("<h3>無効または期限切れのQRコードです。店員をお呼びください。</h3>");
 	    }
@@ -87,37 +71,58 @@ public class OrderStartServlet extends HttpServlet {
 		String guestCountStr = request.getParameter("guestCount");
 		String action = request.getParameter("action");
 
-		// セッションから table_id を優先取得
-		int tableId = -1;
-		if (tableIdStr != null && !tableIdStr.isEmpty()) {
-			tableId = Integer.parseInt(tableIdStr);
-		} else if (session.getAttribute("table_id") != null) {
-			tableId = (Integer) session.getAttribute("table_id");
-		} else {
-			tableId = 1;
+		// ★ tableId の解決（不正値・卓不明はエラーとして弾く）
+		Integer tableId;
+		try {
+			if (tableIdStr != null && !tableIdStr.isEmpty()) {
+				tableId = Integer.parseInt(tableIdStr);
+			} else if (session.getAttribute("table_id") != null) {
+				tableId = (Integer) session.getAttribute("table_id");
+			} else {
+				tableId = null; // 固定値で誤魔化さない
+			}
+		} catch (NumberFormatException e) {
+			tableId = null;
 		}
 
-		int guestCount = (guestCountStr == null || guestCountStr.isEmpty()) ? 1 : Integer.parseInt(guestCountStr);
+		if (tableId == null) {
+			response.setContentType("text/html;charset=UTF-8");
+			response.getWriter().println("<h3>卓情報が確認できませんでした。店員をお呼びください。</h3>");
+			return;
+		}
+
+		// ★ guestCount の解決
+		int guestCount;
+		try {
+			guestCount = (guestCountStr == null || guestCountStr.isEmpty()) ? 1 : Integer.parseInt(guestCountStr);
+		} catch (NumberFormatException e) {
+			response.setContentType("text/html;charset=UTF-8");
+			response.getWriter().println("<h3>不正なリクエストです。店員をお呼びください。</h3>");
+			return;
+		}
 
 		OrderStartLogic logic = new OrderStartLogic();
 		OrderStartDAO dao = new OrderStartDAO();
 
 		if ("start".equals(action)) {
-			// DB更新処理（人数やステータス）
-			dao.updateStatus(tableId, guestCount);
-			int sessionId = dao.findSessionId(tableId);	
-			
-			// tableInfo を更新してセッションへ格納
-			TableInfo tableInfo = new TableInfo(tableId, sessionId, "active");
-			session.setAttribute("tableInfo", tableInfo);
-			session.setAttribute("table_id", tableId);
+		    dao.updateStatus(tableId, guestCount);
+		    Integer sessionId = dao.findSessionId(tableId);
 
-			System.out.println("orderstartservlet [POST] 完了 - 卓番: " + tableId + ", sessionId: " + sessionId);
+		    if (sessionId == null) {
+		        response.setContentType("text/html;charset=UTF-8");
+		        response.getWriter().println("<h3>セッション情報の取得に失敗しました。店員をお呼びください。</h3>");
+		        return;
+		    }
 
-			// メニュー表示サーブレットへ移動
-			RequestDispatcher dispatcher = request.getRequestDispatcher("ShowMenuServlet");
-			dispatcher.forward(request, response);
+		    TableInfo tableInfo = new TableInfo(tableId, sessionId, "active");
+		    session.setAttribute("tableInfo", tableInfo);
+		    session.setAttribute("table_id", tableId);
+		    session.setAttribute("tableNumber", String.valueOf(tableId)); // ★追加
 
+		    System.out.println("orderstartservlet [POST] 完了 - 卓番: " + tableId + ", sessionId: " + sessionId);
+
+		    RequestDispatcher dispatcher = request.getRequestDispatcher("ShowMenuServlet");
+		    dispatcher.forward(request, response);
 		} else {
 			// 人数プラス・マイナスボタン等
 			if (action != null) {

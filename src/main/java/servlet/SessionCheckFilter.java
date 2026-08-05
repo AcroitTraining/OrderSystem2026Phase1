@@ -28,9 +28,9 @@ public class SessionCheckFilter implements Filter {
 		if (requestURI.endsWith("error.jsp") || 
 			requestURI.endsWith("index.jsp") || 
 			requestURI.endsWith("orderStart.jsp") || 
-			requestURI.endsWith("OrderStartServlet.java") || 
+			requestURI.endsWith("OrderStartServlet") || 
 			requestURI.endsWith("checkOut.jsp") ||
-			requestURI.endsWith("CheckOutServlet.java") ||
+			requestURI.endsWith("CheckOutServlet") ||
 			requestURI.endsWith("/")) { // 初期の実行でのチェック防止
 
 			chain.doFilter(request, response);
