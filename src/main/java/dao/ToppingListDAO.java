@@ -1,194 +1,228 @@
 package dao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.sql.DataSource;
 
 import model.ItemDetailsInfo;
 
 public class ToppingListDAO {
 
-    private final String JDBC_URL = "jdbc:mysql://localhost:3306/order_management";
-    private final String DB_USER = "order";
-    private final String DB_PASS = "1234";
+	private final DataSource dataSource;
 
-    // 商品ID(productId)に紐づくトッピング一覧のみを取得するメソッド
-    public List<ItemDetailsInfo> findToppingListByProductId(int productId, int orderId) {
-        List<ItemDetailsInfo> list = new ArrayList<>();
-        String sql =
-                "SELECT t.topping_id, t.topping_name, t.topping_price, t.topping_stock, " +
-                "IFNULL(mt.topping_quantity, 0) AS topping_quantity " +
-                "FROM product_topping pt " +
-                "JOIN topping t ON pt.topping_id = t.topping_id " +
-                "LEFT JOIN multiple_toppings mt ON t.topping_id = mt.topping_id AND mt.order_id = ? " +
-                "WHERE pt.product_id = ?";
+	/**
+	 * ① 通常運用（Servletなど）で使うデフォルトコンストラクタ
+	 */
+	public ToppingListDAO() {
+		this(DBConnection.getDataSource());
+	}
 
-        try (Connection conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS);
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, orderId);
-            ps.setInt(2, productId);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                ItemDetailsInfo t = new ItemDetailsInfo();
+	/**
+	 * ② DIコンストラクタ。DataSourceを外部から注入する。
+	 *
+	 * @param dataSource コネクション取得元のDataSource
+	 */
+	public ToppingListDAO(DataSource dataSource) {
+		this.dataSource = dataSource;
+	}
 
-                t.setToppingId(rs.getInt("topping_id"));
-                t.setToppingName(rs.getString("topping_name"));
-                t.setToppingPrice(rs.getInt("topping_price"));
-                t.setToppingStock(rs.getInt("topping_stock"));
-                t.setToppingQuantity(rs.getInt("topping_quantity"));
+	/** メソッド呼び出しのたびに新しい接続を取得する */
+	private Connection getConnection() throws SQLException {
+		return dataSource.getConnection();
+	}
 
-                list.add(t);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return list;
-    }
+	// 商品ID(productId)に紐づくトッピング一覧のみを取得するメソッド
+	public List<ItemDetailsInfo> findToppingListByProductId(int productId, int orderId) throws SQLException {
+		List<ItemDetailsInfo> list = new ArrayList<>();
+		String sql =
+				"SELECT t.topping_id, t.topping_name, t.topping_price, t.topping_stock, " +
+				"IFNULL(mt.topping_quantity, 0) AS topping_quantity " +
+				"FROM product_topping pt " +
+				"JOIN topping t ON pt.topping_id = t.topping_id " +
+				"LEFT JOIN multiple_toppings mt ON t.topping_id = mt.topping_id AND mt.order_id = ? " +
+				"WHERE pt.product_id = ?";
 
-    // 互換性のために残しているメソッド
-    public List<ItemDetailsInfo> findToppingListByOrderId(int orderId) {
-        List<ItemDetailsInfo> list = new ArrayList<>();
-        String sql =
-                "SELECT t.topping_id, t.topping_name, t.topping_price, t.topping_stock, " +
-                "IFNULL(mt.topping_quantity,0) AS topping_quantity " +
-                "FROM topping t " +
-                "LEFT JOIN multiple_toppings mt " +
-                "ON t.topping_id = mt.topping_id AND mt.order_id = ?";
+		try (Connection conn = getConnection();
+			 PreparedStatement ps = conn.prepareStatement(sql)) {
 
-        try (Connection conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS);
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, orderId);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                ItemDetailsInfo t = new ItemDetailsInfo();
+			ps.setInt(1, orderId);
+			ps.setInt(2, productId);
 
-                t.setToppingId(rs.getInt("topping_id"));
-                t.setToppingName(rs.getString("topping_name"));
-                t.setToppingPrice(rs.getInt("topping_price"));
-                t.setToppingStock(rs.getInt("topping_stock"));
-                t.setToppingQuantity(rs.getInt("topping_quantity"));
+			try (ResultSet rs = ps.executeQuery()) {
+				while (rs.next()) {
+					ItemDetailsInfo t = new ItemDetailsInfo();
+					t.setToppingId(rs.getInt("topping_id"));
+					t.setToppingName(rs.getString("topping_name"));
+					t.setToppingPrice(rs.getInt("topping_price"));
+					t.setToppingStock(rs.getInt("topping_stock"));
+					t.setToppingQuantity(rs.getInt("topping_quantity"));
+					list.add(t);
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return list;
+	}
 
-                list.add(t);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return list;
-    }
+	// 互換性のために残しているメソッド
+	public List<ItemDetailsInfo> findToppingListByOrderId(int orderId) throws SQLException {
+		List<ItemDetailsInfo> list = new ArrayList<>();
+		String sql =
+				"SELECT t.topping_id, t.topping_name, t.topping_price, t.topping_stock, " +
+				"IFNULL(mt.topping_quantity,0) AS topping_quantity " +
+				"FROM topping t " +
+				"LEFT JOIN multiple_toppings mt " +
+				"ON t.topping_id = mt.topping_id AND mt.order_id = ?";
 
-    // product_details INSERT
-    public boolean insertProductDetail(int productId) {
-        String sql = "INSERT INTO product_details (product_id) VALUES (?)";
-        try (Connection conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS);
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, productId);
-            return ps.executeUpdate() > 0;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
+		try (Connection conn = getConnection();
+			 PreparedStatement ps = conn.prepareStatement(sql)) {
 
-    // 最新order_id取得
-    public int getLastOrderId() {
-        String sql = "SELECT MAX(order_id) FROM product_details";
-        try (Connection conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS);
-             PreparedStatement ps = conn.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
-            if (rs.next()) {
-                return rs.getInt(1);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return 0;
-    }
+			ps.setInt(1, orderId);
 
-    // 【修正完了】引数はぴったり6個、SQLのカラムと?の数も8個で同期させています
-    public boolean insertOrderDetail(
-            int orderId,
-            int productQuantity,
-            int orderPrice,
-            int sessionId,
-            int orderFlag,
-            int accountingFlag) {
-        
-        String sql = "INSERT INTO order_details (order_id, product_quantity, order_price, session_id, order_time, order_flag, accounting_flag, served_flag) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-                
-        try (Connection conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS);
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, orderId);
-            ps.setInt(2, productQuantity);
-            ps.setInt(3, orderPrice);
-            ps.setInt(4, sessionId);
-            
-            // order_time を null に固定
-            ps.setNull(5, java.sql.Types.TIMESTAMP);
-            
-            ps.setInt(6, orderFlag);
-            ps.setInt(7, accountingFlag);
-            
-            // served_flag を 0 に固定
-            ps.setInt(8, 0);
+			try (ResultSet rs = ps.executeQuery()) {
+				while (rs.next()) {
+					ItemDetailsInfo t = new ItemDetailsInfo();
+					t.setToppingId(rs.getInt("topping_id"));
+					t.setToppingName(rs.getString("topping_name"));
+					t.setToppingPrice(rs.getInt("topping_price"));
+					t.setToppingStock(rs.getInt("topping_stock"));
+					t.setToppingQuantity(rs.getInt("topping_quantity"));
+					list.add(t);
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return list;
+	}
 
-            return ps.executeUpdate() > 0;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
+	// product_details INSERT
+	public boolean insertProductDetail(int productId) throws SQLException {
+		String sql = "INSERT INTO product_details (product_id) VALUES (?)";
 
-    // 商品在庫を1減らす
-    public boolean updateProductStock(int productId) {
-        String sql =
-            "UPDATE product " +
-            "SET product_stock = product_stock - 1 " +
-            "WHERE product_id = ?";
+		try (Connection conn = getConnection();
+			 PreparedStatement ps = conn.prepareStatement(sql)) {
 
-        try (Connection conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS);
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, productId);
-            return ps.executeUpdate() > 0;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
+			ps.setInt(1, productId);
+			return ps.executeUpdate() > 0;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
 
-    // トッピングの在庫を指定された quantity と topping_id で直接減算する
-    public boolean updateToppingStock(int toppingId, int quantity) {
-        String sql =
-            "UPDATE topping " +
-            "SET topping_stock = topping_stock - ? " +
-            "WHERE topping_id = ?";
+	// 最新order_id取得
+	public int getLastOrderId() throws SQLException {
+		String sql = "SELECT MAX(order_id) FROM product_details";
 
-        try (Connection conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS);
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, quantity);
-            ps.setInt(2, toppingId);
-            return ps.executeUpdate() > 0;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
+		try (Connection conn = getConnection();
+			 PreparedStatement ps = conn.prepareStatement(sql);
+			 ResultSet rs = ps.executeQuery()) {
 
-    // multiple_toppings INSERT
-    public boolean insertMutipleToppings(int toppingId, int qty, int orderId) {
-        String sql =
-                "INSERT INTO multiple_toppings (topping_id, topping_quantity, order_id) VALUES (?, ?, ?)";
-        try (Connection conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS);
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, toppingId);
-            ps.setInt(2, qty);
-            ps.setInt(3, orderId);
-            return ps.executeUpdate() > 0;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
+			if (rs.next()) {
+				return rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return 0;
+	}
+
+	public boolean insertOrderDetail(
+			int orderId,
+			int productQuantity,
+			int orderPrice,
+			int sessionId,
+			int orderFlag,
+			int accountingFlag) throws SQLException {
+
+		String sql = "INSERT INTO order_details (order_id, product_quantity, order_price, session_id, order_time, order_flag, accounting_flag, served_flag) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+		try (Connection conn = getConnection();
+			 PreparedStatement ps = conn.prepareStatement(sql)) {
+
+			ps.setInt(1, orderId);
+			ps.setInt(2, productQuantity);
+			ps.setInt(3, orderPrice);
+			ps.setInt(4, sessionId);
+
+			// order_time を null に固定
+			ps.setNull(5, java.sql.Types.TIMESTAMP);
+
+			ps.setInt(6, orderFlag);
+			ps.setInt(7, accountingFlag);
+
+			// served_flag を 0 に固定
+			ps.setInt(8, 0);
+
+			return ps.executeUpdate() > 0;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
+	// 商品在庫を1減らす
+	public boolean updateProductStock(int productId) throws SQLException {
+		String sql =
+			"UPDATE product " +
+			"SET product_stock = product_stock - 1 " +
+			"WHERE product_id = ?";
+
+		try (Connection conn = getConnection();
+			 PreparedStatement ps = conn.prepareStatement(sql)) {
+
+			ps.setInt(1, productId);
+			return ps.executeUpdate() > 0;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
+	// トッピングの在庫を指定された quantity と topping_id で直接減算する
+	public boolean updateToppingStock(int toppingId, int quantity) throws SQLException {
+		String sql =
+			"UPDATE topping " +
+			"SET topping_stock = topping_stock - ? " +
+			"WHERE topping_id = ?";
+
+		try (Connection conn = getConnection();
+			 PreparedStatement ps = conn.prepareStatement(sql)) {
+
+			ps.setInt(1, quantity);
+			ps.setInt(2, toppingId);
+			return ps.executeUpdate() > 0;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
+	// multiple_toppings INSERT
+	public boolean insertMutipleToppings(int toppingId, int qty, int orderId) throws SQLException {
+		String sql =
+				"INSERT INTO multiple_toppings (topping_id, topping_quantity, order_id) VALUES (?, ?, ?)";
+
+		try (Connection conn = getConnection();
+			 PreparedStatement ps = conn.prepareStatement(sql)) {
+
+			ps.setInt(1, toppingId);
+			ps.setInt(2, qty);
+			ps.setInt(3, orderId);
+			return ps.executeUpdate() > 0;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
 }

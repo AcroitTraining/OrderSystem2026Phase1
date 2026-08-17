@@ -2,8 +2,10 @@ package servlet;
 
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 
+import javax.sql.DataSource;
+
+import dao.DBConnection;
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -15,10 +17,6 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @WebFilter("/*")
 public class DbCheckFilter implements Filter {
-    
-    private final String JDBC_URL = "jdbc:mysql://localhost:3306/order_management";
-    private final String DB_USER = "order";
-    private final String DB_PASS = "1234";
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
@@ -31,19 +29,19 @@ public class DbCheckFilter implements Filter {
         
         // エラー画面、インデックス画面、注文開始画面へのアクセス時はチェックをスキップする
         if (requestURI.endsWith("error.jsp") || 
-        	requestURI.endsWith("index.jsp") || 
-        	requestURI.endsWith("orderStart.jsp") || 
-        	requestURI.endsWith("OrderStartServlet.jsp") ||
-        	requestURI.endsWith("/")) { // 初期の実行でのチェック防止
+            requestURI.endsWith("index.jsp") || 
+            requestURI.endsWith("orderStart.jsp") || 
+            requestURI.endsWith("OrderStartServlet.jsp") ||
+            requestURI.endsWith("/")) { // 初期の実行でのチェック防止
             
             chain.doFilter(request, response);
             return;
         }
 
-        // DB接続テストを実行
+        // DB接続テストを実行（共通の DataSource を使用）
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            try (Connection conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS)) {
+            DataSource dataSource = DBConnection.getDataSource();
+            try (Connection conn = dataSource.getConnection()) {
                 chain.doFilter(request, response);
             }
         } catch (Exception e) {

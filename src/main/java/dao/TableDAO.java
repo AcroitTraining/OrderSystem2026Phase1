@@ -1,65 +1,67 @@
 package dao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.sql.DataSource;
+
 public class TableDAO {
 
-    // --- DB接続設定（※環境に合わせて書き換えてください） ---
-    // もしすでにDB接続を管理する共通クラス（例: DBManager.getConnection() など）があれば、
-    // このクラスの接続処理をそちらに置き換えてください。
-    private static final String URL = "jdbc:mysql://localhost:3306/order_management"; // DBのURL
-    private static final String USER = "order";
-    private static final String PASSWORD = "1234";
-    private static final String DRIVER = "com.mysql.cj.jdbc.Driver"; // MySQLの場合
+	private final DataSource dataSource;
 
-    /**
-     * DB接続を取得する内部メソッド
-     */
-    private Connection getConnection() throws Exception {
-        Class.forName(DRIVER);
-        return DriverManager.getConnection(URL, USER, PASSWORD);
-    }
-    // --------------------------------------------------
+	/**
+	 * ① 通常運用（FilterやServletなど）で使うデフォルトコンストラクタ
+	 */
+	public TableDAO() {
+		this(DBConnection.getDataSource());
+	}
 
-    /**
-     * 卓IDを元に、現在のステータス（Open / Close）を取得する
-     * 
-     * @param tableId 調査したい卓のID
-     * @return ステータス文字列（例: "Open", "Close"）。レコードがない場合は "Unknown"
-     * @throws Exception DBアクセス時のエラー
-     */
-    public String getStatus(int sessionId) throws Exception {
-    	System.out.println("tabledao");
-        String status = "Unknown"; // 初期値
-        
-        // 実行するSQL文（※テーブル名やカラム名はご自身のDBに合わせてください）
-        String sql = "SELECT session_status FROM table_sessions WHERE session_id = ?";
+	/**
+	 * ② DIコンストラクタ。DataSourceを外部から注入する。
+	 *
+	 * @param dataSource コネクション取得元のDataSource
+	 */
+	public TableDAO(DataSource dataSource) {
+		this.dataSource = dataSource;
+	}
 
-        // try-with-resources 文を使い、Connection、PreparedStatement、ResultSet を自動で確実に閉じる
-        try (Connection conn = getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+	/** メソッド呼び出しのたびに新しい接続を取得する */
+	private Connection getConnection() throws SQLException {
+		return dataSource.getConnection();
+	}
 
-            // SQLの「?」の部分に卓IDをセット
-            pstmt.setInt(1, sessionId);
+	/**
+	 * セッションIDを元に、現在のステータスを取得する
+	 * 
+	 * @param sessionId 調査したいセッションID
+	 * @return ステータス文字列（例: "active", "closed"）。レコードがない場合は "Unknown"
+	 * @throws SQLException DBアクセス時のエラー
+	 */
+	public String getStatus(int sessionId) throws SQLException {
+		System.out.println("TableDAO.getStatus");
+		String status = "Unknown"; // 初期値
 
-            // SQLを実行して結果を取得
-            try (ResultSet rs = pstmt.executeQuery()) {
-                if (rs.next()) {
-                    // DBのステータスカラムから文字列を取得
-                    status = rs.getString("session_status");
-                }
-            }
-            
-        } catch (SQLException e) {
-            System.err.println("TableDao.getStatus でエラーが発生しました。卓ID: " + sessionId);
-            e.printStackTrace();
-            throw e; // フィルター側にエラーを伝播させる
-        }
+		String sql = "SELECT session_status FROM table_sessions WHERE session_id = ?";
 
-        return status;
-    }
+		try (Connection conn = getConnection();
+			 PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+			pstmt.setInt(1, sessionId);
+
+			try (ResultSet rs = pstmt.executeQuery()) {
+				if (rs.next()) {
+					status = rs.getString("session_status");
+				}
+			}
+
+		} catch (SQLException e) {
+			System.err.println("TableDAO.getStatus でエラーが発生しました。セッションID: " + sessionId);
+			e.printStackTrace();
+			throw e;
+		}
+
+		return status;
+	}
 }

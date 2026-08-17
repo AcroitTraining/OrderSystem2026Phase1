@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import dao.OrderRemoveDAO;
 import jakarta.servlet.ServletException;
@@ -31,7 +32,12 @@ public class OrderRemoveServlet extends HttpServlet {
 		
 		// データベースから削除を実行
 		OrderRemoveDAO orDAO = new OrderRemoveDAO();
-		orDAO.deleteOrderDetails(num);
+		try {
+			orDAO.deleteOrderDetails(num);
+		} catch (SQLException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+		}
 
 		// ★【重要】削除が終わったら、すぐに注文リスト（OrderListServlet）へ強制送還
 		response.sendRedirect("OrderListServlet");

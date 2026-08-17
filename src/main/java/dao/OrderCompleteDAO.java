@@ -1,38 +1,50 @@
 package dao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+import javax.sql.DataSource;
+
 public class OrderCompleteDAO {
-	//DB接続情報
-	private final String JDBC_URL = "jdbc:mysql://localhost:3306/order_management";
-	private final String DB_USER = "order";
-	private final String DB_PASS = "1234";
 
+	private final DataSource dataSource;
 
+	/**
+	 * ① 通常運用（Servletなど）で使うデフォルトコンストラクタ
+	 */
+	public OrderCompleteDAO() {
+		this(DBConnection.getDataSource());
+	}
+
+	/**
+	 * ② DIコンストラクタ。DataSourceを外部から注入する。
+	 *
+	 * @param dataSource コネクション取得元のDataSource
+	 */
+	public OrderCompleteDAO(DataSource dataSource) {
+		this.dataSource = dataSource;
+	}
+
+	/** メソッド呼び出しのたびに新しい接続を取得する */
+	private Connection getConnection() throws SQLException {
+		return dataSource.getConnection();
+	}
+
+	/**
+	 * 未注文状態の注文詳細を注文確定状態（order_flag = 1）にし、注文時刻を記録する。
+	 */
 	public void updateOrderDetails() throws SQLException {
-		
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-		}catch(ClassNotFoundException e){
-			throw new IllegalStateException("JDBCドライバを読み込めませんでした");
-		}
+		String sql = "UPDATE order_details SET order_flag = 1, order_time = CURRENT_TIMESTAMP WHERE order_flag = 0";
 
-		//DB接続
-		try(Connection conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS)){
+		try (Connection conn = getConnection();
+				PreparedStatement pStmt = conn.prepareStatement(sql)) {
 
-			//order_details更新のsql
-			// order_time に現在日時をセットする処理を追加
-			String sql = "UPDATE order_details SET order_flag = 1, order_time = CURRENT_TIMESTAMP WHERE order_flag = 0";
-			PreparedStatement pStmt = conn.prepareStatement(sql);
-			int rs = pStmt.executeUpdate();
+			pStmt.executeUpdate();
 
-		}catch(SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
+			throw e;
 		}
 	}
-	
-	
 }
