@@ -72,6 +72,22 @@
       <version>4.4.0</version>
       <scope>test</scope>
     </dependency>
+    
+    <!-- JUnit 5 実行エンジン -->
+	<dependency>
+    	<groupId>org.junit.jupiter</groupId>
+    	<artifactId>junit-jupiter-engine</artifactId>
+   		<version>5.10.2</version>
+    	<scope>test</scope>
+	</dependency>
+
+	<!-- Playwright -->
+	<dependency>
+    	<groupId>com.microsoft.playwright</groupId>
+    	<artifactId>playwright</artifactId>
+    	<version>1.63.0</version>
+    	<scope>test</scope>
+	</dependency>
   </dependencies>
 
 </project>
